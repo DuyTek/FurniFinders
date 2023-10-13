@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.4'
     id 'io.spring.dependency-management' version '1.1.3'
+    id 'org.liquibase.gradle' version '2.0.1'
 }
 
 group = 'com.furnifinders'
@@ -20,6 +21,33 @@ configurations {
 repositories {
     mavenCentral()
 }
+def properties = new Properties() // Create a Properties object
+def props // Declare a variable to store the loaded properties
+
+file("src/main/resources/application.properties").withInputStream { inputStream ->
+    properties.load(inputStream) // Load properties from the file into the 'properties' object
+    props = properties // Assign 'properties' to 'props' for later use if needed
+}
+
+
+diff.dependsOn assemble
+diffChangeLog.dependsOn assemble
+liquibase {
+    activities {
+        dev {
+            driver 'com.mysql.cj.jdbc.Driver'
+            changeLogFile props.getProperty("liquibase.changelog.main")
+            url 'jdbc:mysql://localhost:3306/fullstack'
+            username 'root'
+            password 'admin'
+            referenceDriver "liquibase.ext.hibernate.database.connection.HibernateDriver"
+            referenceUrl props.getProperty("liquibase.changelog.referenceUrl")
+        }
+    }
+    runList = 'dev'
+}
+
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -34,8 +62,16 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 //    runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.liquibase:liquibase-core:4.23.0'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //    testImplementation 'org.springframework.security:spring-security-test'
+
+
+
 }
 
 tasks.named('test') {
