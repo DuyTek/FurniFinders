@@ -1,27 +1,46 @@
-# React + TypeScript + Vite
+## Minimal [(Free version)](https://minimal-kit-react.vercel.app/)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![license](https://img.shields.io/badge/license-MIT-blue.svg)
 
-Currently, two official plugins are available:
+> Free React Admin Dashboard made with Material-UI components and React.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![preview](public/assets/preview.jpg)
 
-## Expanding the ESLint configuration
+## Demo
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- [Dashboard Page](https://minimal-kit-react.vercel.app/)
+- [Users Page](https://minimal-kit-react.vercel.app/user)
+- [Products Page](https://minimal-kit-react.vercel.app/products)
+- [Blog Page](https://minimal-kit-react.vercel.app/blog)
+- [Login Page](https://minimal-kit-react.vercel.app/login)
+- [Not Found Page](https://minimal-kit-react.vercel.app/404)
 
-- Configure the top-level `parserOptions` property like this:
+## Quick start
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+- [Download from Github](https://github.com/minimal-ui-kit/material-kit-react/archive/refs/heads/main.zip) or clone the repo : `git clone https://github.com/minimal-ui-kit/material-kit-react.git`
+- Recommended `Node.js v18.x`.
+- **Install:** `yarn install`
+- **Start:** `yarn dev`
+- **Build:** `yarn build`
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Upgrade to PRO Version
+
+| Minimal Free     | [Minimal Pro](https://material-ui.com/store/items/minimal-dashboard/) |
+| :--------------- | :-------------------------------------------------------------------- |
+| **6** Demo Pages | **70+** Demo Pages                                                    |
+| -                | Authentication with **Amplify**, **Auth0**, **JWT** and **Firebase**  |
+| -                | [+More components](https://minimals.cc/components)                    |
+| -                | Dark & light mode                                                     |
+| -                | Next.js version                                                       |
+| -                | TypeScript version (Standard Plus and Extended license)               |
+| -                | Design Figma File (Standard Plus and Extended license)                |
+| -                | Complete Users Flows                                                  |
+| -                | Learn more: [Package & License](https://docs.minimals.cc/package)     |
+
+## License
+
+Distributed under the MIT License. See [LICENSE](https://github.com/minimal-ui-kit/minimal.free/blob/main/LICENSE.md) for more information.
+
+## Contact us
+
+Email: support@minimals.cc
