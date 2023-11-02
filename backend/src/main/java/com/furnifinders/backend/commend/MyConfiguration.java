@@ -29,6 +29,7 @@ public class MyConfiguration {
                         addUser(userDAOImplObject);
                         break;
                     case 2:
+                        getUser(userDAOImplObject);
                         System.out.println("Find user");
                         break;
                     case 3:
@@ -74,5 +75,18 @@ public class MyConfiguration {
 
         User user = new User(email, phone, password, first_name, last_name, role, timestamp, false, false);
         userDAOImplObject.addUser(user);
+    }
+
+    public void getUser(userDAOImpl userDAOImplObject) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("ID: ");
+        int id = scanner.nextInt();
+        User user = userDAOImplObject.getUser(id);
+        if(user == null) {
+            System.out.println("User not found");
+        }
+        else {
+            System.out.println(user);
+        }
     }
 }
