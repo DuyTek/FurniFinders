@@ -6,18 +6,20 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-@Transactional
-public class userDAOImpl implements userDAO{
+public class UserDAOImpl implements UserDAO {
 
     private final EntityManager entityManager;
 
     @Autowired
-    public userDAOImpl(EntityManager entityManager) {
+    public UserDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     @Override
+    @Transactional
     public void addUser(User user) {
         this.entityManager.persist(user);
     }
@@ -43,16 +45,25 @@ public class userDAOImpl implements userDAO{
     }
 
     @Override
+    public List<User> getAllUser(){
+        String sql = "SELECT user FROM User user";
+        return this.entityManager.createQuery(sql, User.class).getResultList();
+    }
+
+    @Override
+    @Transactional
     public void updateUser(User user) {
         this.entityManager.merge(user);
     }
 
     @Override
+    @Transactional
     public void deleteUser(User user) {
         this.entityManager.remove(user);
     }
 
     @Override
+    @Transactional
     public void deleteUserByEmail(String email) {
         this.entityManager.remove(email);
     }

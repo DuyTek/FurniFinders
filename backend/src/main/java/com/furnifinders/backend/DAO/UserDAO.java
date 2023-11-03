@@ -2,7 +2,9 @@ package com.furnifinders.backend.DAO;
 
 import com.furnifinders.backend.Entity.User;
 
-public interface userDAO {
+import java.util.List;
+
+public interface UserDAO {
     void addUser(User user);
 
     User getUser(int id);
@@ -18,4 +20,6 @@ public interface userDAO {
     void deleteUser(User user);
 
     void deleteUserByEmail(String email);
+
+    List<User> getAllUser();
 }
