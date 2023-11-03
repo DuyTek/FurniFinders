@@ -40,8 +40,9 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void getAllUserByRole(String role) {
-        this.entityManager.find(User.class, role);
+    public List<User> getAllUserByRole(String role) {
+        String sql = "SELECT user FROM User user WHERE user.role = :role";
+        return this.entityManager.createQuery(sql, User.class).setParameter("role", role).getResultList();
     }
 
     @Override

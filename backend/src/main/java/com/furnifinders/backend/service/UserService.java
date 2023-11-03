@@ -1,11 +1,11 @@
-package com.furnifinders.backend.DAO;
+package com.furnifinders.backend.service;
 
 import com.furnifinders.backend.Entity.User;
 
 import java.util.List;
 
-public interface UserDAO {
-    void addUser(User user);
+public interface UserService {
+    User addUser(User user);
 
     User getUser(int id);
 
