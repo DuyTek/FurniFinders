@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.4'
     id 'io.spring.dependency-management' version '1.1.3'
-    //id 'org.liquibase.gradle' version '2.0.1'
+    id 'org.liquibase.gradle' version '2.0.1'
 }
 
 group = 'com.furnifinders'
@@ -30,22 +30,22 @@ file("src/main/resources/application.properties").withInputStream { inputStream 
 }
 
 
-//diff.dependsOn assemble
-//diffChangeLog.dependsOn assemble
-//liquibase {
-//    activities {
-//        dev {
-//            driver 'com.mysql.cj.jdbc.Driver'
-//            changeLogFile props.getProperty("liquibase.changelog.main")
-//            url 'jdbc:mysql://localhost:3307/furnifinders'
-//            username 'root'
-//            password '123456789'
-//            referenceDriver "liquibase.ext.hibernate.database.connection.HibernateDriver"
-//            referenceUrl props.getProperty("liquibase.changelog.referenceUrl")
-//        }
-//    }
-//    runList = 'dev'
-//}
+diff.dependsOn assemble
+diffChangeLog.dependsOn assemble
+liquibase {
+    activities {
+        dev {
+            driver 'com.mysql.cj.jdbc.Driver'
+            changeLogFile props.getProperty("liquibase.changelog.main")
+            url 'jdbc:mysql://localhost:3307/furnifinders'
+            username 'root'
+            password '123456789'
+            referenceDriver "liquibase.ext.hibernate.database.connection.HibernateDriver"
+            referenceUrl props.getProperty("liquibase.changelog.referenceUrl")
+        }
+    }
+    runList = 'dev'
+}
 
 
 
@@ -59,13 +59,14 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    // https://mvnrepository.com/artifact/com.opencsv/opencsv
+    implementation 'com.opencsv:opencsv:5.8'
 
 //    implementation 'org.springframework.boot:spring-boot-starter-mail'
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
-//    compileOnly 'org.projectlombok:lombok'
-//    annotationProcessor 'org.projectlombok:lombok'
-//    implementation 'org.liquibase:liquibase-core:4.23.0'
-//    implementation 'mysql:mysql-connector-java:8.0.33'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.liquibase:liquibase-core:4.23.0'
 //    testImplementation 'org.springframework.security:spring-security-test'
 
 }
