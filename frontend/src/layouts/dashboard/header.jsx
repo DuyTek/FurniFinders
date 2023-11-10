@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
@@ -11,8 +12,8 @@ import IconButton from '@mui/material/IconButton';
 import { bgBlur } from '../../theme/css';
 import Searchbar from './common/searchbar';
 import { NAV, HEADER } from './config-layout';
+import { useRouter } from '../../routes/hooks';
 import Iconify from '../../components/iconify';
-import AccountPopover from './common/account-popover';
 import LanguagePopover from './common/language-popover';
 import { useResponsive } from '../../hooks/use-responsive';
 import NotificationsPopover from './common/notifications-popover';
@@ -21,7 +22,7 @@ import NotificationsPopover from './common/notifications-popover';
 
 export default function Header({ onOpenNav }) {
   const theme = useTheme();
-
+  const router = useRouter();
   const lgUp = useResponsive('up', 'lg');
 
   const renderContent = (
@@ -39,7 +40,9 @@ export default function Header({ onOpenNav }) {
       <Stack direction="row" alignItems="center" spacing={1}>
         <LanguagePopover />
         <NotificationsPopover />
-        <AccountPopover />
+        <Button variant='contained' onClick={() => router.push('/login')}>
+          Sign in
+        </Button>
       </Stack>
     </>
   );

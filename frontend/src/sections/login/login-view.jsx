@@ -1,7 +1,7 @@
+import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -95,11 +95,11 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4">Sign in to Minimal</Typography>
+          <Typography variant="h4">Sign in to Furni</Typography>
 
           <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
             Don’t have an account?
-            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
+            <Link to="/signup" variant="subtitle2" sx={{ ml: 0.5 }}>
               Get started
             </Link>
           </Typography>
