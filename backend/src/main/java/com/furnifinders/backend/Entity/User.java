@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 
 @Getter
 @Setter
@@ -38,16 +37,4 @@ public class User {
 
     public User() {}
 
-    public User(String email, String phone, String password, String first_name, String last_name, String role, boolean confirmed_email, boolean checkbox) {
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.role = role;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        this.create_date = Timestamp.valueOf(sdf.format(System.currentTimeMillis()));
-        this.confirmed_email = confirmed_email;
-        this.checkbox = checkbox;
-    }
 }
