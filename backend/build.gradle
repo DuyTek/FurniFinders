@@ -21,8 +21,8 @@ configurations {
 repositories {
     mavenCentral()
 }
-def properties = new Properties() 
-def props 
+def properties = new Properties() // Create a Properties object
+def props // Declare a variable to store the loaded properties
 
 file("src/main/resources/application.properties").withInputStream { inputStream ->
     properties.load(inputStream) // Load properties from the file into the 'properties' object
@@ -37,7 +37,7 @@ liquibase {
         dev {
             driver 'com.mysql.cj.jdbc.Driver'
             changeLogFile props.getProperty("liquibase.changelog.main")
-            url 'jdbc:mysql://localhost:3306/furnifinders'
+            url 'jdbc:mysql://localhost:3307/furnifinders'
             username 'root'
             password '123456789'
             referenceDriver "liquibase.ext.hibernate.database.connection.HibernateDriver"
@@ -50,27 +50,21 @@ liquibase {
 
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.mysql:mysql-connector-j:8.2.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-//    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-//    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-//    runtimeOnly 'com.mysql:mysql-connector-j'
-    annotationProcessor 'org.projectlombok:lombok'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
     implementation 'org.liquibase:liquibase-core:4.23.0'
-    implementation 'mysql:mysql-connector-java:8.0.33'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//    testImplementation 'org.springframework.security:spring-security-test'
-
-
+//    testImplementation 'org.springframework.security:spring-security-test:5.5.2'
 
 }
 
