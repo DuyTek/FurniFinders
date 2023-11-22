@@ -14,9 +14,7 @@ import Searchbar from './common/searchbar';
 import { NAV, HEADER } from './config-layout';
 import { useRouter } from '../../routes/hooks';
 import Iconify from '../../components/iconify';
-import LanguagePopover from './common/language-popover';
 import { useResponsive } from '../../hooks/use-responsive';
-import NotificationsPopover from './common/notifications-popover';
 
 // ----------------------------------------------------------------------
 
@@ -38,8 +36,6 @@ export default function Header({ onOpenNav }) {
       <Box sx={{ flexGrow: 1 }} />
 
       <Stack direction="row" alignItems="center" spacing={1}>
-        <LanguagePopover />
-        <NotificationsPopover />
         <Button variant='contained' onClick={() => router.push('/login')}>
           Sign in
         </Button>
