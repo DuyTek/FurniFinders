@@ -21,6 +21,7 @@ import { bgGradient } from '../../theme/css';
 import Iconify from '../../components/iconify';
 import { LOGIN } from '../../constants/router-link';
 import PASSWORD_CRITERIA from '../../constants/constants';
+import { requiredField, validateEmail, validatePassword } from '../../utils/validation';
 
 // ----------------------------------------------------------------------
 export default function SignUpView() {
@@ -30,15 +31,11 @@ export default function SignUpView() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const schema = yup.object({
-        firstname: yup.string().required('First name is required'),
-        lastname: yup.string().required('Last name is required'),
-        email: yup.string().required('Email is required').email('Email is invalid'),
-        phone: yup.string().required('Phone is required'),
-        password: yup.string().required('Password is required')
-            .min(8, 'Password must be at least 8 characters')
-            .matches('(?=.*[0-9])', 'Password must contain a number')
-            .matches('(?=.*[A-Z])', 'Password must contain an uppercase letter')
-            .matches(/(?=.*[!@#$%^&*])/, 'Password must contain a special character'),
+        firstname: requiredField('First name'),
+        lastname: requiredField('Last name'),
+        email: validateEmail(),
+        phone: yup.number().typeError('Phone must contain numbers only').required('Phone is required'),
+        password: validatePassword(),
         confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match').required('Confirm password is required'),
     });
     const methods = useForm({
@@ -93,7 +90,7 @@ export default function SignUpView() {
                             <Tooltip placement='right-start' title={<List sx={{ listStyleType: 'disc', fontSize: 13 }}>
                                 Your password must include:
                                 {PASSWORD_CRITERIA.map((item) => (
-                                    <ListItem disablePadding sx={{ display: 'list-item', marginLeft: '14px' }}>{item}</ListItem>
+                                    <ListItem key={item} disablePadding sx={{ display: 'list-item', marginLeft: '14px' }}>{item}</ListItem>
                                 ))}
                             </List>}>
                                 <TextField
