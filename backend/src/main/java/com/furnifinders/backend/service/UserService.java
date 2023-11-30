@@ -18,11 +18,9 @@ public interface UserService {
 
     void updateUser(User user);
 
-    void deleteUser(User user);
+    void deleteUserByPhone(String user);
 
     void deleteUserByEmail(String email);
-
-
 
     List<User> getAllUser();
 }

@@ -25,7 +25,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getUser(int id) {
+    public User getUserByID(int id) {
         return this.entityManager.find(User.class, id);
     }
 
@@ -59,8 +59,8 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     @Transactional
-    public void deleteUser(User user) {
-        this.entityManager.remove(user);
+    public void deleteUserByPhone(String phone) {
+        this.entityManager.remove(phone);
     }
 
     @Override

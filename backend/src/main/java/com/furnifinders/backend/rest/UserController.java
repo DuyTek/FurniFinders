@@ -28,8 +28,13 @@ public class UserController {
 
         @GetMapping("/id/{id}")
         public ResponseEntity<User> getUserById(@PathVariable("id") int id){
-            User user = userService.getUserByID(id);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            User existingUser = userService.getUserByID(id);
+            if(existingUser != null){
+                return new ResponseEntity<>(existingUser, HttpStatus.OK);
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }
         }
 
         @GetMapping("/email/{email}")
@@ -58,14 +63,37 @@ public class UserController {
 
         @DeleteMapping("/delete/email/{email}")
         public ResponseEntity<?> deleteUserByEmail(@PathVariable("email") String email){
-            userService.deleteUserByEmail(email);
-            return new ResponseEntity<>(HttpStatus.OK);
+            User existingUser = userService.getUserByEmail(email);
+
+            if(existingUser != null){
+                userService.deleteUserByEmail(email);
+                return ResponseEntity.ok().build();
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }
+
+        }
+
+        @DeleteMapping("/delete/phone/{phone}")
+        public ResponseEntity<?> deleteUserByPhone(@PathVariable("phone") String phone){
+            User existingUser = userService.getUserByPhone(phone);
+
+            if(existingUser != null){
+                userService.deleteUserByPhone(phone);
+                return ResponseEntity.ok().build();
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }
         }
 
         @PostMapping("/add")
         public ResponseEntity<User> addUser(@RequestBody User user){
             user.setId(0);
             user.setCreate_date(new Timestamp(System.currentTimeMillis()));
+            user.setRole("ROLE_USER");
+
             User newUser = userService.addUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
         }
