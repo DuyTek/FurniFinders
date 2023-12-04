@@ -36,6 +36,17 @@ public class UserServiceImpl implements UserService {
         return username -> userEntityService.findUserByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
     }
+
+    @Override
+    public Product findProductById(Long id) {
+        return productEntityService.findProductById(id);
+    }
+
+    @Override
+    public Product addProductImage(Long id, String image) {
+        return productEntityService.addProductImage(id, image);
+    }
+
     @Override
     public User findUserById(Long id) {
         return this.userEntityService.findUserById(id);

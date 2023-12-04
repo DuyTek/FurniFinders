@@ -27,9 +27,12 @@ public class Product {
 
     private String product_description;
 
+    private String product_image;
+
     private int product_percentage;
 
     private int product_price;
+
 
     private PostStatus product_post_status;
 

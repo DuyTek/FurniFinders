@@ -11,4 +11,8 @@ public interface ProductDAO {
     Product updatePostStatus(Long id);
 
     List<Product> searchProducts(String keyword);
+
+    Product findProductById(Long id);
+
+    Product addProductImage(Long id, String image);
 }

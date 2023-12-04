@@ -36,5 +36,15 @@ public class ProductEntityServiceImpl implements ProductEntityService{
         return this.productDAO.searchProducts(keyword);
     }
 
+    @Override
+    public Product findProductById(Long id) {
+        return this.productDAO.findProductById(id);
+    }
+
+    @Override
+    public Product addProductImage(Long id, String image) {
+        return this.productDAO.addProductImage(id, image);
+    }
+
 
 }

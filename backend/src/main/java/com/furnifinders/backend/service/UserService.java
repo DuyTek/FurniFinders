@@ -25,4 +25,8 @@ public interface UserService {
     ProductUserLink addProductUserLink(Product product, PostProductRequest postProductRequest);
 
     UserDetailsService userDetailsService();
+
+    Product findProductById(Long id);
+
+    Product addProductImage(Long id, String image);
 }

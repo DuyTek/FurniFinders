@@ -24,6 +24,7 @@ CREATE TABLE if not exists product (
     product_price double NOT NULL,
     product_post_status varchar(255) NOT NULL,
     product_status varchar(255) NOT NULL,
+    product_image varchar(255)  NULL,
     PRIMARY KEY (product_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
