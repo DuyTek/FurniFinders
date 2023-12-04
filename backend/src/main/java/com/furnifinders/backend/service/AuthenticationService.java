@@ -8,6 +8,8 @@ import com.furnifinders.backend.dto.SignInRequest;
 import com.furnifinders.backend.dto.SignUpRequest;
 
 public interface AuthenticationService {
+
+
     User signUp(SignUpRequest signupRequest);
 
     JwtAuthenticationResponse signIn(SignInRequest signinRequest);

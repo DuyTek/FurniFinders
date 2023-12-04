@@ -1,8 +1,7 @@
 package com.furnifinders.backend.service.impl;
 
 
-
-import com.furnifinders.backend.Entity.Role;
+import com.furnifinders.backend.Entity.Enum.Role;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.Repository.UserRepository;
 import com.furnifinders.backend.dto.JwtAuthenticationResponse;
@@ -10,6 +9,7 @@ import com.furnifinders.backend.dto.RefreshTokenRequest;
 import com.furnifinders.backend.dto.SignInRequest;
 import com.furnifinders.backend.dto.SignUpRequest;
 import com.furnifinders.backend.service.AuthenticationService;
+import com.furnifinders.backend.service.EntityService.UserEntityService;
 import com.furnifinders.backend.service.JWTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,24 +26,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserEntityService userEntityService;
+
+
 
     public User signUp(SignUpRequest signupRequest) {
         User user = new User();
-        user.setEmail(signupRequest.getEmail());
-        user.setFirst_name(signupRequest.getFirstName());
-        user.setLast_name(signupRequest.getLastName());
-        user.setRole(Role.USER);
-        user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
-
+        user.setUser_email(signupRequest.getUser_email());
+        user.setUser_first_name(signupRequest.getUser_first_name());
+        user.setUser_last_name(signupRequest.getUser_last_name());
+        user.setUser_phone(signupRequest.getUser_phone());
+        user.setUser_role(Role.USER);
+        user.setUser_password(passwordEncoder.encode(signupRequest.getUser_password()));
         return userRepository.save(user);
-
     }
 
     public JwtAuthenticationResponse signIn(SignInRequest signinRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signinRequest.getEmail(),
-                signinRequest.getPassword()));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signinRequest.getUser_email(),
+                signinRequest.getUser_password()));
 
-        var user = userRepository.findByEmail(signinRequest.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+        var user = userEntityService.findUserByEmail(signinRequest.getUser_email()).orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
         var jwt = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
 
@@ -56,7 +58,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     public JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
         String userEmail = jwtService.extractUserName(refreshTokenRequest.getToken());
-        User user = userRepository.findByEmail(userEmail).orElseThrow();
+        User user = userEntityService.findUserByEmail(userEmail).orElseThrow();
         if (jwtService.isTokenValid(refreshTokenRequest.getToken(), user)) {
             var jwt = jwtService.generateToken(user);
             JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();

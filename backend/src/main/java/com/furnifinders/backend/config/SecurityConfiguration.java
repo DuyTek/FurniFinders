@@ -1,7 +1,7 @@
 package com.furnifinders.backend.config;
 
 
-import com.furnifinders.backend.Entity.Role;
+import com.furnifinders.backend.Entity.Enum.Role;
 import com.furnifinders.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

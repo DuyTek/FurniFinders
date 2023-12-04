@@ -1,5 +1,6 @@
 package com.furnifinders.backend.Entity;
 
+import com.furnifinders.backend.Entity.Enum.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -22,21 +23,37 @@ public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String first_name;
-    private String last_name;
-    private String email;
-    private String password;
-    private Role role;
+    @Column(name="user_id")
+    private Long user_id;
+
+    private String user_first_name;
+
+    private String user_last_name;
+
+    private String user_email;
+
+    private String user_password;
+
+    private String user_phone;
+
+    private Role user_role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ProductUserLink> productUserLinkList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(user_role.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return user_password;
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return user_email;
     }
 
     @Override

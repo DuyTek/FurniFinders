@@ -21,7 +21,7 @@ public class JWTServiceImpl implements JWTService {
 		return Jwts.builder().setSubject(userDetails.getUsername())
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis()+1000*60*24))
-				.signWith(getSigninKey(),SignatureAlgorithm.HS256)
+				.signWith(getSignInKey(),SignatureAlgorithm.HS256)
 				.compact();
 	}
 	
@@ -29,7 +29,7 @@ public class JWTServiceImpl implements JWTService {
 		return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis()+ 604800000))
-				.signWith(getSigninKey(),SignatureAlgorithm.HS256)
+				.signWith(getSignInKey(),SignatureAlgorithm.HS256)
 				.compact();
 	}
 	public String extractUserName(String token) {
@@ -40,9 +40,9 @@ public class JWTServiceImpl implements JWTService {
 		return claimsResolvers.apply(claims);
 	}
 	private Claims extractAllClaims(String token) {
-		return Jwts.parserBuilder().setSigningKey(getSigninKey()).build().parseClaimsJws(token).getBody();
+		return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
 	}
-	private Key getSigninKey() {
+	private Key getSignInKey() {
 		byte[] key=Decoders.BASE64.decode("413F4428472B4B6250655368566D5970337336763979244226452948404D6351");
 		return Keys.hmacShaKeyFor(key);
 	}
