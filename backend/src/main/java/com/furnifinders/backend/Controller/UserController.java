@@ -1,7 +1,6 @@
 package com.furnifinders.backend.Controller;
 
 import com.furnifinders.backend.Entity.Product;
-import com.furnifinders.backend.Entity.ProductUserLink;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
 import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
 import com.furnifinders.backend.service.UserService;
@@ -36,10 +35,10 @@ public class UserController {
     }
 
     @PostMapping("/postProduct")
-    public ResponseEntity<ProductUserLink> postProduct(@RequestBody PostProductRequest postProductRequest) {
+    public ResponseEntity<Product> postProduct(@RequestBody PostProductRequest postProductRequest, @RequestBody RefreshTokenRequest refreshTokenRequest) {
         Product product = userService.addProduct(postProductRequest);
-        ProductUserLink productUserLink = userService.addProductUserLink(product, postProductRequest);
-        return ResponseEntity.ok(productUserLink);
+        userService.addProductUserLink(product, refreshTokenRequest);
+        return ResponseEntity.ok(product);
     }
 
     @PostMapping("/postProductImage/{id}")

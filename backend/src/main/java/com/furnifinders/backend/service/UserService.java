@@ -1,7 +1,6 @@
 package com.furnifinders.backend.service;
 
 import com.furnifinders.backend.Entity.Product;
-import com.furnifinders.backend.Entity.ProductUserLink;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
 import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
@@ -22,7 +21,7 @@ public interface UserService {
     Product updatePostStatus(Long id);
 
     Product addProduct(PostProductRequest postProductRequest);
-    ProductUserLink addProductUserLink(Product product, PostProductRequest postProductRequest);
+    void addProductUserLink(Product product, RefreshTokenRequest refreshTokenRequest);
 
     UserDetailsService userDetailsService();
 

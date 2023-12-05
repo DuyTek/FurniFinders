@@ -88,12 +88,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ProductUserLink addProductUserLink(Product product, PostProductRequest postProductRequest) {
+    public void addProductUserLink(Product product, RefreshTokenRequest refreshTokenRequest) {
         ProductUserLink productUserLink = new ProductUserLink();
         productUserLink.setProduct(product);
-        User user = userEntityService.findUserById(postProductRequest.getUser_id());
+
+        String userEmail = jwtService.extractUserName(refreshTokenRequest.getToken());
+        User user = userEntityService.findUserByEmail(userEmail).orElseThrow();
+
         productUserLink.setUser(user);
         productUserLink.setUserType(UserType.SELLER);
-        return productUserLinkRepository.save(productUserLink);
+        productUserLinkRepository.save(productUserLink);
     }
 }
