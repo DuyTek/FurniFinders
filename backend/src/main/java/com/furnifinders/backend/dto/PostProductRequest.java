@@ -9,4 +9,5 @@ public class PostProductRequest {
     private String product_description;
     private int product_price;
     private int product_percentage;
+    private int product_quantity;
 }

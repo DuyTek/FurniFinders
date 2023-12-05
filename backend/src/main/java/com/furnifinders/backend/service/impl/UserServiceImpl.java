@@ -83,6 +83,7 @@ public class UserServiceImpl implements UserService {
         product.setProduct_percentage(postProductRequest.getProduct_percentage());
         product.setProduct_post_status(PostStatus.PENDING);
         product.setProduct_status(ProductStatus.AVAILABLE);
+        product.setProduct_quantity(postProductRequest.getProduct_quantity());
         return productRepository.save(product);
     }
 

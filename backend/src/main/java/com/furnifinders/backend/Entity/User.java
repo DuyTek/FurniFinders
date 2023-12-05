@@ -4,6 +4,7 @@ import com.furnifinders.backend.Entity.Enum.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +19,7 @@ import java.util.List;
 @Table(name = "user")
 @Getter
 @Setter
+@NoArgsConstructor
 public class User implements UserDetails {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -40,6 +42,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ProductUserLink> productUserLinkList;
+//
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Cart> cartList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

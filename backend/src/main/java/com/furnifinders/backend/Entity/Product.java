@@ -38,6 +38,8 @@ public class Product {
 
     private ProductStatus product_status;
 
+    private int product_quantity;
+
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductUserLink> productUserLinkList;
