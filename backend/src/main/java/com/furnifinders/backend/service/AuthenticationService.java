@@ -2,17 +2,18 @@ package com.furnifinders.backend.service;
 
 
 import com.furnifinders.backend.Entity.User;
-import com.furnifinders.backend.dto.JwtAuthenticationResponse;
-import com.furnifinders.backend.dto.RefreshTokenRequest;
-import com.furnifinders.backend.dto.SignInRequest;
-import com.furnifinders.backend.dto.SignUpRequest;
+import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
+import com.furnifinders.backend.dto.Request.SignInRequest;
+import com.furnifinders.backend.dto.Request.SignUpRequest;
+import com.furnifinders.backend.dto.Response.RefreshResponse;
+import com.furnifinders.backend.dto.Response.SignInResponse;
 
 public interface AuthenticationService {
 
 
     User signUp(SignUpRequest signupRequest);
 
-    JwtAuthenticationResponse signIn(SignInRequest signinRequest);
+    SignInResponse signIn(SignInRequest signinRequest);
 
-    JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
+    RefreshResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
 }

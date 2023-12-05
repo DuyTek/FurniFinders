@@ -4,10 +4,12 @@ package com.furnifinders.backend.service.impl;
 import com.furnifinders.backend.Entity.Enum.Role;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.Repository.UserRepository;
-import com.furnifinders.backend.dto.JwtAuthenticationResponse;
-import com.furnifinders.backend.dto.RefreshTokenRequest;
-import com.furnifinders.backend.dto.SignInRequest;
-import com.furnifinders.backend.dto.SignUpRequest;
+import com.furnifinders.backend.dto.Response.JwtAuthenticationResponse;
+import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
+import com.furnifinders.backend.dto.Request.SignInRequest;
+import com.furnifinders.backend.dto.Request.SignUpRequest;
+import com.furnifinders.backend.dto.Response.RefreshResponse;
+import com.furnifinders.backend.dto.Response.SignInResponse;
 import com.furnifinders.backend.service.AuthenticationService;
 import com.furnifinders.backend.service.EntityService.UserEntityService;
 import com.furnifinders.backend.service.JWTService;
@@ -41,7 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return userRepository.save(user);
     }
 
-    public JwtAuthenticationResponse signIn(SignInRequest signinRequest) {
+    public SignInResponse signIn(SignInRequest signinRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signinRequest.getUser_email(),
                 signinRequest.getUser_password()));
 
@@ -52,11 +54,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
         jwtAuthenticationResponse.setToken(jwt);
         jwtAuthenticationResponse.setRefreshToken(refreshToken);
-        return jwtAuthenticationResponse;
+
+
+        return getSignInResponse(user, jwt, refreshToken);
 
     }
 
-    public JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+    private static SignInResponse getSignInResponse(User user, String jwt, String refreshToken) {
+        SignInResponse signInResponse = new SignInResponse();
+        signInResponse.setUser_id(user.getUser_id());
+        signInResponse.setUser_first_name(user.getUser_first_name());
+        signInResponse.setUser_last_name(user.getUser_last_name());
+        signInResponse.setUser_email(user.getUser_email());
+        signInResponse.setUser_phone(user.getUser_phone());
+        signInResponse.setUser_role(user.getUser_role());
+        signInResponse.setToken(jwt);
+        signInResponse.setRefreshToken(refreshToken);
+        return signInResponse;
+    }
+
+    public RefreshResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
         String userEmail = jwtService.extractUserName(refreshTokenRequest.getToken());
         User user = userEntityService.findUserByEmail(userEmail).orElseThrow();
         if (jwtService.isTokenValid(refreshTokenRequest.getToken(), user)) {
@@ -64,8 +81,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
             jwtAuthenticationResponse.setToken(jwt);
             jwtAuthenticationResponse.setRefreshToken(refreshTokenRequest.getToken());
-            return jwtAuthenticationResponse;
+
+            return getRefreshResponse(refreshTokenRequest, user, jwt);
         }
         return null;
+    }
+
+    private static RefreshResponse getRefreshResponse(RefreshTokenRequest refreshTokenRequest, User user, String jwt) {
+        RefreshResponse refreshResponse = new RefreshResponse();
+        refreshResponse.setUser_id(user.getUser_id());
+        refreshResponse.setUser_first_name(user.getUser_first_name());
+        refreshResponse.setUser_last_name(user.getUser_last_name());
+        refreshResponse.setUser_email(user.getUser_email());
+        refreshResponse.setUser_phone(user.getUser_phone());
+        refreshResponse.setUser_role(user.getUser_role());
+        refreshResponse.setToken(jwt);
+        refreshResponse.setRefreshToken(refreshTokenRequest.getToken());
+        return refreshResponse;
     }
 }

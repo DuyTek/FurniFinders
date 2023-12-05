@@ -1,13 +1,13 @@
 package com.furnifinders.backend.Controller;
 
 
-
 import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.Entity.User;
-import com.furnifinders.backend.dto.JwtAuthenticationResponse;
-import com.furnifinders.backend.dto.RefreshTokenRequest;
-import com.furnifinders.backend.dto.SignInRequest;
-import com.furnifinders.backend.dto.SignUpRequest;
+import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
+import com.furnifinders.backend.dto.Request.SignInRequest;
+import com.furnifinders.backend.dto.Request.SignUpRequest;
+import com.furnifinders.backend.dto.Response.RefreshResponse;
+import com.furnifinders.backend.dto.Response.SignInResponse;
 import com.furnifinders.backend.service.AuthenticationService;
 import com.furnifinders.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,14 +29,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signIn")
-    public ResponseEntity<JwtAuthenticationResponse> signIn(@RequestBody SignInRequest signinRequest) {
-        JwtAuthenticationResponse jwtAuthenticationResponse = authenticationService.signIn(signinRequest);
-        return ResponseEntity.ok(jwtAuthenticationResponse);
+    public ResponseEntity<SignInResponse> signIn(@RequestBody SignInRequest signinRequest) {
+        SignInResponse signInResponse = authenticationService.signIn(signinRequest);
+        return ResponseEntity.ok(signInResponse);
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<JwtAuthenticationResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-        return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
+    public ResponseEntity<RefreshResponse> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        RefreshResponse refreshResponse = authenticationService.refreshToken(refreshTokenRequest);
+        return ResponseEntity.ok(refreshResponse);
     }
 
     @GetMapping("/search/{keyword}")

@@ -1,4 +1,4 @@
-package com.furnifinders.backend.dto;
+package com.furnifinders.backend.dto.Response;
 
 import lombok.Data;
 

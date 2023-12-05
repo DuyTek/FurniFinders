@@ -2,8 +2,8 @@ package com.furnifinders.backend.Controller;
 
 import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.Entity.ProductUserLink;
-import com.furnifinders.backend.dto.PostProductRequest;
-import com.furnifinders.backend.dto.RefreshTokenRequest;
+import com.furnifinders.backend.dto.Request.PostProductRequest;
+import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
 import com.furnifinders.backend.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
