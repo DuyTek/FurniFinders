@@ -1,7 +1,11 @@
+/* eslint-disable import/no-extraneous-dependencies */
+import * as yup from 'yup'
+import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm, Controller, FormProvider } from 'react-hook-form';
 
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
@@ -14,59 +18,85 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Logo from '../../components/logo';
 import { bgGradient } from '../../theme/css';
 import Iconify from '../../components/iconify';
-import { useRouter } from '../../routes/hooks';
+import { validateEmail } from '../../utils/validation';
 
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
   const theme = useTheme();
-
-  const router = useRouter();
-
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleClick = () => {
-    router.push('/dashboard');
-  };
+  const loginSchema = yup.object({
+    email: validateEmail(),
+    password: yup.string().required('Password is required'),
+  })
+
+  const methods = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    mode: 'onSubmit',
+    resolver: yupResolver(loginSchema),
+  });
+
+  const { handleSubmit, control } = methods;
+
+  const onSubmit = (data) => {
+    console.log(data);
+  }
 
   const renderForm = (
-    <>
-      <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
 
-        <TextField
-          name="password"
-          label="Password"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Stack>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={3}>
+          <Controller
+            control={control}
+            name="email"
+            render={({ fieldState: { error }, field }) => <TextField {...field} label="Email" helperText={error?.message} error={Boolean(error?.message)} />}
+          />
+          <Controller
+            control={control}
+            name="password"
+            render={({ fieldState: { error }, field }) =>
+              <TextField
+                {...field}
+                name="password"
+                label="Password"
+                type={showPassword ? 'text' : 'password'}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                        <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                error={Boolean(error?.message)}
+                helperText={error?.message}
+              />}
+          />
+        </Stack>
 
-      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
-      </Stack>
+        <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
+          <Link variant="subtitle2" underline="hover">
+            Forgot password?
+          </Link>
+        </Stack>
 
-      <LoadingButton
-        fullWidth
-        size="large"
-        type="submit"
-        variant="contained"
-        color="inherit"
-        onClick={handleClick}
-      >
-        Login
-      </LoadingButton>
-    </>
+        <LoadingButton
+          fullWidth
+          size="large"
+          type="submit"
+          variant="contained"
+          color="inherit"
+        >
+          Login
+        </LoadingButton>
+      </form>
+    </FormProvider>
   );
 
   return (
@@ -95,11 +125,11 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4">Sign in to Minimal</Typography>
+          <Typography variant="h4">Sign in to Furni</Typography>
 
           <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
             Don’t have an account?
-            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
+            <Link to="/signup" variant="subtitle2" sx={{ ml: 0.5 }}>
               Get started
             </Link>
           </Typography>

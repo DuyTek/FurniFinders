@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
+import { SignUpView } from '../sections/signup';
 import DashboardLayout from '../layouts/dashboard';
 
 export const IndexPage = lazy(() => import('../pages/app'));
@@ -28,6 +29,10 @@ export default function Router() {
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
       ],
+    },
+    {
+      path: 'signup',
+      element: <SignUpView />,
     },
     {
       path: 'login',
