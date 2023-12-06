@@ -1,84 +1,40 @@
 package com.furnifinders.backend.Entity;
 
-import com.furnifinders.backend.Entity.Enum.Role;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.ToString;
 
-import java.io.Serial;
-import java.util.Collection;
-import java.util.List;
+import java.sql.Timestamp;
 
-@Data
-@Entity
-@Table(name = "user")
 @Getter
 @Setter
-@NoArgsConstructor
-public class User implements UserDetails {
-    @Serial
-    private static final long serialVersionUID = 1L;
+@ToString
+@Entity
+@Table(name = "user")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
-    private Long user_id;
+    private int id;
+    @Column(nullable = false)
+    private String email;
+    @Column(nullable = false)
+    private String phone;
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false)
+    private String first_name;
+    @Column( nullable = false)
+    private String last_name;
+    @Column(nullable = false)
+    private String role;
+    @Column(nullable = false)
+    private Timestamp create_date;
+    @Column(nullable = false)
+    private boolean confirmed_email;
+    @Column(nullable = false)
+    private boolean checkbox;
 
-    private String user_first_name;
-
-    private String user_last_name;
-
-    private String user_email;
-
-    private String user_password;
-
-    private String user_phone;
-
-    private Role user_role;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<ProductUserLink> productUserLinkList;
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Cart> cartList;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(user_role.name()));
-    }
-
-    @Override
-    public String getPassword() {
-        return user_password;
-    }
-
-    @Override
-    public String getUsername() {
-        return user_email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+    public User() {}
 
 }

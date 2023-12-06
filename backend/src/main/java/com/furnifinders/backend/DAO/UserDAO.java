@@ -1,13 +1,25 @@
 package com.furnifinders.backend.DAO;
 
-import com.furnifinders.backend.Entity.Enum.Role;
 import com.furnifinders.backend.Entity.User;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface UserDAO {
-    Optional<User> findUserByEmail(String email);
-    User findUserByRole(Role role);
+    void addUser(User user);
 
-    User findUserById(Long id);
+    User getUser(int id);
+
+    User getUserByEmail(String email);
+
+    User getUserByPhone(String phone);
+
+    List<User> getAllUserByRole(String role);
+
+    void updateUser(User user);
+
+    void deleteUser(User user);
+
+    void deleteUserByEmail(String email);
+
+    List<User> getAllUser();
 }

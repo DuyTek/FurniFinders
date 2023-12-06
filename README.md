@@ -5,7 +5,3 @@
 ```cd frontend```
 - Next, type ```yarn``` to check any missing dependencies
 - Finally, type ```yarn dev``` and you should see a localhost to your website. 
-
-## How to start Docker for database
-- Opening the terminal and type: 
-```docker compose -p furnifinder up -d```
