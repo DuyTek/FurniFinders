@@ -1,11 +1,11 @@
-package com.furnifinders.backend.DAO;
+package com.furnifinders.backend.service.EntityService;
 
 import com.furnifinders.backend.Entity.Enum.Role;
 import com.furnifinders.backend.Entity.User;
 
 import java.util.Optional;
 
-public interface UserDAO {
+public interface UserEntityService {
     Optional<User> findUserByEmail(String email);
     User findUserByRole(Role role);
 
