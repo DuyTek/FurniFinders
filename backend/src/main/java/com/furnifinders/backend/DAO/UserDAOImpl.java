@@ -1,16 +1,15 @@
 package com.furnifinders.backend.DAO;
 
-import com.furnifinders.backend.Entity.Enum.Role;
 import com.furnifinders.backend.Entity.User;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
+import java.util.List;
 
 @Repository
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
 
     private final EntityManager entityManager;
 
@@ -20,31 +19,54 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
-    public Optional<User> findUserByEmail(String email) {
-        return this.entityManager.createQuery("SELECT u FROM User u WHERE u.user_email = :email", User.class)
-                .setParameter("email", email)
-                .getResultList()
-                .stream()
-                .findFirst();
+    @Transactional
+    public void addUser(User user) {
+        this.entityManager.persist(user);
     }
 
     @Override
-    public User findUserByRole(Role role) {
-        return this.entityManager.createQuery("SELECT u FROM User u WHERE u.user_role = :role", User.class)
-                .setParameter("role", role)
-                .getResultList()
-                .stream()
-                .findFirst()
-                .orElse(null);
+    public User getUser(int id) {
+        return this.entityManager.find(User.class, id);
     }
 
     @Override
-    public User findUserById(Long id) {
-        return this.entityManager.createQuery("SELECT u FROM User u WHERE u.user_id = :id", User.class)
-                .setParameter("id", id)
-                .getResultList()
-                .stream()
-                .findFirst()
-                .orElse(null);
+    public User getUserByEmail(String email) {
+        return this.entityManager.find(User.class, email);
     }
+
+    @Override
+    public User getUserByPhone(String phone) {
+        return this.entityManager.find(User.class, phone);
+    }
+
+    @Override
+    public List<User> getAllUserByRole(String role) {
+        String sql = "SELECT user FROM User user WHERE user.role = :role";
+        return this.entityManager.createQuery(sql, User.class).setParameter("role", role).getResultList();
+    }
+
+    @Override
+    public List<User> getAllUser(){
+        String sql = "SELECT user FROM User user";
+        return this.entityManager.createQuery(sql, User.class).getResultList();
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(User user) {
+        this.entityManager.merge(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(User user) {
+        this.entityManager.remove(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserByEmail(String email) {
+        this.entityManager.remove(email);
+    }
+
 }
