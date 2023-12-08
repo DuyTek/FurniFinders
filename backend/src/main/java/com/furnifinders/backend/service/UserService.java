@@ -1,28 +1,31 @@
 package com.furnifinders.backend.service;
 
+import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.Entity.User;
+import com.furnifinders.backend.dto.Request.PostProductRequest;
+import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-
 public interface UserService {
-    User addUser(User user);
 
-    User getUserByID(int id);
+    User findUserById(Long id);
 
-    User getUserByEmail(String email);
+    List<Product> findAllUserProducts(RefreshTokenRequest refreshTokenRequest);
 
-    User getUserByPhone(String phone);
+    List<Product> findAllProducts();
 
-    List<User> getAllUserByRole(String role);
+    List<Product> searchProducts(String keyword);
 
-    void updateUser(User user);
+    Product updatePostStatus(Long id);
 
-    void deleteUser(User user);
+    Product addProduct(PostProductRequest postProductRequest);
+    void addProductUserLink(Product product, RefreshTokenRequest refreshTokenRequest);
 
-    void deleteUserByEmail(String email);
+    UserDetailsService userDetailsService();
 
+    Product findProductById(Long id);
 
-
-    List<User> getAllUser();
+    Product addProductImage(Long id, String image);
 }
