@@ -1,15 +1,13 @@
 import axios from 'axios';
 
-// Create an instance of Axios with custom configuration
 const api = axios.create({
-  baseURL: 'https://api.example.com', // Replace with your API base URL
+  baseURL: 'http://localhost:8080',
   timeout: 5000, // Set a timeout of 5 seconds
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Define the four methods for making REST API requests
 
 // GET request
 export const get = async (url, params) => {
@@ -22,14 +20,9 @@ export const get = async (url, params) => {
 };
 
 // POST request
-export const post = async (url, data) => {
-  try {
-    const response = await api.post(url, data);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message);
-  }
-};
+export const post = async (url, data) =>  api.post(url, data)
+  .then((response) => response)
+  .catch((error) => error.response.data);
 
 // PUT request
 export const put = async (url, data) => {

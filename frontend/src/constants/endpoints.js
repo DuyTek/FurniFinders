@@ -1,1 +1,1 @@
-export const API_SIGN_UP = 'api/user/add';
+export const API_SIGN_UP = '/api/v1/auth/signUp';
