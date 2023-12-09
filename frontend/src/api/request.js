@@ -10,38 +10,15 @@ const api = axios.create({
 
 
 // GET request
-export const get = async (url, params) => {
-  try {
-    const response = await api.get(url, { params });
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message);
-  }
-};
+export const get = async (url, params) => api.get(url, { params });
 
 // POST request
-export const post = async (url, data) =>  api.post(url, data)
-  .then((response) => response)
-  .catch((error) => error.response.data);
+export const post = async (url, params) =>  api.post(url, params);
 
 // PUT request
-export const put = async (url, data) => {
-  try {
-    const response = await api.put(url, data);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message);
-  }
-};
+export const put = async (url, data) => api.put(url, data);
 
 // DELETE request
-export const del = async (url) => {
-  try {
-    const response = await api.delete(url);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message);
-  }
-};
+export const del = async (url) => api.delete(url);
 
 export default api;

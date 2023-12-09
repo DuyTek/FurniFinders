@@ -55,10 +55,13 @@ export default function SignUpView() {
     const { handleSubmit, control } = methods;
 
     const onSubmit = (data) => {
-        const response = signUp(data);
-        if (response.data !== null) {
-            navigateTo(LOGIN);
-        };
+        signUp(data).then((response) => {
+            if (response.status === 200) {
+                navigateTo(LOGIN);
+            }
+        }).catch((error) => {
+            throw new Error(error);
+        });
     };
 
     const renderForm = (

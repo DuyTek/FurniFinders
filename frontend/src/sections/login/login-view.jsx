@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as yup from 'yup'
-import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 
@@ -17,24 +17,27 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import Logo from '../../components/logo';
 import { bgGradient } from '../../theme/css';
+import { signIn } from '../../service/authen';
 import Iconify from '../../components/iconify';
+import { HOMEPAGE } from '../../constants/router-link';
 import { validateEmail } from '../../utils/validation';
 
 // ----------------------------------------------------------------------
 
 export default function LoginView() {
+  const navigateTo = useNavigate();
   const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
 
   const loginSchema = yup.object({
-    email: validateEmail(),
-    password: yup.string().required('Password is required'),
+    user_email: validateEmail(),
+    user_password: yup.string().required('Password is required'),
   })
 
   const methods = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      user_email: '',
+      user_password: '',
     },
     mode: 'onSubmit',
     resolver: yupResolver(loginSchema),
@@ -42,8 +45,12 @@ export default function LoginView() {
 
   const { handleSubmit, control } = methods;
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = (params) => {
+    signIn(params).then((response) => {
+      if (response.status === 200) {
+        navigateTo(HOMEPAGE);
+      }
+    });
   }
 
   const renderForm = (
@@ -53,18 +60,25 @@ export default function LoginView() {
         <Stack spacing={3}>
           <Controller
             control={control}
-            name="email"
-            render={({ fieldState: { error }, field }) => <TextField {...field} label="Email" helperText={error?.message} error={Boolean(error?.message)} />}
-          />
-          <Controller
-            control={control}
-            name="password"
+            name="user_email"
             render={({ fieldState: { error }, field }) =>
               <TextField
                 {...field}
-                name="password"
+                label="Email"
+                helperText={error?.message}
+                error={Boolean(error?.message)}
+                autoComplete='new-email'
+              />}
+          />
+          <Controller
+            control={control}
+            name="user_password"
+            render={({ fieldState: { error }, field }) =>
+              <TextField
+                {...field}
                 label="Password"
                 type={showPassword ? 'text' : 'password'}
+                autoComplete='new-password'
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
