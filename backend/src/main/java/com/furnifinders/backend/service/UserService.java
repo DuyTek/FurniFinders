@@ -4,7 +4,6 @@ import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.dto.Request.AddToCartRequest;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
-import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
 import com.furnifinders.backend.dto.Response.AddToCartResponse;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -14,7 +13,7 @@ public interface UserService {
 
     User findUserById(Long id);
 
-    List<Product> findAllUserProducts(RefreshTokenRequest refreshTokenRequest);
+    List<Product> findAllUserProducts(Long user_id);
 
     List<Product> findAllProducts();
 
@@ -23,7 +22,7 @@ public interface UserService {
     Product updateApprovePostStatus(Long id);
 
     Product addProduct(PostProductRequest postProductRequest);
-    void addProductUserLink(Product product, RefreshTokenRequest refreshTokenRequest);
+    void addProductUserLink(Product product, Long user_id);
 
     UserDetailsService userDetailsService();
 

@@ -12,10 +12,8 @@ import com.furnifinders.backend.Repository.ProductRepository;
 import com.furnifinders.backend.Repository.ProductUserLinkRepository;
 import com.furnifinders.backend.dto.Request.AddToCartRequest;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
-import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
 import com.furnifinders.backend.dto.Response.AddToCartResponse;
 import com.furnifinders.backend.service.EntityService.*;
-import com.furnifinders.backend.service.JWTService;
 import com.furnifinders.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -35,7 +33,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserEntityService userEntityService;
     private final ProductEntityService productEntityService;
-    private final JWTService jwtService;
     private final ProductUserLinkEntityService productUserLinkEntityService;
     private final CartEntityService cartEntityService;
     private final CartDetailEntityService cartDetailEntityService;
@@ -142,9 +139,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Product> findAllUserProducts(RefreshTokenRequest refreshTokenRequest) {
-        String userEmail = jwtService.extractUserName(refreshTokenRequest.getToken());
-        User user = userEntityService.findUserByEmail(userEmail).orElseThrow();
+    public List<Product> findAllUserProducts(Long user_id) {
+        User user = userEntityService.findUserById(user_id);
         return productEntityService.findAllProductsByUserId(user.getUser_id());
     }
 
@@ -177,12 +173,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addProductUserLink(Product product, RefreshTokenRequest refreshTokenRequest) {
+    public void addProductUserLink(Product product, Long user_id) {
         ProductUserLink productUserLink = new ProductUserLink();
         productUserLink.setProduct(product);
 
-        String userEmail = jwtService.extractUserName(refreshTokenRequest.getToken());
-        User user = userEntityService.findUserByEmail(userEmail).orElseThrow();
+        User user = userEntityService.findUserById(user_id);
 
         productUserLink.setUser(user);
         productUserLink.setUserType(UserType.SELLER);

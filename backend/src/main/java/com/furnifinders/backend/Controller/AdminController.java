@@ -3,7 +3,6 @@ package com.furnifinders.backend.Controller;
 import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
-import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
 import com.furnifinders.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +29,15 @@ public class AdminController {
     }
 
     @PostMapping("/postProduct")
-    public ResponseEntity<Product> postProduct(@RequestBody PostProductRequest postProductRequest, @RequestBody RefreshTokenRequest refreshTokenRequest) {
+    public ResponseEntity<Product> postProduct(@RequestBody PostProductRequest postProductRequest) {
         Product product = userService.addProduct(postProductRequest);
-        userService.addProductUserLink(product, refreshTokenRequest);
+        userService.addProductUserLink(product, postProductRequest.getProduct_user_id());
         return ResponseEntity.ok(product);
     }
 
-    @GetMapping("/findAllUserProducts")
-    public ResponseEntity<List<Product>> findAllUserProducts(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-        List<Product> products = userService.findAllUserProducts(refreshTokenRequest);
+    @GetMapping("/findAllUserProducts/{id}")
+    public ResponseEntity<List<Product>> findAllUserProducts(@PathVariable Long id) {
+        List<Product> products = userService.findAllUserProducts(id);
         return ResponseEntity.ok(products);
     }
 

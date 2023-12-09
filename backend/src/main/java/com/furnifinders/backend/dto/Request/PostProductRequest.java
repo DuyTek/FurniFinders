@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class PostProductRequest {
+    private Long product_user_id;
     private String product_name;
     private String product_description;
     private Long product_price;
