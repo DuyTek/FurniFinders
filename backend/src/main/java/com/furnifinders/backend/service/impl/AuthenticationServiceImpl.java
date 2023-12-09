@@ -10,6 +10,7 @@ import com.furnifinders.backend.dto.Request.SignInRequest;
 import com.furnifinders.backend.dto.Request.SignUpRequest;
 import com.furnifinders.backend.dto.Response.RefreshResponse;
 import com.furnifinders.backend.dto.Response.SignInResponse;
+import com.furnifinders.backend.dto.Response.SignUpResponse;
 import com.furnifinders.backend.service.AuthenticationService;
 import com.furnifinders.backend.service.EntityService.UserEntityService;
 import com.furnifinders.backend.service.JWTService;
@@ -28,11 +29,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
+
+
     private final UserEntityService userEntityService;
 
 
 
-    public User signUp(SignUpRequest signupRequest) {
+    public SignUpResponse signUp(SignUpRequest signupRequest) {
+        SignUpResponse signUpResponse = new SignUpResponse();
         User user = new User();
         user.setUser_email(signupRequest.getUser_email());
         user.setUser_first_name(signupRequest.getUser_first_name());
@@ -40,7 +44,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setUser_phone(signupRequest.getUser_phone());
         user.setUser_role(Role.USER);
         user.setUser_password(passwordEncoder.encode(signupRequest.getUser_password()));
-        return userRepository.save(user);
+
+        User checkUser = userEntityService.findUserByEmail(signupRequest.getUser_email()).orElse(null);
+        if (checkUser != null) {
+            signUpResponse.setMessage("Given email is already registered");
+            return signUpResponse;
+        }
+
+        checkUser = userEntityService.findUserByPhone(signupRequest.getUser_phone()).orElse(null);
+        if (checkUser != null) {
+            signUpResponse.setMessage("Given phone number is already registered");
+            return signUpResponse;
+        }
+        signUpResponse.setMessage("User registered successfully");
+        userRepository.save(user);
+        return signUpResponse;
     }
 
     public SignInResponse signIn(SignInRequest signinRequest) {

@@ -25,6 +25,7 @@ CREATE TABLE if not exists product (
     product_post_status varchar(255) NOT NULL,
     product_status varchar(255) NOT NULL,
     product_image varchar(255)  NULL,
+    product_quantity int(11) NOT NULL,
     PRIMARY KEY (product_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -34,4 +35,21 @@ CREATE TABLE if not exists product_user_link(
     product_user_link_user_id int(11) NOT NULL,
     product_user_link_product_id int(11) NOT NULL,
     PRIMARY KEY (product_user_link_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE if not exists cart(
+    cart_id int(11) NOT NULL AUTO_INCREMENT,
+    cart_user_id int(11) NOT NULL,
+    cart_status varchar(255) NOT NULL,
+    PRIMARY KEY (cart_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE if not exists cartDetail(
+    cartDetail_id int(11) NOT NULL AUTO_INCREMENT,
+    cartDetail_product_id int(11) NOT NULL,
+    cartDetail_quantity int(11) NOT NULL,
+    cartDetail_total_price int(11) NOT NULL,
+    cartDetail_cart_id int(11) NOT NULL,
+    PRIMARY KEY (cartDetail_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

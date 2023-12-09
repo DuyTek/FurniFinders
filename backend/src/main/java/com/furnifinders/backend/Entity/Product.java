@@ -29,20 +29,22 @@ public class Product {
 
     private String product_image;
 
-    private int product_percentage;
+    private Long product_percentage;
 
-    private int product_price;
+    private Long product_price;
 
 
     private PostStatus product_post_status;
 
     private ProductStatus product_status;
 
-    private int product_quantity;
+    private Long product_quantity;
 
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductUserLink> productUserLinkList;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<CartDetail> cartDetailList;
 
 }

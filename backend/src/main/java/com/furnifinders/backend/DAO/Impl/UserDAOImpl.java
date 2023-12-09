@@ -1,5 +1,6 @@
-package com.furnifinders.backend.DAO;
+package com.furnifinders.backend.DAO.Impl;
 
+import com.furnifinders.backend.DAO.UserDAO;
 import com.furnifinders.backend.Entity.Enum.Role;
 import com.furnifinders.backend.Entity.User;
 import jakarta.persistence.EntityManager;
@@ -10,13 +11,23 @@ import java.util.Optional;
 
 
 @Repository
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
 
     private final EntityManager entityManager;
 
     @Autowired
     public UserDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+
+    @Override
+    public Optional<User> findUserByPhone(String phone) {
+        String query = "SELECT u FROM User u WHERE u.user_phone = :phone";
+        return this.entityManager.createQuery(query, User.class)
+                .setParameter("phone", phone)
+                .getResultList()
+                .stream()
+                .findFirst();
     }
 
     @Override
@@ -47,4 +58,5 @@ public class UserDAOImpl implements UserDAO{
                 .findFirst()
                 .orElse(null);
     }
+
 }

@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface UserEntityService {
     Optional<User> findUserByEmail(String email);
     User findUserByRole(Role role);
-
     User findUserById(Long id);
+    Optional<User> findUserByPhone(String phone);
 }

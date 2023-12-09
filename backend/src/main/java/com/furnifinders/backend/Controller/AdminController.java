@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3030", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
@@ -53,12 +54,17 @@ public class AdminController {
         return ResponseEntity.ok(products);
     }
 
-    @PutMapping("/updatePostStatus/{id}")
-    public ResponseEntity<Product> updateProductStatus(@PathVariable Long id) {
-        Product product = userService.updatePostStatus(id);
+    @PutMapping("/updateApprovePostStatus/{id}")
+    public ResponseEntity<Product> updateApproveProductStatus(@PathVariable Long id) {
+        Product product = userService.updateApprovePostStatus(id);
         return ResponseEntity.ok(product);
     }
 
+    @PutMapping("/updateRejectPostStatus/{id}")
+    public ResponseEntity<Product> updateRejectProductStatus(@PathVariable Long id) {
+        Product product = userService.updateRejectPostStatus(id);
+        return ResponseEntity.ok(product);
+    }
 
 
 }

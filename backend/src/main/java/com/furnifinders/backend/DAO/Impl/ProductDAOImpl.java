@@ -1,5 +1,6 @@
-package com.furnifinders.backend.DAO;
+package com.furnifinders.backend.DAO.Impl;
 
+import com.furnifinders.backend.DAO.ProductDAO;
 import com.furnifinders.backend.Entity.Enum.PostStatus;
 import com.furnifinders.backend.Entity.Product;
 import jakarta.persistence.EntityManager;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ProductDAOImpl implements ProductDAO{
+public class ProductDAOImpl implements ProductDAO {
     private final EntityManager entityManager;
 
     @Autowired
@@ -33,7 +34,7 @@ public class ProductDAOImpl implements ProductDAO{
     }
 
     @Override
-    public Product updatePostStatus(Long id) {
+    public Product updateApprovePostStatus(Long id) {
         String query = "UPDATE Product p SET p.product_post_status = :status WHERE p.product_id = :id";
         this.entityManager.createQuery(query)
                 .setParameter("status", PostStatus.APPROVED)
@@ -67,6 +68,15 @@ public class ProductDAOImpl implements ProductDAO{
                 .setParameter("id", id)
                 .executeUpdate();
         return this.entityManager.find(Product.class, id);
+    }
+
+    @Override
+    public Product updateRejectPostStatus(Long id) {
+        String query = "UPDATE Product p SET p.product_post_status = :status WHERE p.product_id = :id";
+        return this.entityManager.createQuery(query, Product.class)
+                .setParameter("status", PostStatus.REJECTED)
+                .setParameter("id", id)
+                .getSingleResult();
     }
 
 }

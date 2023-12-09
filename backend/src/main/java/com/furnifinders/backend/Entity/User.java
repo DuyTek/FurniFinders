@@ -42,9 +42,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ProductUserLink> productUserLinkList;
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Cart> cartList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Cart> cartList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

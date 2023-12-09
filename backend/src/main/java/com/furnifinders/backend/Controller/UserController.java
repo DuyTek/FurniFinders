@@ -1,8 +1,10 @@
 package com.furnifinders.backend.Controller;
 
 import com.furnifinders.backend.Entity.Product;
+import com.furnifinders.backend.dto.Request.AddToCartRequest;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
 import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
+import com.furnifinders.backend.dto.Response.AddToCartResponse;
 import com.furnifinders.backend.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
+@CrossOrigin(origins = "http://localhost:3030", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
@@ -84,6 +87,12 @@ public class UserController {
         var imgFile = new ClassPathResource(product.getProduct_image());
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(imgFile.getInputStream(), response.getOutputStream());
+    }
+
+    @PostMapping("/addToCart")
+    public ResponseEntity<AddToCartResponse> addToCart(@RequestBody AddToCartRequest addToCartRequest) {
+        AddToCartResponse addToCartResponse = userService.addToCart(addToCartRequest);
+        return ResponseEntity.ok(addToCartResponse);
     }
 
 }

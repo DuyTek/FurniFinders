@@ -1,14 +1,15 @@
-package com.furnifinders.backend.service.EntityService;
+package com.furnifinders.backend.service.EntityService.Impl;
 
 import com.furnifinders.backend.DAO.ProductDAO;
 import com.furnifinders.backend.Entity.Product;
+import com.furnifinders.backend.service.EntityService.ProductEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ProductEntityServiceImpl implements ProductEntityService{
+public class ProductEntityServiceImpl implements ProductEntityService {
     private final ProductDAO productDAO;
 
     @Autowired
@@ -27,8 +28,13 @@ public class ProductEntityServiceImpl implements ProductEntityService{
     }
 
     @Override
-    public Product updatePostStatus(Long id) {
-        return productDAO.updatePostStatus(id);
+    public Product updateApprovePostStatus(Long id) {
+        return productDAO.updateApprovePostStatus(id);
+    }
+
+    @Override
+    public Product updateRejectPostStatus(Long id) {
+        return productDAO.updateRejectPostStatus(id);
     }
 
     @Override

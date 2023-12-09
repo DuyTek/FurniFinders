@@ -2,8 +2,10 @@ package com.furnifinders.backend.service;
 
 import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.Entity.User;
+import com.furnifinders.backend.dto.Request.AddToCartRequest;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
 import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
+import com.furnifinders.backend.dto.Response.AddToCartResponse;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -18,7 +20,7 @@ public interface UserService {
 
     List<Product> searchProducts(String keyword);
 
-    Product updatePostStatus(Long id);
+    Product updateApprovePostStatus(Long id);
 
     Product addProduct(PostProductRequest postProductRequest);
     void addProductUserLink(Product product, RefreshTokenRequest refreshTokenRequest);
@@ -28,4 +30,8 @@ public interface UserService {
     Product findProductById(Long id);
 
     Product addProductImage(Long id, String image);
+
+    Product updateRejectPostStatus(Long id);
+
+    AddToCartResponse addToCart(AddToCartRequest addToCartRequest);
 }
