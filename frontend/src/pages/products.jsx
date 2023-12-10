@@ -9,7 +9,7 @@ export default function ProductsPage() {
   return (
     <>
       <Helmet>
-        <title> Products </title>
+        <title> Products | Wood </title>
       </Helmet>
 
       <ProductsView />

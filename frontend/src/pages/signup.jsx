@@ -10,7 +10,7 @@ export default function SignUpPage() {
     return (
         <>
             <Helmet>
-                <title> Sign Up </title>
+                <title> Sign Up | Wood </title>
             </Helmet>
 
             <SignUpView />

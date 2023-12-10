@@ -9,7 +9,7 @@ export default function UserPage() {
   return (
     <>
       <Helmet>
-        <title> Home </title>
+        <title> Home | Wood </title>
       </Helmet>
 
       <UserView />
