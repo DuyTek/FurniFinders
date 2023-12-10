@@ -12,7 +12,6 @@ import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 
 import { bgBlur } from '../../theme/css';
-import Searchbar from './common/searchbar';
 import { NAV, HEADER } from './config-layout';
 import { useRouter } from '../../routes/hooks';
 import Iconify from '../../components/iconify';
@@ -42,9 +41,6 @@ export default function Header({ onOpenNav }) {
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
       )}
-
-      <Searchbar />
-
       <Box sx={{ flexGrow: 1 }} />
 
       <Stack direction="row" alignItems="center" spacing={1}>

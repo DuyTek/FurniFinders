@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 
 import { account } from '../../../_mock/account';
 import { authLogout } from '../../../reducer/authSlice';
-import { LOGIN, USER_PRODUCTS } from '../../../constants/router-link';
+import { LOGIN, HOMEPAGE } from '../../../constants/router-link';
 
 // ----------------------------------------------------------------------
 
@@ -21,7 +21,7 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: 'eva:home-fill',
-    link: USER_PRODUCTS,
+    link: HOMEPAGE,
   },
   {
     label: 'Profile',
