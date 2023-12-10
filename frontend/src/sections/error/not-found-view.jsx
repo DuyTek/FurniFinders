@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -6,11 +8,14 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
 import Logo from '../../components/logo';
-import { RouterLink } from '../../routes/components';
+import { USER_ROLES } from '../../constants/constants';
+import { USER_PRODUCTS, ADMIN_DASHBOARD } from '../../constants/router-link';
 
 // ----------------------------------------------------------------------
 
 export default function NotFoundView() {
+  const navigateTo = useNavigate();
+  const { user_role } = useSelector((state) => state.auth);
   const renderHeader = (
     <Box
       component="header"
@@ -64,8 +69,8 @@ export default function NotFoundView() {
             }}
           />
 
-          <Button href="/" size="large" variant="contained" component={RouterLink}>
-            Go to Home
+          <Button onClick={() => user_role === USER_ROLES.ADMIN ? navigateTo(ADMIN_DASHBOARD) : navigateTo(USER_PRODUCTS)} size="large" variant="contained">
+            Back
           </Button>
         </Box>
       </Container>

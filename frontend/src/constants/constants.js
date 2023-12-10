@@ -4,6 +4,11 @@ const PASSWORD_CRITERIA = [
     "Must contain at least one lowercase letter",
     "Must contain at least one number",
     "Must contain at least one special character"
-]
+];
 
-export default PASSWORD_CRITERIA;
+export const USER_ROLES = {
+    ADMIN: 'ADMIN',
+    USER: 'USER'
+};
+
+export default PASSWORD_CRITERIA

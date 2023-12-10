@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
@@ -10,11 +10,14 @@ import ProductSort from '../product-sort';
 import ProductFilters from '../product-filters';
 import { products } from '../../../_mock/products';
 import ProductCartWidget from '../product-cart-widget';
+import Searchbar from '../../../layouts/dashboard/common/searchbar';
 
 // ----------------------------------------------------------------------
 
 export default function ProductsView() {
   const [openFilter, setOpenFilter] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState(products);
 
   const handleOpenFilter = () => {
     setOpenFilter(true);
@@ -24,12 +27,17 @@ export default function ProductsView() {
     setOpenFilter(false);
   };
 
+  useEffect(() => {
+    setFilteredProducts(products.filter((product) => product.name.toLowerCase().includes(searchValue.toLowerCase())));
+  }, [searchValue]);
+
   return (
     <Container>
       <Typography variant="h4" sx={{ mb: 5 }}>
         Products
       </Typography>
 
+      <Searchbar value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
       <Stack
         direction="row"
         alignItems="center"
@@ -49,7 +57,7 @@ export default function ProductsView() {
       </Stack>
 
       <Grid container spacing={3}>
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <Grid key={product.id} xs={12} sm={6} md={3}>
             <ProductCard product={product} />
           </Grid>

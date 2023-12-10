@@ -1,54 +1,24 @@
 import axios from 'axios';
 
-// Create an instance of Axios with custom configuration
 const api = axios.create({
-  baseURL: 'https://api.example.com', // Replace with your API base URL
+  baseURL: 'http://localhost:8080',
   timeout: 5000, // Set a timeout of 5 seconds
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Define the four methods for making REST API requests
 
 // GET request
-export const get = async (url, params) => {
-  try {
-    const response = await api.get(url, { params });
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message);
-  }
-};
+export const get = async (url, params) => api.get(url, { params });
 
 // POST request
-export const post = async (url, data) => {
-  try {
-    const response = await api.post(url, data);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message);
-  }
-};
+export const post = async (url, params) =>  api.post(url, params);
 
 // PUT request
-export const put = async (url, data) => {
-  try {
-    const response = await api.put(url, data);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message);
-  }
-};
+export const put = async (url, data) => api.put(url, data);
 
 // DELETE request
-export const del = async (url) => {
-  try {
-    const response = await api.delete(url);
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response.data.message);
-  }
-};
+export const del = async (url) => api.delete(url);
 
 export default api;

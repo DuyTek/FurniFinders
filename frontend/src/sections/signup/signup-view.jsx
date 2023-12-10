@@ -1,7 +1,8 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import * as yup from 'yup';
-import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { enqueueSnackbar } from 'notistack';
+import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 
@@ -18,33 +19,36 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import Logo from '../../components/logo';
 import { bgGradient } from '../../theme/css';
+import { signUp } from '../../service/authen';
 import Iconify from '../../components/iconify';
 import { LOGIN } from '../../constants/router-link';
 import PASSWORD_CRITERIA from '../../constants/constants';
+import { authEnd, authStart } from '../../reducer/authSlice';
 import { requiredField, validateEmail, validatePassword } from '../../utils/validation';
 
 // ----------------------------------------------------------------------
 export default function SignUpView() {
     const theme = useTheme();
-
+    const navigateTo = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const dispatch = useDispatch();
 
     const schema = yup.object({
-        firstname: requiredField('First name'),
-        lastname: requiredField('Last name'),
-        email: validateEmail(),
-        phone: yup.number().typeError('Phone must contain numbers only').required('Phone is required'),
-        password: validatePassword(),
-        confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match').required('Confirm password is required'),
+        user_first_name: requiredField('First name'),
+        user_last_name: requiredField('Last name'),
+        user_email: validateEmail(),
+        user_phone: yup.number().typeError('Phone must contain numbers only').required('Phone is required'),
+        user_password: validatePassword(),
+        confirmPassword: yup.string().oneOf([yup.ref('user_password'), null], 'Passwords must match').required('Confirm password is required'),
     });
     const methods = useForm({
         defaultValues: {
-            firstname: '',
-            lastname: '',
-            email: '',
-            phone: '',
-            password: '',
+            user_first_name: '',
+            user_last_name: '',
+            user_email: '',
+            user_phone: '',
+            user_password: '',
             confirmPassword: '',
         },
         mode: 'all',
@@ -54,7 +58,15 @@ export default function SignUpView() {
     const { handleSubmit, control } = methods;
 
     const onSubmit = (data) => {
-        console.log(data);
+        dispatch(authStart());
+        signUp(data).then((response) => {
+            if (response.status === 200) {
+                navigateTo(LOGIN);
+                enqueueSnackbar('Sign up successfully', { variant: 'success' });
+            }
+        }).catch((error) => {
+            throw new Error(error);
+        }).finally(() => dispatch(authEnd()));
     };
 
     const renderForm = (
@@ -64,28 +76,28 @@ export default function SignUpView() {
                     <Stack spacing={2} direction="row">
                         <Controller
                             control={control}
-                            name="firstname"
+                            name="user_first_name"
                             render={({ fieldState: { error }, field }) => <TextField {...field} label="First name" helperText={error?.message} error={Boolean(error?.message)} />}
                         />
                         <Controller
                             control={control}
-                            name="lastname"
+                            name="user_last_name"
                             render={({ fieldState: { error }, field }) => <TextField {...field} label="Last name" helperText={error?.message} error={Boolean(error?.message)} />}
                         />
                     </Stack>
                     <Controller
                         control={control}
-                        name="email"
+                        name="user_email"
                         render={({ fieldState: { error }, field }) => <TextField {...field} label="Email" helperText={error?.message} error={Boolean(error?.message)} />}
                     />
                     <Controller
                         control={control}
-                        name="phone"
+                        name="user_phone"
                         render={({ fieldState: { error }, field }) => <TextField {...field} label="Phone" helperText={error?.message} error={Boolean(error?.message)} />}
                     />
                     <Controller
                         control={control}
-                        name="password"
+                        name="user_password"
                         render={({ fieldState: { error }, field }) =>
                             <Tooltip placement='right-start' title={<List sx={{ listStyleType: 'disc', fontSize: 13 }}>
                                 Your password must include:
@@ -95,7 +107,6 @@ export default function SignUpView() {
                             </List>}>
                                 <TextField
                                     {...field}
-                                    name="password"
                                     label="Password"
                                     type={showPassword ? 'text' : 'password'}
                                     InputProps={{
@@ -183,7 +194,7 @@ export default function SignUpView() {
                         maxWidth: 460,
                     }}
                 >
-                    <Typography variant="h4">Sign up to Furni</Typography>
+                    <Typography variant="h4">Sign up to Wood</Typography>
 
                     <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
                         Already have an account?
