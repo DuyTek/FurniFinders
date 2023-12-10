@@ -47,6 +47,13 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@babel/runtime@^7.23.4":
+  version "7.23.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.5.tgz#11edb98f8aeec529b82b211028177679144242db"
+  integrity sha512-NdUTHcPe4C99WxPub+K9l9tK5/lV4UXIoaHSYgzco9BCyjKAAwzdBI+wWtYqHt7LJdbo74ZjRPJgzVweq1sz0w==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@babel/types@^7.22.15":
   version "7.23.0"
   resolved "https://registry.npmjs.org/@babel/types/-/types-7.23.0.tgz"
@@ -390,6 +397,13 @@
   version "5.14.12"
   resolved "https://registry.npmjs.org/@mui/core-downloads-tracker/-/core-downloads-tracker-5.14.12.tgz"
   integrity sha512-WZhCkKqhrXaSVBzoC6LNcVkIawS000OOt7gmnp4g9HhyvN0PSclRXc/JrkC7EwfzUAZJh+hiK2LaVsbtOpNuOg==
+
+"@mui/icons-material@^5.14.19":
+  version "5.14.19"
+  resolved "https://registry.yarnpkg.com/@mui/icons-material/-/icons-material-5.14.19.tgz#6e0f4e9d89f99517d3c0ee65dee7ac97753755af"
+  integrity sha512-yjP8nluXxZGe3Y7pS+yxBV+hWZSsSBampCxkZwaw+1l+feL+rfP74vbEFbMrX/Kil9I/Y1tWfy5bs/eNvwNpWw==
+  dependencies:
+    "@babel/runtime" "^7.23.4"
 
 "@mui/lab@^5.0.0-alpha.147":
   version "5.0.0-alpha.147"
@@ -1047,6 +1061,11 @@ chokidar@^3.5.1:
     readdirp "~3.6.0"
   optionalDependencies:
     fsevents "~2.3.2"
+
+clsx@^1.1.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.2.1.tgz#0ddc4a20a549b59c93a4116bb26f5294ca17dc12"
+  integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
 
 clsx@^2.0.0:
   version "2.0.0"
@@ -1891,6 +1910,11 @@ globby@^11.1.0:
     merge2 "^1.4.1"
     slash "^3.0.0"
 
+goober@^2.0.33:
+  version "2.1.13"
+  resolved "https://registry.yarnpkg.com/goober/-/goober-2.1.13.tgz#e3c06d5578486212a76c9eba860cbc3232ff6d7c"
+  integrity sha512-jFj3BQeleOoy7t93E9rZ2de+ScC4lQICLwiAQmKMg9F6roKGaLSHoCDYKkWlSafg138jejvq/mTdvmnwDQgqoQ==
+
 gopd@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/gopd/-/gopd-1.0.1.tgz"
@@ -2474,6 +2498,14 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/normalize-path/-/normalize-path-3.0.0.tgz"
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
+
+notistack@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/notistack/-/notistack-3.0.1.tgz#daf59888ab7e2c30a1fa8f71f9cba2978773236e"
+  integrity sha512-ntVZXXgSQH5WYfyU+3HfcXuKaapzAJ8fBLQ/G618rn3yvSzEbnOB8ZSOwhX+dAORy/lw+GC2N061JA0+gYWTVA==
+  dependencies:
+    clsx "^1.1.0"
+    goober "^2.0.33"
 
 npm-run-path@^4.0.1:
   version "4.0.1"

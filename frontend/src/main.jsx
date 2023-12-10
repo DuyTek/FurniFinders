@@ -6,6 +6,7 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import App from './app';
 import { store } from './reducer/store';
+import CustomSnackbar from './routes/components/styled-components/CustomSnackbar';
 
 // ----------------------------------------------------------------------
 
@@ -17,7 +18,9 @@ root.render(
       <BrowserRouter>
         <Suspense>
           <Provider store={store}>
-            <App />
+            <CustomSnackbar>
+              <App />
+            </CustomSnackbar>
           </Provider>
         </Suspense>
       </BrowserRouter>

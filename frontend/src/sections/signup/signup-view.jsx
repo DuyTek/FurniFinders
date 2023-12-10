@@ -1,7 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import * as yup from 'yup';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { enqueueSnackbar } from 'notistack';
 import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
@@ -62,6 +62,7 @@ export default function SignUpView() {
         signUp(data).then((response) => {
             if (response.status === 200) {
                 navigateTo(LOGIN);
+                enqueueSnackbar('Sign up successfully', { variant: 'success' });
             }
         }).catch((error) => {
             throw new Error(error);

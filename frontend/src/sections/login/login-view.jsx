@@ -1,7 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import * as yup from 'yup'
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { enqueueSnackbar } from 'notistack';
 import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
@@ -22,6 +22,7 @@ import { signIn } from '../../service/authen';
 import Iconify from '../../components/iconify';
 import { HOMEPAGE } from '../../constants/router-link';
 import { validateEmail } from '../../utils/validation';
+import ResponseCode from '../../constants/responseCode';
 import { authEnd, authStart, authSuccess } from '../../reducer/authSlice';
 
 // ----------------------------------------------------------------------
@@ -54,8 +55,12 @@ export default function LoginView() {
       if (response.status === 200) {
         dispatch(authSuccess(response.data));
         navigateTo(HOMEPAGE);
+        enqueueSnackbar('Login successfully', { variant: 'success' });
       }
     }).catch((error) => {
+      if (error.code === ResponseCode.BAD_REQUEST) {
+        enqueueSnackbar('Email or password is incorrect', { variant: 'error' });
+      }
       throw new Error(error);
     }).finally(() => dispatch(authEnd()));
   }
