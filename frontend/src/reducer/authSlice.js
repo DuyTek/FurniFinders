@@ -4,12 +4,12 @@ const initialState = {
     token: null,
     isAuthenticated: false,
     isLoading: false,
-    firtName: null,
-    lastName: null,
-    userPhone: null,
-    userEmail: null,
-    userRole: null,
-    userId: null,
+    user_first_name: null,
+    user_last_name: null,
+    user_phone: null,
+    user_email: null,
+    user_role: null,
+    user_id: null,
 };
 
 const authSlice = createSlice({
@@ -23,12 +23,12 @@ const authSlice = createSlice({
             state.token = action.payload.token;
             state.isAuthenticated = true;
             state.isLoading = false;
-            state.firtName = action.payload.firtName;
-            state.lastName = action.payload.lastName;
-            state.userPhone = action.payload.userPhone;
-            state.userEmail = action.payload.userEmail;
-            state.userRole = action.payload.userRole;
-            state.userId = action.payload.userId;
+            state.user_first_name = action.payload.user_first_name;
+            state.user_last_name = action.payload.user_last_name;
+            state.user_phone = `0${action.payload.user_phone}`;
+            state.user_email = action.payload.user_email;
+            state.user_role = action.payload.user_role;
+            state.user_id = action.payload.user_id;
         },
         authEnd: (state) => {
             state.isLoading = false;
@@ -37,12 +37,12 @@ const authSlice = createSlice({
             state.token = null;
             state.isAuthenticated = false;
             state.isLoading = false;
-            state.firtName = null;
-            state.lastName = null;
-            state.userPhone = null;
-            state.userEmail = null;
-            state.userRole = null;
-            state.userId = null;
+            state.user_first_name = null;
+            state.user_last_name = null;
+            state.user_phone = null;
+            state.user_email = null;
+            state.user_role = null;
+            state.user_id = null;
         },
     },
 });

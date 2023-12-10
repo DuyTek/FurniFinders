@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as yup from 'yup'
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
@@ -21,6 +22,7 @@ import { signIn } from '../../service/authen';
 import Iconify from '../../components/iconify';
 import { HOMEPAGE } from '../../constants/router-link';
 import { validateEmail } from '../../utils/validation';
+import { authEnd, authStart, authSuccess } from '../../reducer/authSlice';
 
 // ----------------------------------------------------------------------
 
@@ -28,6 +30,7 @@ export default function LoginView() {
   const navigateTo = useNavigate();
   const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
 
   const loginSchema = yup.object({
     user_email: validateEmail(),
@@ -46,11 +49,15 @@ export default function LoginView() {
   const { handleSubmit, control } = methods;
 
   const onSubmit = (params) => {
+    dispatch(authStart())
     signIn(params).then((response) => {
       if (response.status === 200) {
+        dispatch(authSuccess(response.data));
         navigateTo(HOMEPAGE);
       }
-    });
+    }).catch((error) => {
+      throw new Error(error);
+    }).finally(() => dispatch(authEnd()));
   }
 
   const renderForm = (
