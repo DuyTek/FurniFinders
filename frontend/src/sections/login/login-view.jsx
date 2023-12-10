@@ -20,9 +20,9 @@ import Logo from '../../components/logo';
 import { bgGradient } from '../../theme/css';
 import { signIn } from '../../service/authen';
 import Iconify from '../../components/iconify';
-import { HOMEPAGE } from '../../constants/router-link';
 import { validateEmail } from '../../utils/validation';
 import ResponseCode from '../../constants/responseCode';
+import { USER_PRODUCTS } from '../../constants/router-link';
 import { authEnd, authStart, authSuccess } from '../../reducer/authSlice';
 
 // ----------------------------------------------------------------------
@@ -54,7 +54,7 @@ export default function LoginView() {
     signIn(params).then((response) => {
       if (response.status === 200) {
         dispatch(authSuccess(response.data));
-        navigateTo(HOMEPAGE);
+        navigateTo(USER_PRODUCTS);
         enqueueSnackbar('Login successfully', { variant: 'success' });
       }
     }).catch((error) => {

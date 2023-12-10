@@ -6,30 +6,24 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
+import { Typography } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
-import { Avatar, Typography } from '@mui/material';
 
 import { bgBlur } from '../../theme/css';
 import Searchbar from './common/searchbar';
 import { NAV, HEADER } from './config-layout';
 import { useRouter } from '../../routes/hooks';
 import Iconify from '../../components/iconify';
+import AccountPopover from './common/account-popover';
 import { useResponsive } from '../../hooks/use-responsive';
 
 // ----------------------------------------------------------------------
 const UserMenu = ({ username }) => (
   <Stack direction='row' alignItems='center' spacing={2}>
     <Typography variant='h7' color='black'>Hello, {username}</Typography>
-    <Avatar
-      alt='User avatar'
-      sx={{
-        backgroundColor: 'brown',
-      }}
-    >
-      {username.charAt(0).toUpperCase()}
-    </Avatar>
+    <AccountPopover />
   </Stack>
 );
 
