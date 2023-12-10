@@ -1,9 +1,11 @@
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import React, { Suspense, StrictMode } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 
 import App from './app';
+import { store } from './reducer/store';
 
 // ----------------------------------------------------------------------
 
@@ -14,7 +16,9 @@ root.render(
     <HelmetProvider>
       <BrowserRouter>
         <Suspense>
-          <App />
+          <Provider store={store}>
+            <App />
+          </Provider>
         </Suspense>
       </BrowserRouter>
     </HelmetProvider>

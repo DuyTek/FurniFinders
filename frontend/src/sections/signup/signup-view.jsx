@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as yup from 'yup';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
@@ -22,6 +23,7 @@ import { signUp } from '../../service/authen';
 import Iconify from '../../components/iconify';
 import { LOGIN } from '../../constants/router-link';
 import PASSWORD_CRITERIA from '../../constants/constants';
+import { authEnd, authStart } from '../../reducer/authSlice';
 import { requiredField, validateEmail, validatePassword } from '../../utils/validation';
 
 // ----------------------------------------------------------------------
@@ -30,6 +32,7 @@ export default function SignUpView() {
     const navigateTo = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const dispatch = useDispatch();
 
     const schema = yup.object({
         user_first_name: requiredField('First name'),
@@ -55,13 +58,14 @@ export default function SignUpView() {
     const { handleSubmit, control } = methods;
 
     const onSubmit = (data) => {
+        dispatch(authStart());
         signUp(data).then((response) => {
             if (response.status === 200) {
                 navigateTo(LOGIN);
             }
         }).catch((error) => {
             throw new Error(error);
-        });
+        }).finally(() => dispatch(authEnd()));
     };
 
     const renderForm = (
@@ -189,7 +193,7 @@ export default function SignUpView() {
                         maxWidth: 460,
                     }}
                 >
-                    <Typography variant="h4">Sign up to Furni</Typography>
+                    <Typography variant="h4">Sign up to Wood</Typography>
 
                     <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
                         Already have an account?
