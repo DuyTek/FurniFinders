@@ -31,7 +31,7 @@ CREATE TABLE if not exists product (
 
 CREATE TABLE if not exists product_user_link(
     product_user_link_id int(11) NOT NULL AUTO_INCREMENT,
-    product_user_link_user_type varchar(255) NOT NULL,
+    product_user_link_user_type varchar(255) NULL,
     product_user_link_user_id int(11) NOT NULL,
     product_user_link_product_id int(11) NOT NULL,
     PRIMARY KEY (product_user_link_id)

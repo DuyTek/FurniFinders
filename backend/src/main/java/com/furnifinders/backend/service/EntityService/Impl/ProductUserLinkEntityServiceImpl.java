@@ -6,6 +6,8 @@ import com.furnifinders.backend.service.EntityService.ProductUserLinkEntityServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ProductUserLinkEntityServiceImpl implements ProductUserLinkEntityService {
     private final ProductUserLinkDAO productUserLinkDAO;
@@ -16,7 +18,7 @@ public class ProductUserLinkEntityServiceImpl implements ProductUserLinkEntitySe
     }
 
     @Override
-    public UserType findUserTypeByProductIdAndUserId(Long product_id, Long user_id) {
+    public Optional<UserType> findUserTypeByProductIdAndUserId(Long product_id, Long user_id) {
         return this.productUserLinkDAO.findUserTypeByProductIdAndUserId(product_id, user_id);
     }
 }

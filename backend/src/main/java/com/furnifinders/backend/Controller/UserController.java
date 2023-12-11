@@ -4,6 +4,7 @@ import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.dto.Request.AddToCartRequest;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
 import com.furnifinders.backend.dto.Response.AddToCartResponse;
+import com.furnifinders.backend.dto.Response.PostProductResponse;
 import com.furnifinders.backend.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
-@CrossOrigin(origins = "http://localhost:3030", allowedHeaders = "*")
+//@CrossOrigin(origins = "http://localhost:3030", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
@@ -37,10 +38,20 @@ public class UserController {
     }
 
     @PostMapping("/postProduct")
-    public ResponseEntity<Product> postProduct(@RequestBody PostProductRequest postProductRequest) {
+    public ResponseEntity<PostProductResponse> postProduct(@RequestBody PostProductRequest postProductRequest) {
         Product product = userService.addProduct(postProductRequest);
         userService.addProductUserLink(product, postProductRequest.getProduct_user_id());
-        return ResponseEntity.ok(product);
+        PostProductResponse postProductResponse = new PostProductResponse();
+        postProductResponse.setProduct_id(product.getProduct_id());
+        postProductResponse.setProduct_name(product.getProduct_name());
+        postProductResponse.setProduct_description(product.getProduct_description());
+        postProductResponse.setProduct_image(product.getProduct_image());
+        postProductResponse.setProduct_percentage(product.getProduct_percentage());
+        postProductResponse.setProduct_price(product.getProduct_price());
+        postProductResponse.setProduct_status(product.getProduct_status());
+        postProductResponse.setProduct_post_status(product.getProduct_post_status());
+        postProductResponse.setProduct_quantity(product.getProduct_quantity());
+        return ResponseEntity.ok(postProductResponse);
     }
 
     @PostMapping("/postProductImage/{id}")

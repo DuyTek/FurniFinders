@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
         Long product_id = addToCartRequest.getProduct_id();
         Long user_id = addToCartRequest.getUser_id();
         Long product_quantity = addToCartRequest.getProduct_quantity();
-        UserType userType = productUserLinkEntityService.findUserTypeByProductIdAndUserId(product_id, user_id);
+        var userType = productUserLinkEntityService.findUserTypeByProductIdAndUserId(product_id, user_id).orElse(null);
         User user = userEntityService.findUserById(user_id);
         Product product = productEntityService.findProductById(product_id);
 
@@ -81,6 +81,7 @@ public class UserServiceImpl implements UserService {
             if(cart == null){
                 cart = new Cart();
                 addCartToUser(product_quantity, user, product, cart);
+                addToCartResponse.setMessage("Add to cart successfully");
             }
             else{
                 CartDetail cartDetail = cartDetailEntityService.findCartDetailByCartIdAndProductId(cart.getCart_id(), product_id);
@@ -111,6 +112,7 @@ public class UserServiceImpl implements UserService {
             productUserLink.setUser(user);
             productUserLink.setProduct(product);
             productUserLink.setUserType(UserType.BUYER);
+            productUserLinkRepository.save(productUserLink);
 
             Cart cart = new Cart();
             addCartToUser(product_quantity, user, product, cart);
