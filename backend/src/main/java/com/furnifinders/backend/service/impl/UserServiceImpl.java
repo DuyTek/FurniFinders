@@ -2,15 +2,10 @@ package com.furnifinders.backend.service.impl;
 
 
 import com.furnifinders.backend.Entity.*;
-import com.furnifinders.backend.Entity.Enum.CartStatus;
-import com.furnifinders.backend.Entity.Enum.PostStatus;
-import com.furnifinders.backend.Entity.Enum.ProductStatus;
-import com.furnifinders.backend.Entity.Enum.UserType;
-import com.furnifinders.backend.Repository.CartDetailRepository;
-import com.furnifinders.backend.Repository.CartRepository;
-import com.furnifinders.backend.Repository.ProductRepository;
-import com.furnifinders.backend.Repository.ProductUserLinkRepository;
+import com.furnifinders.backend.Entity.Enum.*;
+import com.furnifinders.backend.Repository.*;
 import com.furnifinders.backend.dto.Request.AddToCartRequest;
+import com.furnifinders.backend.dto.Request.PayRequest;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
 import com.furnifinders.backend.dto.Response.AddToCartResponse;
 import com.furnifinders.backend.service.EntityService.*;
@@ -20,22 +15,26 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    //Repository
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     private final ProductUserLinkRepository productUserLinkRepository;
     private final CartDetailRepository cartDetailRepository;
+    private final OrderRepository orderRepository;
 
-
+    //Service
     private final UserEntityService userEntityService;
     private final ProductEntityService productEntityService;
     private final ProductUserLinkEntityService productUserLinkEntityService;
     private final CartEntityService cartEntityService;
     private final CartDetailEntityService cartDetailEntityService;
+
 
     @Override
     public UserDetailsService userDetailsService() {
@@ -84,23 +83,23 @@ public class UserServiceImpl implements UserService {
                 addToCartResponse.setMessage("Add to cart successfully");
             }
             else{
-                CartDetail cartDetail = cartDetailEntityService.findCartDetailByCartIdAndProductId(cart.getCart_id(), product_id);
-                if(cartDetail == null){
-                    cartDetail = new CartDetail();
-                    cartDetail.setCart(cart);
-                    cartDetail.setProduct(product);
-                    cartDetail.setCartDetail_quantity(product_quantity);
-                    cartDetail.setCartDetail_total_price(product_quantity * product.getProduct_price());
-                    cartDetailRepository.save(cartDetail);
+                CartDetail cart_detail = cartDetailEntityService.findCartDetailByCartIdAndProductId(cart.getCart_id(), product_id);
+                if(cart_detail == null){
+                    cart_detail = new CartDetail();
+                    cart_detail.setCart(cart);
+                    cart_detail.setProduct(product);
+                    cart_detail.setCart_detail_quantity(product_quantity);
+                    cart_detail.setCart_detail_total_price(product_quantity * product.getProduct_price());
+                    cartDetailRepository.save(cart_detail);
                     addToCartResponse.setMessage("Add to cart successfully");
                 }
                 else{
-                    if(product.getProduct_quantity() < cartDetail.getCartDetail_quantity() + product_quantity) {
+                    if(product.getProduct_quantity() < cart_detail.getCart_detail_quantity() + product_quantity) {
                         addToCartResponse.setMessage("Product quantity is not enough");
                         return addToCartResponse;
                     }
-                    cartDetailEntityService.updateCartDetailQuantity(cartDetail.getCartDetail_id(), cartDetail.getCartDetail_quantity() + product_quantity);
-                    cartDetailEntityService.updateCartDetailTotalPrice(cartDetail.getCartDetail_id(), cartDetail.getCartDetail_total_price() + product_quantity * product.getProduct_price());
+                    cartDetailEntityService.updateCartDetailQuantity(cart_detail.getCart_detail_id(), cart_detail.getCart_detail_quantity() + product_quantity);
+                    cartDetailEntityService.updateCartDetailTotalPrice(cart_detail.getCart_detail_id(), cart_detail.getCart_detail_total_price() + product_quantity * product.getProduct_price());
                 }
             }
         }
@@ -122,17 +121,72 @@ public class UserServiceImpl implements UserService {
         return addToCartResponse;
     }
 
+    @Override
+    public List<Product> findAllApprovedProducts() {
+        return productEntityService.findAllApprovedProducts();
+    }
+
+    @Override
+    public void deleteUserProduct(Long id) {
+        this.productEntityService.deleteUserProduct(id);
+    }
+
+    @Override
+    public List<Product> getCurrentCart(Long user_id) {
+        return cartDetailEntityService.getCurrentCart(user_id);
+    }
+
+    @Override
+    public void pay(PayRequest payRequest) {
+        Long user_id = payRequest.getUser_id();
+        Cart cart = cartEntityService.findPendingCartByUserId(user_id);
+        cart.setCart_status(CartStatus.PAID);
+        cartEntityService.SetCartStatus(cart.getCart_id(), CartStatus.PAID);
+
+        Long order_total_price = 0L;
+        Long order_total_quantity = 0L;
+
+        List<Product> products = cartDetailEntityService.getCurrentCart(user_id);
+
+        for(Product product : products) {
+        	order_total_price += product.getProduct_price();
+        	order_total_quantity += product.getProduct_quantity();
+        }
+
+        Date order_created_date = new Date();
+        String order_delivery_address = payRequest.getOrder_delivery_address();
+        String order_delivery_phone = payRequest.getOrder_delivery_phone();
+        String order_delivery_note = payRequest.getOrder_delivery_note();
+        PaymentMethod order_payment_method = payRequest.getOrder_payment_method();
+        DeliveryStatus order_delivery_status = DeliveryStatus.PENDING;
+        PaymentStatus order_payment_status = PaymentStatus.PENDING;
+
+        Order order = new Order();
+        order.setOrder_created_date(order_created_date);
+        order.setOrder_delivery_address(order_delivery_address);
+        order.setOrder_delivery_phone(order_delivery_phone);
+        order.setOrder_delivery_note(order_delivery_note);
+        order.setOrder_payment_method(order_payment_method);
+        order.setOrder_delivery_status(order_delivery_status);
+        order.setOrder_payment_status(order_payment_status);
+        order.setOrder_total_price(order_total_price);
+        order.setOrder_total_quantity(order_total_quantity);
+        order.setOrder_cart(cart);
+
+        orderRepository.save(order);
+    }
+
     private void addCartToUser(Long product_quantity, User user, Product product, Cart cart) {
         cart.setUser(user);
         cart.setCart_status(CartStatus.PENDING);
         cart = cartRepository.save(cart);
 
-        CartDetail cartDetail = new CartDetail();
-        cartDetail.setCart(cart);
-        cartDetail.setProduct(product);
-        cartDetail.setCartDetail_quantity(product_quantity);
-        cartDetail.setCartDetail_total_price(product_quantity * product.getProduct_price());
-        cartDetailRepository.save(cartDetail);
+        CartDetail cart_detail = new CartDetail();
+        cart_detail.setCart(cart);
+        cart_detail.setProduct(product);
+        cart_detail.setCart_detail_quantity(product_quantity);
+        cart_detail.setCart_detail_total_price(product_quantity * product.getProduct_price());
+        cartDetailRepository.save(cart_detail);
     }
 
     @Override

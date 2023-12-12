@@ -2,6 +2,8 @@ package com.furnifinders.backend.Controller;
 
 import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.dto.Request.AddToCartRequest;
+import com.furnifinders.backend.dto.Request.GetCurrentCartRequest;
+import com.furnifinders.backend.dto.Request.PayRequest;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
 import com.furnifinders.backend.dto.Response.AddToCartResponse;
 import com.furnifinders.backend.dto.Response.PostProductResponse;
@@ -104,5 +106,32 @@ public class UserController {
         AddToCartResponse addToCartResponse = userService.addToCart(addToCartRequest);
         return ResponseEntity.ok(addToCartResponse);
     }
+
+    @GetMapping("/findAllApprovedProducts")
+    public ResponseEntity<List<Product>> findAllApprovedProducts() {
+        List<Product> products = userService.findAllApprovedProducts();
+        return ResponseEntity.ok(products);
+    }
+
+    @DeleteMapping("/deleteUserProduct/{id}")
+    public ResponseEntity<String> deleteUserProduct(@PathVariable Long id) {
+        userService.deleteUserProduct(id);
+        return ResponseEntity.ok("Product Deleted");
+    }
+
+    @GetMapping("/getCurrentCart")
+    public ResponseEntity<List<Product>> getCurrentCart(@RequestBody GetCurrentCartRequest getCurrentCartRequest) {
+        List<Product> products = userService.getCurrentCart(getCurrentCartRequest.getUser_id());
+        return ResponseEntity.ok(products);
+    }
+
+    @PostMapping("/pay")
+    public ResponseEntity<String> pay(@RequestBody PayRequest payRequest) {
+
+        userService.pay(payRequest);
+
+        return ResponseEntity.ok("Payment Successful");
+    }
+
 
 }

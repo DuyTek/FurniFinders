@@ -46,4 +46,11 @@ public class AuthenticationController {
         List<Product> products = userService.searchProducts(keyword);
         return ResponseEntity.ok(products);
     }
+
+    @GetMapping("/findAllApprovedProducts")
+    public ResponseEntity<List<Product>> findAllApprovedProducts() {
+        List<Product> products = userService.findAllApprovedProducts();
+        return ResponseEntity.ok(products);
+    }
+
 }

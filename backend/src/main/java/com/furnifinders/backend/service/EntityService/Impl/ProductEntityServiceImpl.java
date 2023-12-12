@@ -52,5 +52,15 @@ public class ProductEntityServiceImpl implements ProductEntityService {
         return this.productDAO.addProductImage(id, image);
     }
 
+    @Override
+    public List<Product> findAllApprovedProducts() {
+        return this.productDAO.findAllApprovedProducts();
+    }
+
+    @Override
+    public void deleteUserProduct(Long id) {
+        this.productDAO.deleteUserProduct(id);
+    }
+
 
 }

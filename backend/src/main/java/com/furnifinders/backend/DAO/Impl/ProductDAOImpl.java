@@ -79,4 +79,21 @@ public class ProductDAOImpl implements ProductDAO {
                 .getSingleResult();
     }
 
+    @Override
+    public List<Product> findAllApprovedProducts() {
+        String query = "SELECT p FROM Product p WHERE p.product_post_status = :status";
+        return this.entityManager.createQuery(query, Product.class)
+                .setParameter("status", PostStatus.APPROVED)
+                .getResultList();
+    }
+
+    @Override
+    public void deleteUserProduct(Long id) {
+        String query = "DELETE FROM Product p WHERE p.product_id = :id";
+        this.entityManager.createQuery(query)
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+
+
 }

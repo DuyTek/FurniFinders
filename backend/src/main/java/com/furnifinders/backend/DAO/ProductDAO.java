@@ -7,14 +7,11 @@ import java.util.List;
 public interface ProductDAO {
     List<Product> findAllProductsByUserId(Long id);
     List<Product> findAllProducts();
-
     Product updateApprovePostStatus(Long id);
-
     List<Product> searchProducts(String keyword);
-
     Product findProductById(Long id);
-
     Product addProductImage(Long id, String image);
-
     Product updateRejectPostStatus(Long id);
+    List<Product> findAllApprovedProducts();
+    void deleteUserProduct(Long id);
 }

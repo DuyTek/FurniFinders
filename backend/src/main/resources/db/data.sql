@@ -42,14 +42,29 @@ CREATE TABLE if not exists cart(
     cart_id int(11) NOT NULL AUTO_INCREMENT,
     cart_user_id int(11) NOT NULL,
     cart_status varchar(255) NOT NULL,
+    cart_order_id int(11) NOT NULL,
     PRIMARY KEY (cart_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE if not exists cartDetail(
-    cartDetail_id int(11) NOT NULL AUTO_INCREMENT,
-    cartDetail_product_id int(11) NOT NULL,
-    cartDetail_quantity int(11) NOT NULL,
-    cartDetail_total_price int(11) NOT NULL,
-    cartDetail_cart_id int(11) NOT NULL,
-    PRIMARY KEY (cartDetail_id)
+CREATE TABLE if not exists cart_detail(
+    cart_detail_id int(11) NOT NULL AUTO_INCREMENT,
+    cart_detail_product_id int(11) NOT NULL,
+    cart_detail_quantity int(11) NOT NULL,
+    cart_detail_total_price int(11) NOT NULL,
+    cart_detail_cart_id int(11) NOT NULL,
+    PRIMARY KEY (cart_detail_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE if not exists `order`(
+    order_id int(11) NOT NULL AUTO_INCREMENT,
+    order_created_date datetime NOT NULL,
+    order_delivery_address varchar(255) NOT NULL,
+    order_delivery_phone varchar(255) NOT NULL,
+    order_delivery_note varchar(255) NOT NULL,
+    order_payment_method varchar(255) NOT NULL,
+    order_delivery_status varchar(255) NOT NULL,
+    order_payment_status varchar(255) NOT NULL,
+    order_total_price int(11) NOT NULL,
+    order_total_quantity int(11) NOT NULL,
+    PRIMARY KEY (order_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

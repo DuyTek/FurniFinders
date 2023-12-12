@@ -1,8 +1,10 @@
 package com.furnifinders.backend.Controller;
 
+import com.furnifinders.backend.Entity.Enum.PostStatus;
 import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
+import com.furnifinders.backend.dto.Request.UpdatePostStatusRequest;
 import com.furnifinders.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -53,17 +55,23 @@ public class AdminController {
         return ResponseEntity.ok(products);
     }
 
-    @PutMapping("/updateApprovePostStatus/{id}")
-    public ResponseEntity<Product> updateApproveProductStatus(@PathVariable Long id) {
-        Product product = userService.updateApprovePostStatus(id);
+
+    @PutMapping("/updateProductStatus")
+    public ResponseEntity<Product> updateProductStatus(@RequestBody UpdatePostStatusRequest updatePostStatusRequest) {
+        Product product;
+        if(updatePostStatusRequest.getPostStatus() == PostStatus.APPROVED) {
+            product = userService.updateApprovePostStatus(updatePostStatusRequest.getProduct_id());
+        }
+        else {
+            product = userService.updateRejectPostStatus(updatePostStatusRequest.getProduct_id());
+        }
         return ResponseEntity.ok(product);
     }
 
-    @PutMapping("/updateRejectPostStatus/{id}")
-    public ResponseEntity<Product> updateRejectProductStatus(@PathVariable Long id) {
-        Product product = userService.updateRejectPostStatus(id);
-        return ResponseEntity.ok(product);
+    @GetMapping("/findAllApprovedProducts")
+    public ResponseEntity<List<Product>> findAllApprovedProducts() {
+        List<Product> products = userService.findAllApprovedProducts();
+        return ResponseEntity.ok(products);
     }
-
 
 }

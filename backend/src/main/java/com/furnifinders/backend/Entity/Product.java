@@ -45,6 +45,6 @@ public class Product {
     private List<ProductUserLink> productUserLinkList;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<CartDetail> cartDetailList;
+    private List<CartDetail> cart_detailList;
 
 }
