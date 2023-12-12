@@ -101,10 +101,10 @@ export default function ProfileView() {
 
     return (
         <Container>
-            <Typography variant="h4" sx={{ mb: 5 }}>
+            <Typography variant="h4">
                 Profile
             </Typography>
-            <Stack direction='row' minWidth='1000px' minHeight='500px'>
+            <Stack direction='row' minWidth='1000px' maxHeight='600px'>
                 <Card sx={{
                     p: 2,
                     width: 1,
