@@ -148,12 +148,6 @@ export default function SignUpView() {
                     />
                 </Stack>
 
-                <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-                    <Link variant="subtitle2" underline="hover">
-                        Forgot password?
-                    </Link>
-                </Stack>
-
                 <LoadingButton
                     fullWidth
                     size="large"
@@ -161,7 +155,7 @@ export default function SignUpView() {
                     variant="contained"
                     color="inherit"
                 >
-                    Login
+                    Sign up
                 </LoadingButton>
             </form>
         </FormProvider>
