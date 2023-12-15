@@ -154,6 +154,7 @@ export default function SignUpView() {
                     type="submit"
                     variant="contained"
                     color="inherit"
+                    sx={{ mt: 3 }}
                 >
                     Sign up
                 </LoadingButton>
