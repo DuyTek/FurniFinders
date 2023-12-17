@@ -1,18 +1,16 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
-import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 import ListItemButton from '@mui/material/ListItemButton';
 
 import { NAV } from './config-layout';
 import Logo from '../../components/logo';
 import navConfig from './config-navigation';
-import { account } from '../../_mock/account';
 import { usePathname } from '../../routes/hooks';
 import Scrollbar from '../../components/scrollbar';
 import { RouterLink } from '../../routes/components';
@@ -22,8 +20,8 @@ import { useResponsive } from '../../hooks/use-responsive';
 
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
-
   const upLg = useResponsive('up', 'lg');
+  const { user_role } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (openNav) {
@@ -32,34 +30,9 @@ export default function Nav({ openNav, onCloseNav }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const renderAccount = (
-    <Box
-      sx={{
-        my: 3,
-        mx: 2.5,
-        py: 2,
-        px: 2.5,
-        display: 'flex',
-        borderRadius: 1.5,
-        alignItems: 'center',
-        bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
-      }}
-    >
-      <Avatar src={account.photoURL} alt="photoURL" />
-
-      <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
-
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {account.role}
-        </Typography>
-      </Box>
-    </Box>
-  );
-
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
-      {navConfig.map((item) => (
+      {navConfig.map((item) => item.roles.includes(user_role) && (
         <NavItem key={item.title} item={item} />
       ))}
     </Stack>
@@ -78,8 +51,6 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       <Logo sx={{ mt: 3, ml: 4 }} />
-
-      {renderAccount}
 
       {renderMenu}
 
