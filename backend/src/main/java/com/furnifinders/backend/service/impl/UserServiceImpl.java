@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     private final ProductRepository productRepository;
     private final ProductUserLinkRepository productUserLinkRepository;
     private final CartDetailRepository cartDetailRepository;
-    private final OrderRepository orderRepository;
+    private final ReceiptRepository receiptRepository;
 
     //Service
     private final UserEntityService userEntityService;
@@ -94,12 +94,12 @@ public class UserServiceImpl implements UserService {
                     addToCartResponse.setMessage("Add to cart successfully");
                 }
                 else{
-                    if(product.getProduct_quantity() < cart_detail.getCart_detail_quantity() + product_quantity) {
+                    if(product.getProduct_quantity() < cart_detail.getCart_detail_quantity()) {
                         addToCartResponse.setMessage("Product quantity is not enough");
                         return addToCartResponse;
                     }
-                    cartDetailEntityService.updateCartDetailQuantity(cart_detail.getCart_detail_id(), cart_detail.getCart_detail_quantity() + product_quantity);
-                    cartDetailEntityService.updateCartDetailTotalPrice(cart_detail.getCart_detail_id(), cart_detail.getCart_detail_total_price() + product_quantity * product.getProduct_price());
+                    cartDetailEntityService.updateCartDetailQuantity(cart_detail.getCart_detail_id(), cart_detail.getCart_detail_quantity());
+                    cartDetailEntityService.updateCartDetailTotalPrice(cart_detail.getCart_detail_id(), product_quantity * product.getProduct_price());
                 }
             }
         }
@@ -161,19 +161,20 @@ public class UserServiceImpl implements UserService {
         DeliveryStatus order_delivery_status = DeliveryStatus.PENDING;
         PaymentStatus order_payment_status = PaymentStatus.PENDING;
 
-        Order order = new Order();
-        order.setOrder_created_date(order_created_date);
-        order.setOrder_delivery_address(order_delivery_address);
-        order.setOrder_delivery_phone(order_delivery_phone);
-        order.setOrder_delivery_note(order_delivery_note);
-        order.setOrder_payment_method(order_payment_method);
-        order.setOrder_delivery_status(order_delivery_status);
-        order.setOrder_payment_status(order_payment_status);
-        order.setOrder_total_price(order_total_price);
-        order.setOrder_total_quantity(order_total_quantity);
-        order.setOrder_cart(cart);
+        Receipt receipt = new Receipt();
+        receipt.setReceipt_created_date(order_created_date);
+        receipt.setReceipt_delivery_address(order_delivery_address);
+        receipt.setReceipt_delivery_phone(order_delivery_phone);
+        receipt.setReceipt_delivery_note(order_delivery_note);
+        receipt.setReceipt_payment_method(order_payment_method);
+        receipt.setReceipt_delivery_status(order_delivery_status);
+        receipt.setReceipt_payment_status(order_payment_status);
+        receipt.setReceipt_total_price(order_total_price);
+        receipt.setReceipt_total_quantity(order_total_quantity);
+        receipt.setCart(cart);
 
-        orderRepository.save(order);
+
+        receiptRepository.save(receipt);
     }
 
     private void addCartToUser(Long product_quantity, User user, Product product, Cart cart) {

@@ -4,6 +4,7 @@ import com.furnifinders.backend.Entity.Enum.PostStatus;
 import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
+import com.furnifinders.backend.dto.Request.SearchProductsRequest;
 import com.furnifinders.backend.dto.Request.UpdatePostStatusRequest;
 import com.furnifinders.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -74,4 +75,9 @@ public class AdminController {
         return ResponseEntity.ok(products);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestBody SearchProductsRequest searchProductsRequest) {
+        List<Product> products = userService.searchProducts(searchProductsRequest.getKeyword());
+        return ResponseEntity.ok(products);
+    }
 }

@@ -31,7 +31,7 @@ public class Cart {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     List<CartDetail> cart_detailList;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_order_id", referencedColumnName = "order_id")
-    private Order cart_order;
+    @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL)
+    private Receipt receipt;
+
 }

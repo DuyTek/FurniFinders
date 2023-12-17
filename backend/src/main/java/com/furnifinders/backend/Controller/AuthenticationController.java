@@ -3,6 +3,7 @@ package com.furnifinders.backend.Controller;
 
 import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
+import com.furnifinders.backend.dto.Request.SearchProductsRequest;
 import com.furnifinders.backend.dto.Request.SignInRequest;
 import com.furnifinders.backend.dto.Request.SignUpRequest;
 import com.furnifinders.backend.dto.Response.RefreshResponse;
@@ -41,9 +42,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(refreshResponse);
     }
 
-    @GetMapping("/search/{keyword}")
-    public ResponseEntity<List<Product>> searchProducts(@PathVariable String keyword) {
-        List<Product> products = userService.searchProducts(keyword);
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestBody SearchProductsRequest searchProductsRequest) {
+        List<Product> products = userService.searchProducts(searchProductsRequest.getKeyword());
         return ResponseEntity.ok(products);
     }
 

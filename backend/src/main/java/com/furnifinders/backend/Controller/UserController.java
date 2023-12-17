@@ -1,10 +1,7 @@
 package com.furnifinders.backend.Controller;
 
 import com.furnifinders.backend.Entity.Product;
-import com.furnifinders.backend.dto.Request.AddToCartRequest;
-import com.furnifinders.backend.dto.Request.GetCurrentCartRequest;
-import com.furnifinders.backend.dto.Request.PayRequest;
-import com.furnifinders.backend.dto.Request.PostProductRequest;
+import com.furnifinders.backend.dto.Request.*;
 import com.furnifinders.backend.dto.Response.AddToCartResponse;
 import com.furnifinders.backend.dto.Response.PostProductResponse;
 import com.furnifinders.backend.service.UserService;
@@ -26,7 +23,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
-//@CrossOrigin(origins = "http://localhost:3030", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3030", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
@@ -85,12 +82,6 @@ public class UserController {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/search/{keyword}")
-    public ResponseEntity<List<Product>> searchProducts(@PathVariable String keyword) {
-        List<Product> products = userService.searchProducts(keyword);
-        return ResponseEntity.ok(products);
-    }
-
     @RequestMapping(value = "/getProductImage/{id}", method = RequestMethod.GET,
             produces = MediaType.IMAGE_JPEG_VALUE)
 
@@ -133,5 +124,10 @@ public class UserController {
         return ResponseEntity.ok("Payment Successful");
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestBody SearchProductsRequest searchProductsRequest) {
+        List<Product> products = userService.searchProducts(searchProductsRequest.getKeyword());
+        return ResponseEntity.ok(products);
+    }
 
 }

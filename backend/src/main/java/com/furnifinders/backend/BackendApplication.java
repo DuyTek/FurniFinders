@@ -30,7 +30,6 @@ public class BackendApplication implements CommandLineRunner {
 
         if(null == adminAccount){
             User user = new User();
-
             user.setUser_email("admin@gmail.com");
             user.setUser_first_name("admin");
             user.setUser_last_name("admin");
