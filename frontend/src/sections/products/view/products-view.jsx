@@ -13,6 +13,7 @@ import Iconify from '../../../components/iconify';
 import { products } from '../../../_mock/products';
 import ProductCartWidget from '../product-cart-widget';
 import Searchbar from '../../../layouts/dashboard/common/searchbar';
+import AddProductModal from '../../../components/modal/AddProductModal';
 
 // ----------------------------------------------------------------------
 
@@ -20,6 +21,7 @@ export default function ProductsView() {
   const [openFilter, setOpenFilter] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(products);
+  const [openModal, setOpenModal] = useState(false);
 
   const handleOpenFilter = () => {
     setOpenFilter(true);
@@ -39,9 +41,15 @@ export default function ProductsView() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Products
         </Typography>
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+        <Button
+          variant="contained"
+          color="inherit"
+          startIcon={<Iconify icon="eva:plus-fill" />}
+          onClick={() => setOpenModal(true)}
+        >
           New Product
         </Button>
+        <AddProductModal open={openModal} onClose={() => setOpenModal(false)} />
       </Stack>
 
 
