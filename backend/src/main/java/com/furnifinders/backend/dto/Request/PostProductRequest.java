@@ -4,9 +4,10 @@ import lombok.Data;
 
 @Data
 public class PostProductRequest {
+    private Long product_user_id;
     private String product_name;
     private String product_description;
-    private int product_price;
-    private int product_percentage;
-    private int product_quantity;
+    private Long product_price;
+    private Long product_percentage;
+    private Long product_quantity;
 }

@@ -2,12 +2,13 @@ package com.furnifinders.backend.Controller;
 
 
 import com.furnifinders.backend.Entity.Product;
-import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.dto.Request.RefreshTokenRequest;
+import com.furnifinders.backend.dto.Request.SearchProductsRequest;
 import com.furnifinders.backend.dto.Request.SignInRequest;
 import com.furnifinders.backend.dto.Request.SignUpRequest;
 import com.furnifinders.backend.dto.Response.RefreshResponse;
 import com.furnifinders.backend.dto.Response.SignInResponse;
+import com.furnifinders.backend.dto.Response.SignUpResponse;
 import com.furnifinders.backend.service.AuthenticationService;
 import com.furnifinders.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class AuthenticationController {
     private final UserService userService;
 
     @PostMapping("/signUp")
-    public ResponseEntity<User> signUp(@RequestBody SignUpRequest signuprequest) {
+    public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpRequest signuprequest) {
         return ResponseEntity.ok(authenticationService.signUp(signuprequest));
     }
 
@@ -41,9 +42,16 @@ public class AuthenticationController {
         return ResponseEntity.ok(refreshResponse);
     }
 
-    @GetMapping("/search/{keyword}")
-    public ResponseEntity<List<Product>> searchProducts(@PathVariable String keyword) {
-        List<Product> products = userService.searchProducts(keyword);
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestBody SearchProductsRequest searchProductsRequest) {
+        List<Product> products = userService.searchProducts(searchProductsRequest.getKeyword());
         return ResponseEntity.ok(products);
     }
+
+    @GetMapping("/findAllApprovedProducts")
+    public ResponseEntity<List<Product>> findAllApprovedProducts() {
+        List<Product> products = userService.findAllApprovedProducts();
+        return ResponseEntity.ok(products);
+    }
+
 }

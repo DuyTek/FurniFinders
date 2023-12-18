@@ -1,38 +1,37 @@
-//package com.furnifinders.backend.Entity;
-//
-//import com.fasterxml.jackson.annotation.JsonIgnore;
-//import jakarta.persistence.*;
-//import lombok.Data;
-//import lombok.Getter;
-//import lombok.NoArgsConstructor;
-//import lombok.Setter;
-//
-//import java.util.Date;
-//import java.util.List;
-//
-//
-//@Data
-//@Entity
-//@Table(name = "cart")
-//@Getter
-//@Setter
-//@NoArgsConstructor
-//public class Cart {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private int cart_id;
-//
-//    private Date cart_created_at;
-//    private String cart_delivery_address;
-//    private int cart_total_price;
-//
-//
-//
-//    List<CartDetail> cartDetails;
-//
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    @JoinColumn(name = "user_id")
-//    private User user;
-//
-//}
+package com.furnifinders.backend.Entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.furnifinders.backend.Entity.Enum.CartStatus;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
+
+
+@Data
+@Entity
+@Table(name = "cart")
+@Getter
+@Setter
+@NoArgsConstructor
+public class Cart {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long cart_id;
+    private CartStatus cart_status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinColumn(name = "cart_user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    List<CartDetail> cart_detailList;
+
+    @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL)
+    private Receipt receipt;
+
+}
