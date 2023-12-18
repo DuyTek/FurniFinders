@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useForm, FormProvider } from 'react-hook-form';
 
-import { Stack, Dialog, DialogTitle, DialogContent } from "@mui/material";
+import { Stack, Dialog, Button, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 
 import CustomTextField from '../CustomTextField';
 
@@ -18,7 +18,7 @@ export default function AddProductModal({ open, onClose }) {
     });
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-            <DialogTitle>Describe your item</DialogTitle>
+            <DialogTitle>What are you selling?</DialogTitle>
             <DialogContent>
                 <FormProvider {...methods}>
                     <form>
@@ -32,6 +32,10 @@ export default function AddProductModal({ open, onClose }) {
                     </form>
                 </FormProvider>
             </DialogContent>
+            <DialogActions>
+                <Button onClick={onClose}>Cancel</Button>
+                <Button variant='contained' type='submit'>Post</Button>
+            </DialogActions>
         </Dialog>
     )
 }
