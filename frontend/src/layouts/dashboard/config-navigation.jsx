@@ -30,7 +30,7 @@ const navConfig = [
     roles: [USER_ROLES.ADMIN]
   },
   {
-    title: 'product',
+    title: 'products',
     path: USER_PRODUCTS,
     icon: icon('ic_cart'),
     roles: [USER_ROLES.USER]
