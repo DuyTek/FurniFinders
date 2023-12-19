@@ -6,6 +6,7 @@ import { AttachMoney } from '@mui/icons-material';
 import { Grid, Dialog, Button, Slider, Typography, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 
 import CustomTextField from '../CustomTextField';
+import { postProduct } from '../../service/product';
 
 export default function AddProductModal({ open, onClose }) {
     const methods = useForm({
@@ -43,7 +44,7 @@ export default function AddProductModal({ open, onClose }) {
     ]
 
     const onSubmit = (data) => {
-        console.log(data);
+        postProduct(data);
     }
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
