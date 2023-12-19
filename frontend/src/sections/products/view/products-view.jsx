@@ -13,7 +13,7 @@ import Iconify from '../../../components/iconify';
 import { products } from '../../../_mock/products';
 import ProductCartWidget from '../product-cart-widget';
 import Searchbar from '../../../layouts/dashboard/common/searchbar';
-import AddProductModal from '../../../components/modal/AddProductModal';
+import AddProductModal from '../../../components/modal/add-product-modal';
 
 // ----------------------------------------------------------------------
 

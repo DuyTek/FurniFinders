@@ -8,10 +8,11 @@ export default function CustomTextField({
     name,
     label,
     required,
-    type = "text",
+    type,
     multiline = false,
     rows = 1,
     startAdornment,
+    fullWidth,
     ...rest
 }) {
     const { control } = useFormContext();
@@ -21,10 +22,10 @@ export default function CustomTextField({
             name={name}
             render={({ fieldState: { error }, field }) =>
                 <FormControl margin="normal">
-                    <InputAdornment position="start">
-                        {startAdornment}
-                    </InputAdornment>
                     <TextField
+                        InputProps={{
+                            startAdornment: <InputAdornment position="start">{startAdornment}</InputAdornment>,
+                        }}
                         value={field.value}
                         ref={field.ref}
                         name={field.name}
@@ -33,7 +34,11 @@ export default function CustomTextField({
                         required={required}
                         error={Boolean(error?.message)}
                         onChange={field.onChange}
-
+                        fullWidth={fullWidth}
+                        multiline={multiline}
+                        rows={rows}
+                        type={type}
+                        {...rest}
                     />
                     <FormHelperText>{error ? error.message : ''}</FormHelperText>
                 </FormControl>
@@ -50,4 +55,6 @@ CustomTextField.propTypes = {
     type: PropTypes.string,
     multiline: PropTypes.bool,
     rows: PropTypes.number,
+    fullWidth: PropTypes.bool,
+    rest: PropTypes.any,
 }
