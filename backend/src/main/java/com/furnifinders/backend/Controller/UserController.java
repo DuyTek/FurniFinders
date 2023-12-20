@@ -23,7 +23,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
-@CrossOrigin(origins = "http://localhost:3030", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
