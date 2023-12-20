@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -157,7 +158,9 @@ public class UserServiceImpl implements UserService {
         String order_delivery_address = payRequest.getOrder_delivery_address();
         String order_delivery_phone = payRequest.getOrder_delivery_phone();
         String order_delivery_note = payRequest.getOrder_delivery_note();
-        PaymentMethod order_payment_method = payRequest.getOrder_payment_method();
+        PaymentMethod order_payment_method = getPaymentMethod(payRequest);
+
+
         DeliveryStatus order_delivery_status = DeliveryStatus.PENDING;
         PaymentStatus order_payment_status = PaymentStatus.PENDING;
 
@@ -175,6 +178,27 @@ public class UserServiceImpl implements UserService {
 
 
         receiptRepository.save(receipt);
+    }
+
+    private static PaymentMethod getPaymentMethod(PayRequest payRequest) {
+        PaymentMethod order_payment_method = null;
+        if(Objects.equals(payRequest.getOrder_payment_method(), "ZALO"))
+            order_payment_method = PaymentMethod.ZALOPAY;
+        else if(Objects.equals(payRequest.getOrder_payment_method(), "MOMO"))
+            order_payment_method = PaymentMethod.MOMO;
+        else if(Objects.equals(payRequest.getOrder_payment_method(), "CASH"))
+            order_payment_method = PaymentMethod.CASH;
+        else if(Objects.equals(payRequest.getOrder_payment_method(), "VISA"))
+            order_payment_method = PaymentMethod.VISA;
+        else if(Objects.equals(payRequest.getOrder_payment_method(), "MASTERCARD"))
+            order_payment_method = PaymentMethod.MASTERCARD;
+        else if(Objects.equals(payRequest.getOrder_payment_method(), "JCB"))
+            order_payment_method = PaymentMethod.JCB;
+        else if(Objects.equals(payRequest.getOrder_payment_method(), "AMERICAN_EXPRESS"))
+            order_payment_method = PaymentMethod.AMERICAN_EXPRESS;
+        else if(Objects.equals(payRequest.getOrder_payment_method(), "DISCOVER"))
+            order_payment_method = PaymentMethod.DISCOVER;
+        return order_payment_method;
     }
 
     private void addCartToUser(Long product_quantity, User user, Product product, Cart cart) {
