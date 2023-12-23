@@ -16,8 +16,13 @@ public class UserController {
 
     @PutMapping("/editProfile/{id}")
     public ResponseEntity<EditProfileResponse> editProfile(@RequestBody EditProfileRequest editProfileRequest, @PathVariable("id") Long id) {
-        userService.editUser(id,editProfileRequest);
-        EditProfileResponse userProfileResponse = new EditProfileResponse("Updated user profile successfully");
-        return ResponseEntity.ok().body(userProfileResponse);
+        EditProfileResponse editProfileResponse = new EditProfileResponse();
+        try {
+            userService.editUser(id,editProfileRequest);
+            editProfileResponse.setMessage("Updated user profile successfully");
+        } catch (Exception e) {
+            editProfileResponse.setMessage(e.getMessage());
+        }
+        return ResponseEntity.ok().body(editProfileResponse);
     }
 }
