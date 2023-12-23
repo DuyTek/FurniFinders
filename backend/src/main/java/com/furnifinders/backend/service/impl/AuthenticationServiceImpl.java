@@ -90,6 +90,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         signInResponse.setRefreshToken(refreshToken);
         signInResponse.setUser_address(user.getUser_address());
         signInResponse.setUser_dob(user.getUser_dob());
+        signInResponse.setUser_gender(user.getUser_gender());
         return signInResponse;
     }
 
