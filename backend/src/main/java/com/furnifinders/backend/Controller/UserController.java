@@ -19,7 +19,7 @@ public class UserController {
         EditProfileResponse editProfileResponse = new EditProfileResponse();
         try {
             userService.editUser(id,editProfileRequest);
-            editProfileResponse.setMessage("Updated user profile successfully");
+            editProfileResponse.setMessage("Updated profile successfully");
         } catch (Exception e) {
             editProfileResponse.setMessage(e.getMessage());
         }
