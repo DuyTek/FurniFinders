@@ -1,5 +1,7 @@
 package com.furnifinders.backend.Controller;
 
+import com.furnifinders.backend.Entity.Enum.PostStatus;
+import com.furnifinders.backend.Entity.Enum.ProductStatus;
 import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.dto.Request.*;
 import com.furnifinders.backend.dto.Response.AddToCartResponse;
@@ -47,8 +49,8 @@ public class UserController {
         postProductResponse.setProduct_image(product.getProduct_image());
         postProductResponse.setProduct_percentage(product.getProduct_percentage());
         postProductResponse.setProduct_price(product.getProduct_price());
-        postProductResponse.setProduct_status(product.getProduct_status());
-        postProductResponse.setProduct_post_status(product.getProduct_post_status());
+        postProductResponse.setProduct_status(ProductStatus.valueOf(product.getProduct_status()));
+        postProductResponse.setProduct_post_status(PostStatus.valueOf(product.getProduct_post_status()));
         postProductResponse.setProduct_quantity(product.getProduct_quantity());
         return ResponseEntity.ok(postProductResponse);
     }

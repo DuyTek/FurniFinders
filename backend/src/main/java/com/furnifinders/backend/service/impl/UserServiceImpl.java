@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
     public void pay(PayRequest payRequest) {
         Long user_id = payRequest.getUser_id();
         Cart cart = cartEntityService.findPendingCartByUserId(user_id);
-        cart.setCart_status(CartStatus.PAID);
+        cart.setCart_status(CartStatus.PAID.toString());
         cartEntityService.SetCartStatus(cart.getCart_id(), CartStatus.PAID);
 
         Long order_total_price = 0L;
@@ -169,9 +169,10 @@ public class UserServiceImpl implements UserService {
         receipt.setReceipt_delivery_address(order_delivery_address);
         receipt.setReceipt_delivery_phone(order_delivery_phone);
         receipt.setReceipt_delivery_note(order_delivery_note);
-        receipt.setReceipt_payment_method(order_payment_method);
-        receipt.setReceipt_delivery_status(order_delivery_status);
-        receipt.setReceipt_payment_status(order_payment_status);
+
+        receipt.setReceipt_payment_method(order_payment_method.toString());
+        receipt.setReceipt_delivery_status(order_delivery_status.toString());
+        receipt.setReceipt_payment_status(order_payment_status.toString());
         receipt.setReceipt_total_price(order_total_price);
         receipt.setReceipt_total_quantity(order_total_quantity);
         receipt.setCart(cart);
@@ -203,7 +204,7 @@ public class UserServiceImpl implements UserService {
 
     private void addCartToUser(Long product_quantity, User user, Product product, Cart cart) {
         cart.setUser(user);
-        cart.setCart_status(CartStatus.PENDING);
+        cart.setCart_status(CartStatus.PENDING.toString());
         cart = cartRepository.save(cart);
 
         CartDetail cart_detail = new CartDetail();
@@ -247,8 +248,8 @@ public class UserServiceImpl implements UserService {
         product.setProduct_description(postProductRequest.getProduct_description());
         product.setProduct_price(postProductRequest.getProduct_price());
         product.setProduct_percentage(postProductRequest.getProduct_percentage());
-        product.setProduct_post_status(PostStatus.PENDING);
-        product.setProduct_status(ProductStatus.AVAILABLE);
+        product.setProduct_post_status(PostStatus.PENDING.toString());
+        product.setProduct_status(ProductStatus.AVAILABLE.toString());
         product.setProduct_quantity(postProductRequest.getProduct_quantity());
         return productRepository.save(product);
     }
