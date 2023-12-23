@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class User implements UserDetails {
     private Role user_role;
 
     private String user_address;
+    private LocalDate user_dob;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ProductUserLink> productUserLinkList;

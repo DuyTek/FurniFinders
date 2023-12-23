@@ -1,5 +1,7 @@
 package com.furnifinders.backend.dto.Response;
 
+import java.time.LocalDate;
+
 import com.furnifinders.backend.Entity.Enum.Role;
 import lombok.Data;
 
@@ -14,4 +16,5 @@ public class SignInResponse {
         private String token;
         private String refreshToken;
         private String user_address;
+        private LocalDate user_dob;
 }

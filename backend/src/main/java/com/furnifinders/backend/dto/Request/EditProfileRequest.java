@@ -1,5 +1,6 @@
 package com.furnifinders.backend.dto.Request;
 
+import java.time.LocalDate;
 
 public record EditProfileRequest(
     String user_first_name,
@@ -9,6 +10,7 @@ public record EditProfileRequest(
     String user_email,
 
     String user_phone,
-    String user_address
+    String user_address,
+    LocalDate user_dob
 ) {
 };
