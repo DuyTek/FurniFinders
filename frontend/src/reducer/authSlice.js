@@ -10,6 +10,7 @@ const initialState = {
     user_email: null,
     user_role: null,
     user_id: null,
+    user_address: null,
 };
 
 const authSlice = createSlice({
@@ -29,6 +30,7 @@ const authSlice = createSlice({
             state.user_email = action.payload.user_email;
             state.user_role = action.payload.user_role;
             state.user_id = action.payload.user_id;
+            state.user_address = action.payload.user_address;
         },
         authEnd: (state) => {
             state.isLoading = false;
@@ -43,6 +45,7 @@ const authSlice = createSlice({
             state.user_email = null;
             state.user_role = null;
             state.user_id = null;
+            state.user_address = null;
         },
     },
 });
