@@ -6,7 +6,8 @@ import DashboardLayout from '../layouts/dashboard';
 import { USER_ROLES } from '../constants/constants';
 import AuthRoute from '../components/auth/AuthRoute';
 import PrivateRoute from '../components/auth/PrivateRoute';
-import { HOMEPAGE, ADMIN_USERS, USER_PRODUCTS, ADMIN_DASHBOARD } from '../constants/router-link';
+import ProfileView from '../sections/user/profile/profile-view';
+import { HOMEPAGE, ADMIN_USERS, USER_PROFILE, USER_PRODUCTS, ADMIN_DASHBOARD } from '../constants/router-link';
 
 export const IndexPage = lazy(() => import('../pages/app'));
 export const BlogPage = lazy(() => import('../pages/blog'));
@@ -46,6 +47,7 @@ export default function Router() {
       children: [
         { path: USER_PRODUCTS, element: <ProductsPage />, index: true },
         { path: 'blog', element: <BlogPage /> },
+        { path: USER_PROFILE, element: <ProfileView /> }
       ],
     },
     {
