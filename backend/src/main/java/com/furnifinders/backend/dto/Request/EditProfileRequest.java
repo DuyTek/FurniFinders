@@ -8,6 +8,7 @@ public record EditProfileRequest(
 
     String user_email,
 
-    String user_phone
+    String user_phone,
+    String user_address
 ) {
 };

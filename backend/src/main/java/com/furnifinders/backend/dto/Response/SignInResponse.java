@@ -13,4 +13,5 @@ public class SignInResponse {
         private Role user_role;
         private String token;
         private String refreshToken;
+        private String user_address;
 }

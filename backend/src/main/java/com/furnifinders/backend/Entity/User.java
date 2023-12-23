@@ -40,6 +40,8 @@ public class User implements UserDetails {
 
     private Role user_role;
 
+    private String user_address;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ProductUserLink> productUserLinkList;
 
