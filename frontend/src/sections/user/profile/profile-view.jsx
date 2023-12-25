@@ -2,21 +2,18 @@ import React from "react";
 import * as yup from 'yup'
 import { useSelector } from "react-redux";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, Controller, FormProvider } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Card, Stack, alpha, Avatar, styled, Container, TextField, Typography, IconButton } from "@mui/material";
+import { Card, Stack, alpha, Avatar, Container, Typography, IconButton } from "@mui/material";
 
 import { account } from "../../../_mock/account";
+import { updateProfile } from "../../../service/user";
+import CustomTextField from "../../../components/CustomTextField";
 import { requiredField, validateEmail } from '../../../utils/validation';
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
-}))
-
 export default function ProfileView() {
-    const { user_first_name, user_last_name, user_email, user_phone } = useSelector((state) => state.auth);
+    const auth = useSelector((state) => state.auth);
     const profileSchema = yup.object({
         user_first_name: requiredField('First name'),
         user_last_name: requiredField('Last name'),
@@ -25,17 +22,19 @@ export default function ProfileView() {
     });
     const methods = useForm({
         defaultValues: {
-            user_first_name: '',
-            user_last_name: '',
-            user_email: '',
-            user_phone: '',
+            user_first_name: auth.user_first_name,
+            user_last_name: auth.user_last_name,
+            user_email: auth.user_email,
+            user_phone: auth.user_phone,
         },
         mode: 'all',
         resolver: yupResolver(profileSchema),
     });
-    const { handleSubmit, control } = useForm();
+    const { handleSubmit } = methods;
     const onSubmit = (data) => {
-        console.log(data);
+        updateProfile(auth.user_id, data).then((response) => {
+            console.log(response.data);
+        });
     }
     const renderForm = () => (
         <FormProvider {...methods}>
@@ -66,34 +65,26 @@ export default function ProfileView() {
                         }}
                     />
                 </IconButton>
-                <Controller
-                    control={control}
-                    name="user_first_name"
-                    render={({ fieldState: { error }, field }) => <StyledTextField {...field} defaultValue={user_first_name} label="First name" helperText={error?.message} error={Boolean(error?.message)} />}
-                />
-                <Controller
-                    control={control}
-                    name="user_last_name"
-                    render={({ fieldState: { error }, field }) => <StyledTextField {...field} defaultValue={user_last_name} label="Last name" helperText={error?.message} error={Boolean(error?.message)} />}
-                />
-                <Controller
-                    control={control}
-                    name="user_email"
-                    render={({ fieldState: { error }, field }) => <StyledTextField {...field} defaultValue={user_email} label="Email" helperText={error?.message} error={Boolean(error?.message)} />}
-                />
-                <Controller
-                    control={control}
-                    name="user_phone"
-                    render={({ fieldState: { error }, field }) => <StyledTextField {...field} defaultValue={user_phone} label="Phone" helperText={error?.message} error={Boolean(error?.message)} />}
-                />
+                <CustomTextField name="user_first_name" label="First name" />
+                <CustomTextField name="user_last_name" label="Last name" />
+                <CustomTextField name="user_email" label="Email" disabled />
+                <CustomTextField name="user_phone" label="Phone" />
 
                 <LoadingButton
-                    size="large"
+                    size="small"
+                    type="submit"
+                    variant="outlined"
+                    color="info"
+                >
+                    Reset
+                </LoadingButton>
+                <LoadingButton
+                    size="small"
                     type="submit"
                     variant="contained"
                     color="primary"
                 >
-                    Save changes
+                    Save
                 </LoadingButton>
             </form>
         </FormProvider>

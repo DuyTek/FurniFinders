@@ -47,7 +47,15 @@ const authSlice = createSlice({
             state.user_id = null;
             state.user_address = null;
         },
+        update: (state, action) => ({
+            ...state,
+            user_first_name: action.payload.user_first_name,
+            user_last_name: action.payload.user_last_name,
+            user_phone: action.payload.user_phone,
+            user_email: action.payload.user_email,
+            user_address: action.payload.user_address,
+        }),
     },
 });
 export default authSlice.reducer;
-export const { authStart, authSuccess, authEnd, authLogout } = authSlice.actions;
+export const { authStart, authSuccess, authEnd, authLogout, update } = authSlice.actions;
