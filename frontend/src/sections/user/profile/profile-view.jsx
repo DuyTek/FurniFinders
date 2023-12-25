@@ -51,7 +51,7 @@ export default function ProfileView() {
         mode: 'all',
         resolver: yupResolver(profileSchema),
     });
-    const { handleSubmit, control } = methods;
+    const { handleSubmit, control, formState: { isValid } } = methods;
     const onSubmit = (data) => {
         updateProfile(auth.user_id, data).then((response) => {
             dispatch(update(data))
@@ -159,6 +159,7 @@ export default function ProfileView() {
                                     type="submit"
                                     variant="contained"
                                     color="primary"
+                                    disabled={!isValid}
                                 >
                                     Save
                                 </LoadingButton>
