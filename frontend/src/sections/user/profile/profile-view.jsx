@@ -33,6 +33,9 @@ export default function ProfileView() {
         user_last_name: requiredField('Last name'),
         user_email: validateEmail(),
         user_phone: yup.number().typeError('Phone must contain numbers only').required('Phone is required'),
+        user_address: yup.string().optional(),
+        user_dob: yup.date().optional(),
+        user_gender: yup.number().optional(),
     });
 
     const methods = useForm({
@@ -48,7 +51,7 @@ export default function ProfileView() {
         mode: 'all',
         resolver: yupResolver(profileSchema),
     });
-    const { handleSubmit, control } = methods;
+    const { handleSubmit, control, formState: { isValid } } = methods;
     const onSubmit = (data) => {
         updateProfile(auth.user_id, data).then((response) => {
             dispatch(update(data))
@@ -156,6 +159,7 @@ export default function ProfileView() {
                                     type="submit"
                                     variant="contained"
                                     color="primary"
+                                    disabled={!isValid}
                                 >
                                     Save
                                 </LoadingButton>
