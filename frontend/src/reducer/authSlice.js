@@ -11,6 +11,8 @@ const initialState = {
     user_role: null,
     user_id: null,
     user_address: null,
+    user_dob: null,
+    user_gender: null,
 };
 
 const authSlice = createSlice({
@@ -27,34 +29,30 @@ const authSlice = createSlice({
             isLoading: false,
             user_first_name: action.payload.user_first_name,
             user_last_name: action.payload.user_last_name,
-            user_phone: action.payload.user_phone,
+            user_phone: `0${action.payload.user_phone}`,
             user_email: action.payload.user_email,
             user_role: action.payload.user_role,
             user_id: action.payload.user_id,
             user_address: action.payload.user_address,
+            user_dob: action.payload.user_dob,
+            user_gender: action.payload.user_gender,
         }),
         authEnd: (state) => {
             state.isLoading = false;
         },
-        authLogout: (state) => {
-            state.token = null;
-            state.isAuthenticated = false;
-            state.isLoading = false;
-            state.user_first_name = null;
-            state.user_last_name = null;
-            state.user_phone = null;
-            state.user_email = null;
-            state.user_role = null;
-            state.user_id = null;
-            state.user_address = null;
-        },
+        authLogout: () =>({
+            ...initialState,
+            isAuthenticated: false,
+        }),
         update: (state, action) => ({
             ...state,
             user_first_name: action.payload.user_first_name,
             user_last_name: action.payload.user_last_name,
-            user_phone: action.payload.user_phone,
+            user_phone: `0${action.payload.user_phone}`,
             user_email: action.payload.user_email,
             user_address: action.payload.user_address,
+            user_dob: action.payload.user_dob,
+            user_gender: action.payload.user_gender,
         }),
     },
 });
