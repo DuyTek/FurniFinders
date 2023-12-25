@@ -1,5 +1,6 @@
 package com.furnifinders.backend.Controller;
 
+import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.dto.Request.EditProfileRequest;
 import com.furnifinders.backend.dto.Response.EditProfileResponse;
 import com.furnifinders.backend.service.UserService;
@@ -25,5 +26,11 @@ public class UserController {
             editProfileResponse.setMessage(e.getMessage());
         }
         return ResponseEntity.ok().body(editProfileResponse);
+    }
+
+    @GetMapping("/getProfile/{id}")
+    public ResponseEntity<User> getProfile (@PathVariable("id") Long id) {
+        User user = userService.findUserById(id);
+        return ResponseEntity.ok().body(user);
     }
 }
