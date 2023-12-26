@@ -4,6 +4,7 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
+import { TextField } from '@mui/material';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
@@ -52,6 +53,18 @@ export default function UserPage() {
     setOpenAddUserDialog(false);
   }
 
+  const handleSearchUser = (event) => {
+    const searchValue = event.target.value;
+    if (searchValue === '') {
+      getUserList().then((response) => {
+        handleSetUserList(response.data);
+      })
+    } else {
+      const filtered = userList.filter((user) => combineName(user.user_first_name, user.user_last_name).toLowerCase().includes(searchValue.toLowerCase()));
+      setUserList(filtered);
+    }
+  }
+
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -94,9 +107,9 @@ export default function UserPage() {
           New User
         </Button>
       </Stack>
+      <TextField placeholder='Search user...' sx={{ mb: 2 }} onChange={handleSearchUser} />
 
       <Card>
-
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
@@ -118,7 +131,7 @@ export default function UserPage() {
               />
               <TableBody>
                 {userList
-                  .slice(page * 7, page * 7 + 7)
+                  .slice(page * 6, page * 6 + 6)
                   .filter((row) => row.user_role === 'USER')
                   .map((row) => (
                     <UserTableRow
@@ -141,12 +154,12 @@ export default function UserPage() {
           page={page}
           component="div"
           count={userList.length}
-          rowsPerPage={7}
+          rowsPerPage={6}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[]}
         />
       </Card>
-      <AddUserDialog open={openAddUserDialog} handleClose={handleCloseDialog} />
+      {openAddUserDialog && <AddUserDialog open={openAddUserDialog} handleClose={handleCloseDialog} />}
     </Container>
   );
 }

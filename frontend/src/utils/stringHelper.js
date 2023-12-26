@@ -1,4 +1,4 @@
-export const combineName = (firstName, lastName) => `${firstName} ${lastName}`
+export const combineName = (firstName, lastName) => firstName.concat(' ', lastName)
 
 export default {
     combineName
