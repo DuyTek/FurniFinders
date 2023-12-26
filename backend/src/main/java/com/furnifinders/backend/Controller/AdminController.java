@@ -81,4 +81,10 @@ public class AdminController {
         List<Product> products = userService.searchProducts(searchProductsRequest.getKeyword());
         return ResponseEntity.ok(products);
     }
+
+    @GetMapping("/findAllUsers")
+    public ResponseEntity<List<User>> findAllUsers() {
+        List<User> users = userService.findAllUsers();
+        return ResponseEntity.ok(users);
+    }
 }

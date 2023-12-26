@@ -4,6 +4,7 @@ import com.furnifinders.backend.Entity.Enum.Role;
 import com.furnifinders.backend.dto.Request.EditProfileRequest;
 import com.furnifinders.backend.Entity.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserEntityService {
@@ -12,4 +13,5 @@ public interface UserEntityService {
     User findUserById(Long id);
     Optional<User> findUserByPhone(String phone);
     void editProfile(User user, EditProfileRequest editProfileRequest);
+    List<User> findAllUsers();
 }

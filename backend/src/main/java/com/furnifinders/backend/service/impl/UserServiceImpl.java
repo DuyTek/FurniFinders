@@ -56,6 +56,11 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);        
     }
 
+    @Override
+    public List<User> findAllUsers() {
+        return userEntityService.findAllUsers();
+    }
+
     private void validateProfileRequest(User user, EditProfileRequest profileRequest) {
 
         if (profileRequest.user_first_name() == null || profileRequest.user_first_name().isEmpty()) {
