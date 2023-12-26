@@ -16,6 +16,7 @@ import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 import { getUserList } from '../../../service/product';
 import { combineName } from '../../../utils/stringHelper';
+import AddUserDialog from '../../../components/AddUserDialog';
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +30,7 @@ export default function UserPage() {
   const [orderBy, setOrderBy] = useState('name');
 
   const [userList, setUserList] = useState([]);
+  const [openAddUserDialog, setOpenAddUserDialog] = useState(false);
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
     if (id !== '') {
@@ -45,6 +47,10 @@ export default function UserPage() {
     }
     setSelected([]);
   };
+
+  const handleCloseDialog = () => {
+    setOpenAddUserDialog(false);
+  }
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -77,14 +83,14 @@ export default function UserPage() {
     getUserList().then((response) => {
       handleSetUserList(response.data);
     })
-  }, [])
+  }, [openAddUserDialog])
 
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Users</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+        <Button onClick={() => setOpenAddUserDialog(true)} variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
           New User
         </Button>
       </Stack>
@@ -140,6 +146,7 @@ export default function UserPage() {
           rowsPerPageOptions={[]}
         />
       </Card>
+      <AddUserDialog open={openAddUserDialog} handleClose={handleCloseDialog} />
     </Container>
   );
 }
