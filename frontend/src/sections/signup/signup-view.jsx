@@ -22,8 +22,8 @@ import { bgGradient } from '../../theme/css';
 import { signUp } from '../../service/authen';
 import Iconify from '../../components/iconify';
 import { LOGIN } from '../../constants/router-link';
-import PASSWORD_CRITERIA from '../../constants/constants';
 import { authEnd, authStart } from '../../reducer/authSlice';
+import { PASSWORD_CRITERIA } from '../../constants/constants';
 import { requiredField, validateEmail, validatePassword } from '../../utils/validation';
 
 // ----------------------------------------------------------------------
