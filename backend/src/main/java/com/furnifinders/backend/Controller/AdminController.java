@@ -80,4 +80,10 @@ public class AdminController {
         List<Product> products = userService.searchProducts(searchProductsRequest.getKeyword());
         return ResponseEntity.ok(products);
     }
+
+    @PutMapping("/verifyUser/{id}")
+    public ResponseEntity<User> verifyUser(@PathVariable Long id) {
+        userService.verifyUser(id);
+        return ResponseEntity.ok().build();
+    }
 }

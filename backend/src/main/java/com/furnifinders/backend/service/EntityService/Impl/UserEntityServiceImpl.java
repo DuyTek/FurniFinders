@@ -44,4 +44,9 @@ public class UserEntityServiceImpl implements UserEntityService {
     public void editProfile(User user, EditProfileRequest editProfileRequest) {
         this.userDAO.editProfile(user, editProfileRequest);
     }
+
+    @Override
+    public void verifyUser(Long id) {
+        this.userDAO.verifyUser(id);
+    }
 }

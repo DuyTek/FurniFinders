@@ -2,9 +2,11 @@ package com.furnifinders.backend.DAO.Impl;
 
 import com.furnifinders.backend.DAO.UserDAO;
 import com.furnifinders.backend.Entity.Enum.Role;
+import com.furnifinders.backend.Entity.Enum.UserVerify;
 import com.furnifinders.backend.dto.Request.EditProfileRequest;
 import com.furnifinders.backend.Entity.User;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -62,6 +64,22 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void editProfile(User user, EditProfileRequest editProfileRequest) {
+        this.entityManager.merge(user);
+    }
+
+    @Transactional
+    @Override
+    public void verifyUser(Long id) {
+        String sql = "SELECT u FROM User u WHERE u.user_id = :id";
+        User user = this.entityManager.createQuery(sql, User.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        if(user.getUser_verified()== UserVerify.NO){
+            user.setUser_verified(UserVerify.YES);
+        }
+        else{
+            user.setUser_verified(UserVerify.NO);
+        }
         this.entityManager.merge(user);
     }
 }

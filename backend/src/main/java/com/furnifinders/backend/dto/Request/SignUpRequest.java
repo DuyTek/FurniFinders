@@ -10,4 +10,7 @@ public class SignUpRequest {
     private String user_email;
     private String user_phone;
     private String user_password;
+    private String user_address;
+    private String user_dob;
+    private String user_gender;
 }

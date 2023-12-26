@@ -12,4 +12,5 @@ public interface UserDAO {
     User findUserByRole(Role role);
     User findUserById(Long id);
     void editProfile(User user, EditProfileRequest editProfileRequest);
+    void verifyUser(Long id);
 }

@@ -44,4 +44,6 @@ public interface UserService {
 
     void pay(PayRequest payRequest);
     void editUser(Long id, EditProfileRequest user);
+
+    void verifyUser(Long id);
 }
