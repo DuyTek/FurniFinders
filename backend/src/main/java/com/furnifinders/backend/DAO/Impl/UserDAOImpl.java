@@ -8,6 +8,7 @@ import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -38,6 +39,13 @@ public class UserDAOImpl implements UserDAO {
                 .getResultList()
                 .stream()
                 .findFirst();
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        String query = "SELECT u FROM User u";
+        return this.entityManager.createQuery(query, User.class)
+                .getResultList();
     }
 
     @Override

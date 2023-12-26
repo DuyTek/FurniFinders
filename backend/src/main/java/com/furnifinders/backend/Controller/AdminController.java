@@ -1,6 +1,5 @@
 package com.furnifinders.backend.Controller;
 
-import com.furnifinders.backend.Entity.Enum.PostStatus;
 import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
@@ -60,7 +59,9 @@ public class AdminController {
     @PutMapping("/updateProductStatus")
     public ResponseEntity<Product> updateProductStatus(@RequestBody UpdatePostStatusRequest updatePostStatusRequest) {
         Product product;
-        if(updatePostStatusRequest.getPostStatus() == PostStatus.APPROVED) {
+
+
+        if(updatePostStatusRequest.getPostStatus().equals("APPROVED")) {
             product = userService.updateApprovePostStatus(updatePostStatusRequest.getProduct_id());
         }
         else {
@@ -79,5 +80,11 @@ public class AdminController {
     public ResponseEntity<List<Product>> searchProducts(@RequestBody SearchProductsRequest searchProductsRequest) {
         List<Product> products = userService.searchProducts(searchProductsRequest.getKeyword());
         return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/findAllUsers")
+    public ResponseEntity<List<User>> findAllUsers() {
+        List<User> users = userService.findAllUsers();
+        return ResponseEntity.ok(users);
     }
 }

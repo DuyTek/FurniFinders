@@ -37,7 +37,7 @@ public class ProductDAOImpl implements ProductDAO {
     public Product updateApprovePostStatus(Long id) {
         String query = "UPDATE Product p SET p.product_post_status = :status WHERE p.product_id = :id";
         this.entityManager.createQuery(query)
-                .setParameter("status", PostStatus.APPROVED)
+                .setParameter("status", PostStatus.APPROVED.toString())
                 .setParameter("id", id)
                 .executeUpdate();
         return this.entityManager.find(Product.class, id);

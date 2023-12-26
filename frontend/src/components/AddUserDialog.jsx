@@ -1,38 +1,22 @@
 import * as yup from 'yup';
+import PropTypes from "prop-types";
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { enqueueSnackbar } from 'notistack';
-import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, Controller, FormProvider } from 'react-hook-form';
+import { useForm, Controller, FormProvider } from "react-hook-form";
 
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { alpha, useTheme } from '@mui/material/styles';
-import { List, Tooltip, ListItem } from '@mui/material';
-import InputAdornment from '@mui/material/InputAdornment';
+import { LoadingButton } from '@mui/lab';
+import { List, Stack, Dialog, Tooltip, ListItem, TextField, IconButton, DialogTitle, DialogContent, InputAdornment } from "@mui/material";
 
-import Logo from '../../components/logo';
-import { bgGradient } from '../../theme/css';
-import { signUp } from '../../service/authen';
-import Iconify from '../../components/iconify';
-import { LOGIN } from '../../constants/router-link';
-import PASSWORD_CRITERIA from '../../constants/constants';
-import { authEnd, authStart } from '../../reducer/authSlice';
-import { requiredField, validateEmail, validatePassword } from '../../utils/validation';
+import Iconify from "./iconify/iconify";
+import { signUp } from '../service/authen';
+import CustomTextField from './CustomTextField';
+import { PASSWORD_CRITERIA } from '../constants/constants';
+import { requiredField, validateEmail, validatePassword } from '../utils/validation';
 
-// ----------------------------------------------------------------------
-export default function SignUpView() {
-    const theme = useTheme();
-    const navigateTo = useNavigate();
+export default function AddUserDialog({ open, handleClose }) {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const dispatch = useDispatch();
 
     const schema = yup.object({
         user_first_name: requiredField('First name'),
@@ -58,43 +42,26 @@ export default function SignUpView() {
     const { handleSubmit, control } = methods;
 
     const onSubmit = (data) => {
-        dispatch(authStart());
         signUp(data).then((response) => {
             if (response.status === 200) {
-                navigateTo(LOGIN);
-                enqueueSnackbar('Sign up successfully', { variant: 'success' });
+                enqueueSnackbar('Add user successfully', { variant: 'success' });
+                handleClose();
             }
         }).catch((error) => {
             throw new Error(error);
-        }).finally(() => dispatch(authEnd()));
+        });
     };
 
     const renderForm = (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Stack spacing={2}>
+                <Stack spacing={2} pt={3}>
                     <Stack spacing={2} direction="row">
-                        <Controller
-                            control={control}
-                            name="user_first_name"
-                            render={({ fieldState: { error }, field }) => <TextField {...field} label="First name" helperText={error?.message} error={Boolean(error?.message)} />}
-                        />
-                        <Controller
-                            control={control}
-                            name="user_last_name"
-                            render={({ fieldState: { error }, field }) => <TextField {...field} label="Last name" helperText={error?.message} error={Boolean(error?.message)} />}
-                        />
+                        <CustomTextField name="user_first_name" label="First name" />
+                        <CustomTextField name="user_last_name" label="Last name" />
                     </Stack>
-                    <Controller
-                        control={control}
-                        name="user_email"
-                        render={({ fieldState: { error }, field }) => <TextField {...field} label="Email" helperText={error?.message} error={Boolean(error?.message)} />}
-                    />
-                    <Controller
-                        control={control}
-                        name="user_phone"
-                        render={({ fieldState: { error }, field }) => <TextField {...field} label="Phone" helperText={error?.message} error={Boolean(error?.message)} />}
-                    />
+                    <CustomTextField name="user_email" label="Email" />
+                    <CustomTextField name="user_phone" label="Phone" />
                     <Controller
                         control={control}
                         name="user_password"
@@ -148,60 +115,43 @@ export default function SignUpView() {
                     />
                 </Stack>
 
-                <LoadingButton
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained"
-                    color="inherit"
-                    sx={{ mt: 3 }}
-                >
-                    Sign up
-                </LoadingButton>
+                <Stack direction='row' justifyContent='flex-end'>
+                    <LoadingButton
+                        size="small"
+                        variant="outlined"
+                        color="info"
+                        sx={{ mt: 3, mr: 1 }}
+                        onClick={handleClose}
+                    >
+                        Cancel
+                    </LoadingButton>
+                    <LoadingButton
+                        size="small"
+                        type="submit"
+                        variant="contained"
+                        color="inherit"
+                        sx={{ mt: 3 }}
+                    >
+                        Add
+                    </LoadingButton>
+                </Stack>
+
             </form>
         </FormProvider>
     );
-
     return (
-        <Box
-            sx={{
-                ...bgGradient({
-                    color: alpha(theme.palette.background.default, 0.9),
-                    imgUrl: '/assets/background/overlay_4.jpg',
-                }),
-                height: 1,
-            }}
-        >
-            <Logo
-                sx={{
-                    position: 'fixed',
-                    top: { xs: 16, md: 24 },
-                    left: { xs: 16, md: 24 },
-                }}
-            />
-
-            <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
-                <Card
-                    sx={{
-                        p: 5,
-                        width: 1,
-                        minWidth: 500,
-                        maxWidth: 460,
-                    }}
-                >
-                    <Typography variant="h4">Sign up to Wood</Typography>
-
-                    <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
-                        Already have an account?
-                        <Link to={LOGIN} variant="subtitle2" sx={{ ml: 0.5 }}>
-                            {' '}
-                            Login here
-                        </Link>
-                    </Typography>
-
+        <FormProvider>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle pb={5}>Add new user</DialogTitle>
+                <DialogContent>
                     {renderForm}
-                </Card>
-            </Stack>
-        </Box>
-    );
+                </DialogContent>
+            </Dialog>
+        </FormProvider>
+    )
 }
+
+AddUserDialog.propTypes = {
+    open: PropTypes.bool,
+    handleClose: PropTypes.func,
+};
