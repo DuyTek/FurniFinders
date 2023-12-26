@@ -3,8 +3,10 @@ package com.furnifinders.backend.service.impl;
 
 import com.furnifinders.backend.Entity.*;
 import com.furnifinders.backend.Entity.Enum.*;
+import com.furnifinders.backend.Mapper.UserMapper;
 import com.furnifinders.backend.Repository.*;
 import com.furnifinders.backend.dto.Request.AddToCartRequest;
+import com.furnifinders.backend.dto.Request.EditProfileRequest;
 import com.furnifinders.backend.dto.Request.PayRequest;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
 import com.furnifinders.backend.dto.Response.AddToCartResponse;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -28,6 +31,10 @@ public class UserServiceImpl implements UserService {
     private final ProductUserLinkRepository productUserLinkRepository;
     private final CartDetailRepository cartDetailRepository;
     private final ReceiptRepository receiptRepository;
+    private final UserRepository userRepository;
+    
+    //Mapper
+    private final UserMapper userMapper;
 
     //Service
     private final UserEntityService userEntityService;
@@ -35,6 +42,38 @@ public class UserServiceImpl implements UserService {
     private final ProductUserLinkEntityService productUserLinkEntityService;
     private final CartEntityService cartEntityService;
     private final CartDetailEntityService cartDetailEntityService;
+
+
+    @Transactional
+    @Override
+    public void editUser(Long id, EditProfileRequest profileRequest) {
+        User user = userEntityService.findUserById(id);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        validateProfileRequest(user, profileRequest);
+        userMapper.mergeProfileRequestToUserProfile(user, profileRequest);
+        userRepository.save(user);        
+    }
+
+    private void validateProfileRequest(User user, EditProfileRequest profileRequest) {
+
+        if (profileRequest.user_first_name() == null || profileRequest.user_first_name().isEmpty()) {
+            throw new RuntimeException("First name is required");
+        }
+
+        if (profileRequest.user_last_name() == null || profileRequest.user_last_name().isEmpty()) {
+            throw new RuntimeException("Last name is required");
+        }
+
+        if (profileRequest.user_phone() != null && !profileRequest.user_phone().isEmpty()) {
+            if (!profileRequest.user_phone().equals(user.getUser_phone())) {
+                if (userEntityService.findUserByPhone(profileRequest.user_phone()).isPresent()) {
+                    throw new RuntimeException("Phone number is already existed");
+                }
+            }
+        }
+    }
 
 
     @Override

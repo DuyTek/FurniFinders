@@ -1,7 +1,6 @@
 package com.furnifinders.backend.config;
 
 
-import com.furnifinders.backend.Entity.Enum.Role;
 import com.furnifinders.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,11 +27,8 @@ public class SecurityConfiguration {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 	  http.csrf(AbstractHttpConfigurer::disable)
-	  .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/auth/**")
-			  .permitAll()
-			  .requestMatchers("/api/v1/admin").hasAnyAuthority(Role.ADMIN.name())
-			  .requestMatchers("/api/v1/user").hasAnyAuthority(Role.USER.name())
-			  .anyRequest().authenticated())
+	  .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/**")
+			  .permitAll())
 			  
 			  .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			  .authenticationProvider(authenticationProvider()).addFilterBefore(

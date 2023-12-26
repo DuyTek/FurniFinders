@@ -3,6 +3,7 @@ package com.furnifinders.backend.service;
 import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.dto.Request.AddToCartRequest;
+import com.furnifinders.backend.dto.Request.EditProfileRequest;
 import com.furnifinders.backend.dto.Request.PayRequest;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
 import com.furnifinders.backend.dto.Response.AddToCartResponse;
@@ -42,4 +43,5 @@ public interface UserService {
     List<Product> getCurrentCart(Long user_id);
 
     void pay(PayRequest payRequest);
+    void editUser(Long id, EditProfileRequest user);
 }

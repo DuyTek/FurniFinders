@@ -11,4 +11,6 @@ export const USER_ROLES = {
     USER: 'USER'
 };
 
+export const USER_GENDERS = ['MALE', 'FEMALE', 'OTHERS'];
+
 export default PASSWORD_CRITERIA
