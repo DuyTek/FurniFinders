@@ -38,7 +38,7 @@ export default function SignUpView() {
         user_first_name: requiredField('First name'),
         user_last_name: requiredField('Last name'),
         user_email: validateEmail(),
-        user_phone: yup.number().typeError('Phone must contain numbers only').required('Phone is required'),
+        user_phone: yup.number().typeError('Phone must contain numbers only').required('Phone is required').max(1000000000, 'Please enter a Vietnamese phone number').min(100000000, 'Please enter a Vietnamese phone number'),
         user_password: validatePassword(),
         confirmPassword: yup.string().oneOf([yup.ref('user_password'), null], 'Passwords must match').required('Confirm password is required'),
     });

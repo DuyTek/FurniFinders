@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import { Male, Female, HorizontalRule } from '@mui/icons-material';
 
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
@@ -21,8 +22,8 @@ export default function UserTableRow({
   name,
   avatarUrl,
   company,
-  role,
-  isVerified,
+  phone,
+  gender,
   status,
   handleClick,
 }) {
@@ -35,7 +36,6 @@ export default function UserTableRow({
   const handleCloseMenu = () => {
     setOpen(null);
   };
-
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
@@ -54,9 +54,13 @@ export default function UserTableRow({
 
         <TableCell>{company}</TableCell>
 
-        <TableCell>{role}</TableCell>
+        <TableCell>{phone}</TableCell>
 
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
+        <TableCell align="center">
+          {gender === 'FEMALE' && <Female />}
+          {gender === 'MALE' && <Male />}
+          {gender === 'OTHERS' && <HorizontalRule />}
+        </TableCell>
 
         <TableCell>
           <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
@@ -75,7 +79,7 @@ export default function UserTableRow({
         onClose={handleCloseMenu}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
+        slotProps={{
           sx: { width: 140 },
         }}
       >
@@ -97,9 +101,9 @@ UserTableRow.propTypes = {
   avatarUrl: PropTypes.any,
   company: PropTypes.any,
   handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
+  gender: PropTypes.any,
   name: PropTypes.any,
-  role: PropTypes.any,
+  phone: PropTypes.any,
   selected: PropTypes.any,
   status: PropTypes.string,
 };
