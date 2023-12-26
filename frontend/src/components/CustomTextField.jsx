@@ -40,7 +40,7 @@ export default function CustomTextField({
                         type={type}
                         {...rest}
                     />
-                    <FormHelperText>{error ? error.message : ''}</FormHelperText>
+                    <FormHelperText error>{error ? error.message : ''}</FormHelperText>
                 </FormControl>
             }
         />

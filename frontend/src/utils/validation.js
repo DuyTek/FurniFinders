@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as yup from 'yup';
 
-const validateEmail = () => yup.string().required('Email is required').email('Email is invalid');
+const validateEmail = () => yup.string().trim().required('Email is required').email('Email is invalid');
 
 const validatePassword = () => yup.string().required('Password is required')
     .min(8, 'Password must be at least 8 characters')
@@ -9,7 +9,7 @@ const validatePassword = () => yup.string().required('Password is required')
     .matches('(?=.*[A-Z])', 'Password must contain an uppercase letter')
     .matches(/(?=.*[!@#$%^&*])/, 'Password must contain a special character')
 
-const requiredField = (fieldName) => yup.string().required(`${fieldName} is required`);
+const requiredField = (fieldName) => yup.string().trim().required(`${fieldName} is required`);
 
 export {
     validateEmail,

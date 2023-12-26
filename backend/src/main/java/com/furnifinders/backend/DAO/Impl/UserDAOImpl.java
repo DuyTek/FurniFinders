@@ -2,6 +2,7 @@ package com.furnifinders.backend.DAO.Impl;
 
 import com.furnifinders.backend.DAO.UserDAO;
 import com.furnifinders.backend.Entity.Enum.Role;
+import com.furnifinders.backend.dto.Request.EditProfileRequest;
 import com.furnifinders.backend.Entity.User;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,4 +60,8 @@ public class UserDAOImpl implements UserDAO {
                 .orElse(null);
     }
 
+    @Override
+    public void editProfile(User user, EditProfileRequest editProfileRequest) {
+        this.entityManager.merge(user);
+    }
 }

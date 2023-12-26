@@ -2,6 +2,7 @@ package com.furnifinders.backend.service.EntityService.Impl;
 
 import com.furnifinders.backend.DAO.UserDAO;
 import com.furnifinders.backend.Entity.Enum.Role;
+import com.furnifinders.backend.dto.Request.EditProfileRequest;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.service.EntityService.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,8 @@ public class UserEntityServiceImpl implements UserEntityService {
         return this.userDAO.findUserByPhone(phone);
     }
 
-
+    @Override
+    public void editProfile(User user, EditProfileRequest editProfileRequest) {
+        this.userDAO.editProfile(user, editProfileRequest);
+    }
 }
