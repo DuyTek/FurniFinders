@@ -46,4 +46,6 @@ public interface UserService {
     void editUser(Long id, EditProfileRequest user);
 
     List<User> findAllUsers();
+
+    void verifyUser(Long id);
 }

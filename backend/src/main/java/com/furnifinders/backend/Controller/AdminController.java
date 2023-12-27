@@ -87,4 +87,10 @@ public class AdminController {
         List<User> users = userService.findAllUsers();
         return ResponseEntity.ok(users);
     }
+
+    @PutMapping("/verifyUser/{id}")
+    public ResponseEntity<User> verifyUser(@PathVariable Long id) {
+        userService.verifyUser(id);
+        return ResponseEntity.ok().build();
+    }
 }

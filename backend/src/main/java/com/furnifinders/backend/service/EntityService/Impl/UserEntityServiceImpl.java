@@ -52,4 +52,9 @@ public class UserEntityServiceImpl implements UserEntityService {
     }
 
 
+
+    @Override
+    public void verifyUser(Long id) {
+        this.userDAO.verifyUser(id);
+    }
 }

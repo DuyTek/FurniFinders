@@ -61,6 +61,11 @@ public class UserServiceImpl implements UserService {
         return userEntityService.findAllUsers();
     }
 
+    @Override
+    public void verifyUser(Long id) {
+        userEntityService.verifyUser(id);
+    }
+
     private void validateProfileRequest(User user, EditProfileRequest profileRequest) {
 
         if (profileRequest.user_first_name() == null || profileRequest.user_first_name().isEmpty()) {

@@ -14,4 +14,5 @@ public interface UserEntityService {
     Optional<User> findUserByPhone(String phone);
     void editProfile(User user, EditProfileRequest editProfileRequest);
     List<User> findAllUsers();
+    void verifyUser(Long id);
 }
