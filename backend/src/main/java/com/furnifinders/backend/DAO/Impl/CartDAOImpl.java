@@ -29,7 +29,7 @@ public class CartDAOImpl implements CartDAO {
     public void SetCartStatus(Long cart_id, CartStatus cart_status) {
         String query = "UPDATE Cart c SET c.cart_status = :cart_status WHERE c.cart_id = :cart_id";
         this.entityManager.createQuery(query)
-                .setParameter("cart_status", cart_status)
+                .setParameter("cart_status", cart_status.toString())
                 .setParameter("cart_id", cart_id)
                 .executeUpdate();
     }

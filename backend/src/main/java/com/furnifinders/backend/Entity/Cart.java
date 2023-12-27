@@ -1,7 +1,6 @@
 package com.furnifinders.backend.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.furnifinders.backend.Entity.Enum.CartStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -21,7 +20,7 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cart_id;
-    private CartStatus cart_status;
+    private String cart_status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore

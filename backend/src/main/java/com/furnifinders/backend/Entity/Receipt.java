@@ -1,9 +1,6 @@
 package com.furnifinders.backend.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.furnifinders.backend.Entity.Enum.DeliveryStatus;
-import com.furnifinders.backend.Entity.Enum.PaymentMethod;
-import com.furnifinders.backend.Entity.Enum.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -27,9 +24,9 @@ public class Receipt {
     private String receipt_delivery_address;
     private String receipt_delivery_phone;
     private String receipt_delivery_note;
-    private PaymentMethod receipt_payment_method;
-    private DeliveryStatus receipt_delivery_status;
-    private PaymentStatus receipt_payment_status;
+    private String receipt_payment_method;
+    private String receipt_delivery_status;
+    private String receipt_payment_status;
     private Long receipt_total_price;
     private Long receipt_total_quantity;
 

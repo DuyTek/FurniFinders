@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.furnifinders.backend.Entity.Enum.PostStatus;
-import com.furnifinders.backend.Entity.Enum.ProductStatus;
 
 import java.util.List;
 
@@ -34,9 +32,9 @@ public class Product {
     private Long product_price;
 
 
-    private PostStatus product_post_status;
+    private String product_post_status;
 
-    private ProductStatus product_status;
+    private String product_status;
 
     private Long product_quantity;
 
