@@ -2,7 +2,7 @@ import React from 'react';
 
 import SvgColor from '../../components/svg-color';
 import { USER_ROLES } from '../../constants/constants';
-import { USER_PRODUCTS, ADMIN_DASHBOARD } from '../../constants/router-link';
+import { USER_PRODUCTS, ADMIN_PRODUCTS } from '../../constants/router-link';
 
 // ----------------------------------------------------------------------
 
@@ -18,9 +18,9 @@ const navConfig = [
     roles: [USER_ROLES.USER]
   },
   {
-    title: 'dashboard',
-    path: ADMIN_DASHBOARD,
-    icon: icon('ic_analytics'),
+    title: 'product requests',
+    path: ADMIN_PRODUCTS,
+    icon: icon('ic_cart'),
     roles: [USER_ROLES.ADMIN]
   },
   {

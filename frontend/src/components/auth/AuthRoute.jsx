@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 import { USER_ROLES } from '../../constants/constants';
-import { USER_PRODUCTS, ADMIN_DASHBOARD } from '../../constants/router-link';
+import { USER_PRODUCTS, ADMIN_PRODUCTS } from '../../constants/router-link';
 
 export default function AuthRoute({ children }) {
     const { isAuthenticated, user_role } = useSelector(
@@ -12,7 +12,7 @@ export default function AuthRoute({ children }) {
     );
 
     if (isAuthenticated) {
-        if (user_role === USER_ROLES.ADMIN) return <Navigate to={ADMIN_DASHBOARD} />;
+        if (user_role === USER_ROLES.ADMIN) return <Navigate to={ADMIN_PRODUCTS} />;
         if (user_role === USER_ROLES.USER) return <Navigate to={USER_PRODUCTS} />;
     }
 

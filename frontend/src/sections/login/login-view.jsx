@@ -69,7 +69,7 @@ export default function LoginView() {
 
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={3}>
+        <Stack spacing={3} mb={2}>
           <Controller
             control={control}
             name="user_email"
@@ -106,11 +106,6 @@ export default function LoginView() {
           />
         </Stack>
 
-        <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-          <Link variant="subtitle2" underline="hover">
-            Forgot password?
-          </Link>
-        </Stack>
 
         <LoadingButton
           fullWidth

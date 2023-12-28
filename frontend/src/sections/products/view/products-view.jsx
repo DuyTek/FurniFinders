@@ -47,7 +47,7 @@ export default function ProductsView() {
           startIcon={<Iconify icon="eva:plus-fill" />}
           onClick={() => setOpenModal(true)}
         >
-          New Product
+          Sell something
         </Button>
         <AddProductModal open={openModal} onClose={() => setOpenModal(false)} />
       </Stack>
