@@ -22,6 +22,7 @@ export default function ProductAdminView() {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedPrice, setSelectedPrice] = useState(null);
     const [selectedProductStatus, setSelectedProductStatus] = useState('PENDING');
+    const [changed, setChanged] = useState(false);
 
     const handleOpenFilter = () => {
         setOpenFilter(true);
@@ -48,6 +49,9 @@ export default function ProductAdminView() {
         setOpenFilter(false);
         window.location.reload();
     }
+    const handleCallback = () => {
+        setChanged(!changed);
+    }
     useEffect(() => {
         getAllProducts().then((response) => {
             const productsWithImages = response.data.map((product, index) => ({
@@ -56,7 +60,7 @@ export default function ProductAdminView() {
             }));
             setProducts(productsWithImages);
         });
-    }, []);
+    }, [changed]);
 
     const filteredProducts = products.filter((product) => {
         if (selectedPrice !== null) {
@@ -111,7 +115,7 @@ export default function ProductAdminView() {
             <Grid container spacing={3}>
                 {filteredProducts.map((product) => (
                     <Grid key={product.product_id} xs={12} sm={6} md={3}>
-                        <ProductCard product={product} />
+                        <ProductCard product={product} handleCallback={handleCallback} />
                     </Grid>
                 ))}
             </Grid>
