@@ -33,9 +33,17 @@ export default function ProductsView() {
 
   useEffect(() => {
     getAllApprovedProducts().then((response) => {
-      setProducts(response.data);
-    })
-  }, [searchValue]);
+      const productsWithImages = response.data.map((product, index) => ({
+        ...product,
+        image: `/assets/images/products/${index + 1}.jpeg`,
+      }));
+      setProducts(productsWithImages);
+    });
+  }, []);
+
+  const filteredProducts = products.filter((product) =>
+    product.product_name.toLowerCase().includes(searchValue.toLowerCase())
+  );
 
   return (
     <Container>
@@ -53,7 +61,6 @@ export default function ProductsView() {
         </Button>
         <AddProductModal open={openModal} onClose={() => setOpenModal(false)} />
       </Stack>
-
 
       <Searchbar value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
       <Stack
@@ -75,12 +82,11 @@ export default function ProductsView() {
       </Stack>
 
       <Grid container spacing={3}>
-        {products
-          .map((product, index) => (
-            <Grid key={product.product_id} xs={12} sm={6} md={3}>
-              <ProductCard product={product} index={index + 1} />
-            </Grid>
-          ))}
+        {filteredProducts.map((product) => (
+          <Grid key={product.product_id} xs={12} sm={6} md={3}>
+            <ProductCard product={product} />
+          </Grid>
+        ))}
       </Grid>
 
       <ProductCartWidget />

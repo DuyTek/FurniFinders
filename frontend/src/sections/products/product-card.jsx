@@ -12,7 +12,7 @@ import { fCurrency } from '../../utils/format-number';
 import { sliderMarks } from '../../components/modal/add-product-modal';
 // ----------------------------------------------------------------------
 
-export default function ShopProductCard({ product, index }) {
+export default function ShopProductCard({ product }) {
   const renderStatus = (
     <Label
       variant="filled"
@@ -33,7 +33,7 @@ export default function ShopProductCard({ product, index }) {
     <Box
       component="img"
       alt={product.product_name}
-      src={`/assets/images/products/${index}.jpeg`}
+      src={product.image}
       sx={{
         top: 0,
         width: 1,
@@ -74,5 +74,4 @@ export default function ShopProductCard({ product, index }) {
 
 ShopProductCard.propTypes = {
   product: PropTypes.object,
-  index: PropTypes.number,
 };
