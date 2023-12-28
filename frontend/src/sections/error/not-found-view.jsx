@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 
 import Logo from '../../components/logo';
 import { USER_ROLES } from '../../constants/constants';
-import { USER_PRODUCTS, ADMIN_DASHBOARD } from '../../constants/router-link';
+import { USER_PRODUCTS, ADMIN_PRODUCTS } from '../../constants/router-link';
 
 // ----------------------------------------------------------------------
 
@@ -69,7 +69,7 @@ export default function NotFoundView() {
             }}
           />
 
-          <Button onClick={() => user_role === USER_ROLES.ADMIN ? navigateTo(ADMIN_DASHBOARD) : navigateTo(USER_PRODUCTS)} size="large" variant="contained">
+          <Button onClick={() => user_role === USER_ROLES.ADMIN ? navigateTo(ADMIN_PRODUCTS) : navigateTo(USER_PRODUCTS)} size="large" variant="contained">
             Back
           </Button>
         </Box>

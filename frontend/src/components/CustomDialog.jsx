@@ -13,7 +13,9 @@ export default function CustomDialog({ title, content, action, open, handleClose
             fullWidth
             {...other}
         >
-            <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">
+                {title}
+            </DialogTitle>
             <DialogContent>
                 {content}
             </DialogContent>

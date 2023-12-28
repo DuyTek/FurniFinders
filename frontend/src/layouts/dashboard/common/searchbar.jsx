@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Input from '@mui/material/Input';
-import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import InputAdornment from '@mui/material/InputAdornment';
 
@@ -52,9 +51,6 @@ export default function Searchbar({ value, onChange }) {
           }
           sx={{ mr: 1, fontWeight: 'fontWeightBold' }}
         />
-        <Button variant="contained">
-          Search
-        </Button>
       </StyledSearchbar>
     </div>
   );

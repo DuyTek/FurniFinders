@@ -6,9 +6,9 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import AppBar from '@mui/material/AppBar';
-import { Typography } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
+import { Chip, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 
 import { bgBlur } from '../../theme/css';
@@ -19,12 +19,17 @@ import AccountPopover from './common/account-popover';
 import { useResponsive } from '../../hooks/use-responsive';
 
 // ----------------------------------------------------------------------
-const UserMenu = ({ username }) => (
-  <Stack direction='row' alignItems='center' spacing={2}>
-    <Typography variant='h7' color='black'>Hello, {username}</Typography>
-    <AccountPopover />
-  </Stack>
-);
+const UserMenu = ({ username }) => {
+  const { user_verified, user_role } = useSelector((state) => state.auth);
+  const verified = user_verified === 'YES';
+  return (
+    <Stack direction='row' alignItems='center' spacing={2}>
+      {user_role === 'USER' && <Chip variant='outlined' label={verified ? 'Verified' : 'Not verified'} color={verified ? 'success' : 'default'} />}
+      <Typography variant='h7' color='black'>Hello, {username}</Typography>
+      <AccountPopover />
+    </Stack>
+  )
+};
 
 UserMenu.propTypes = {
   username: PropTypes.string,
