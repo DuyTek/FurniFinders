@@ -24,6 +24,7 @@ public class SignInResponse {
         private String refreshToken;
         private String user_address;
         private LocalDate user_dob;
+        private String user_verified;
 
         @Enumerated(EnumType.STRING)
         private Gender user_gender;

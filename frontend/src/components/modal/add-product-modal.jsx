@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { enqueueSnackbar } from 'notistack';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 
 import { AttachMoney } from '@mui/icons-material';
@@ -44,7 +45,10 @@ export default function AddProductModal({ open, onClose }) {
     ]
 
     const onSubmit = (data) => {
-        postProduct(data);
+        postProduct(data).then((response) => {
+            onClose();
+            enqueueSnackbar('Product added successfully. Please wait for admin approval', { variant: 'success' });
+        });
     }
     return (
         <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">

@@ -13,6 +13,7 @@ const initialState = {
     user_address: null,
     user_dob: null,
     user_gender: null,
+    user_verified: null,
 };
 
 const authSlice = createSlice({
@@ -36,6 +37,7 @@ const authSlice = createSlice({
             user_address: action.payload.user_address,
             user_dob: action.payload.user_dob,
             user_gender: action.payload.user_gender,
+            user_verified: action.payload.user_verified,
         }),
         authEnd: (state) => {
             state.isLoading = false;

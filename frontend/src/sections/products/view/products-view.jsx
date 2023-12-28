@@ -20,7 +20,7 @@ import AddProductModal from '../../../components/modal/add-product-modal';
 export default function ProductsView() {
   const [openFilter, setOpenFilter] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
 
   const handleOpenFilter = () => {
