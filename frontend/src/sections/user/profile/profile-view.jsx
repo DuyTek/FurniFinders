@@ -19,7 +19,6 @@ import {
 import { account } from "../../../_mock/account";
 import { update } from '../../../reducer/authSlice';
 import { updateProfile } from "../../../service/user";
-import { USER_GENDERS } from '../../../constants/constants';
 import CustomTextField from "../../../components/CustomTextField";
 import { requiredField, validateEmail } from '../../../utils/validation';
 
@@ -105,14 +104,13 @@ export default function ProfileView() {
                                     <FormLabel id="demo-controlled-radio-buttons-group" sx={{ color: 'black', fontSize: 12 }}>Gender</FormLabel>
                                     <RadioGroup
                                         aria-labelledby="demo-controlled-radio-buttons-group"
-                                        name="user_gender"
-                                        value={USER_GENDERS.findIndex((item) => item === auth.user_gender)}
+                                        value={field.value}
                                         row
                                         {...field}
                                     >
-                                        <FormControlLabel value={1} control={<Radio />} label="Female" />
-                                        <FormControlLabel value={0} control={<Radio />} label="Male" />
-                                        <FormControlLabel value={2} control={<Radio />} label="Others" />
+                                        <FormControlLabel value='FEMALE' control={<Radio />} label="Female" />
+                                        <FormControlLabel value='MALE' control={<Radio />} label="Male" />
+                                        <FormControlLabel value='OTHERS' control={<Radio />} label="Others" />
                                     </RadioGroup>
                                     <Typography variant="caption" color="red">{error?.message}</Typography>
                                 </FormControl>

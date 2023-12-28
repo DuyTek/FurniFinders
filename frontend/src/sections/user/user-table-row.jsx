@@ -17,12 +17,14 @@ import { Male, Female, HorizontalRule } from '@mui/icons-material';
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
 import { verifyUser } from '../../service/admin';
+import UserInfoSection from './profile/UserInfoSection';
 import CustomDialog from '../../components/CustomDialog';
 
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
   id,
+  user,
   selected,
   name,
   avatarUrl,
@@ -34,6 +36,7 @@ export default function UserTableRow({
 }) {
   const [open, setOpen] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -107,7 +110,7 @@ export default function UserTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
+        <MenuItem onClick={() => setOpenEdit(true)}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Edit
         </MenuItem>
@@ -120,12 +123,23 @@ export default function UserTableRow({
         <CustomDialog
           open={openDialog}
           handleClose={() => setOpenDialog(false)}
-          title='Delete User'
-          content='Are you sure you want to delete this user?'
+          title='Veriy User'
+          content={status === 'YES' ? 'Are you sure you want to deactivate this user?' : 'Are you sure you want to activate this user?'}
           action={<>
             <Button onClick={() => setOpenDialog(false)} color="inherit">Cancel</Button>
             <Button onClick={handleVerifyUser} color="primary">Confirm</Button>
           </>}
+          maxWidth='xs'
+        />
+
+        <CustomDialog
+          open={openEdit}
+          handleClose={() => {
+            setOpenEdit(false);
+            handleClick();
+          }}
+          title='Edit User'
+          content={<UserInfoSection user={user} />}
           maxWidth='xs'
         />
       </Popover>
@@ -143,4 +157,5 @@ UserTableRow.propTypes = {
   phone: PropTypes.any,
   selected: PropTypes.any,
   status: PropTypes.string,
+  user: PropTypes.object,
 };
