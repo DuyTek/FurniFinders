@@ -108,7 +108,8 @@ public class AdminController {
 
     @PutMapping("/updateProductStatus")
     public ResponseEntity<Product> updateProductStatus(@RequestBody UpdatePostStatusRequest updatePostStatusRequest) {
-        if(updatePostStatusRequest.getPostStatus() == PostStatus.APPROVED.name()) {
+
+        if(updatePostStatusRequest.getPostStatus().equals(PostStatus.APPROVED.toString()) ) {
             return ResponseEntity.ok(userService.updateApprovePostStatus(updatePostStatusRequest.getProduct_id()));
         }
         else {

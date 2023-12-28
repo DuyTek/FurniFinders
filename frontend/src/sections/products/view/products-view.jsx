@@ -10,8 +10,8 @@ import ProductCard from '../product-card';
 import ProductSort from '../product-sort';
 import ProductFilters from '../product-filters';
 import Iconify from '../../../components/iconify';
-import { products } from '../../../_mock/products';
 import ProductCartWidget from '../product-cart-widget';
+import { getAllApprovedProducts } from '../../../service/product';
 import Searchbar from '../../../layouts/dashboard/common/searchbar';
 import AddProductModal from '../../../components/modal/add-product-modal';
 
@@ -20,7 +20,7 @@ import AddProductModal from '../../../components/modal/add-product-modal';
 export default function ProductsView() {
   const [openFilter, setOpenFilter] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
 
   const handleOpenFilter = () => {
@@ -32,7 +32,9 @@ export default function ProductsView() {
   };
 
   useEffect(() => {
-    setFilteredProducts(products.filter((product) => product.name.toLowerCase().includes(searchValue.toLowerCase())));
+    getAllApprovedProducts().then((response) => {
+      setProducts(response.data);
+    })
   }, [searchValue]);
 
   return (
@@ -73,11 +75,12 @@ export default function ProductsView() {
       </Stack>
 
       <Grid container spacing={3}>
-        {filteredProducts.map((product) => (
-          <Grid key={product.id} xs={12} sm={6} md={3}>
-            <ProductCard product={product} />
-          </Grid>
-        ))}
+        {products
+          .map((product, index) => (
+            <Grid key={product.product_id} xs={12} sm={6} md={3}>
+              <ProductCard product={product} index={index + 1} />
+            </Grid>
+          ))}
       </Grid>
 
       <ProductCartWidget />

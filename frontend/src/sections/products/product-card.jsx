@@ -9,15 +9,14 @@ import Typography from '@mui/material/Typography';
 
 import Label from '../../components/label';
 import { fCurrency } from '../../utils/format-number';
-import { ColorPreview } from '../../components/color-utils';
-
+import { sliderMarks } from '../../components/modal/add-product-modal';
 // ----------------------------------------------------------------------
 
-export default function ShopProductCard({ product }) {
+export default function ShopProductCard({ product, index }) {
   const renderStatus = (
     <Label
       variant="filled"
-      color={(product.status === 'sale' && 'error') || 'info'}
+      color={(product.product_status === 'AVAILABLE' && 'success') || 'error'}
       sx={{
         zIndex: 9,
         top: 16,
@@ -26,15 +25,15 @@ export default function ShopProductCard({ product }) {
         textTransform: 'uppercase',
       }}
     >
-      {product.status}
+      {product.product_status}
     </Label>
   );
 
   const renderImg = (
     <Box
       component="img"
-      alt={product.name}
-      src={product.cover}
+      alt={product.product_name}
+      src={`/assets/images/products/${index}.jpeg`}
       sx={{
         top: 0,
         width: 1,
@@ -47,36 +46,25 @@ export default function ShopProductCard({ product }) {
 
   const renderPrice = (
     <Typography variant="subtitle1">
-      <Typography
-        component="span"
-        variant="body1"
-        sx={{
-          color: 'text.disabled',
-          textDecoration: 'line-through',
-        }}
-      >
-        {product.priceSale && fCurrency(product.priceSale)}
-      </Typography>
-      &nbsp;
-      {fCurrency(product.price)}
+      {fCurrency(product.product_price)}
     </Typography>
   );
-
+  const productChosen = sliderMarks.find((mark) => mark.value === product.product_percentage);
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        {product.status && renderStatus}
+        {product.product_status && renderStatus}
 
         {renderImg}
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Link color="inherit" underline="hover" variant="subtitle2" noWrap>
-          {product.name}
+          {product.product_name}
         </Link>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <ColorPreview colors={product.colors} />
+          <Label color={productChosen.color}>{productChosen.label}</Label>
           {renderPrice}
         </Stack>
       </Stack>
@@ -86,4 +74,5 @@ export default function ShopProductCard({ product }) {
 
 ShopProductCard.propTypes = {
   product: PropTypes.object,
+  index: PropTypes.number,
 };

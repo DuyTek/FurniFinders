@@ -9,6 +9,34 @@ import { Grid, Dialog, Button, Slider, Typography, DialogTitle, DialogContent, D
 import CustomTextField from '../CustomTextField';
 import { postProduct } from '../../service/product';
 
+export const sliderMarks = [
+    {
+        value: 0,
+        label: 'Vintage',
+        color: 'warning'
+    },
+    {
+        value: 25,
+        label: 'Old',
+        color: 'warning'
+    },
+    {
+        value: 50,
+        label: 'Used',
+        color: 'info'
+    },
+    {
+        value: 75,
+        label: 'Good',
+        color: 'primary'
+    },
+    {
+        value: 100,
+        label: 'New',
+        color: 'success'
+    }
+]
+
 export default function AddProductModal({ open, onClose }) {
     const methods = useForm({
         defaultValues: {
@@ -21,28 +49,7 @@ export default function AddProductModal({ open, onClose }) {
     });
 
     const { handleSubmit, control } = methods;
-    const sliderMarks = [
-        {
-            value: 0,
-            label: 'Vintage',
-        },
-        {
-            value: 25,
-            label: 'Old',
-        },
-        {
-            value: 50,
-            label: 'Used',
-        },
-        {
-            value: 75,
-            label: 'Good',
-        },
-        {
-            value: 100,
-            label: 'New',
-        }
-    ]
+
 
     const onSubmit = (data) => {
         postProduct(data).then((response) => {
