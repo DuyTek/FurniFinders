@@ -1,10 +1,13 @@
+import 'dayjs/locale/en-gb'
 import React, { useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
-import { TextField } from '@mui/material';
+import {
+  TextField
+} from '@mui/material';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
@@ -19,8 +22,10 @@ import { getUserList } from '../../../service/product';
 import { combineName } from '../../../utils/stringHelper';
 import AddUserDialog from '../../../components/AddUserDialog';
 
+
 // ----------------------------------------------------------------------
 
+// ----------------------------------------------------------------------
 export default function UserPage() {
   const [page, setPage] = useState(0);
   const [selected, setSelected] = useState([]);
@@ -132,6 +137,7 @@ export default function UserPage() {
                         handleClick(event, row.user_email);
                         setChanged(!changed);
                       }}
+                      user={row}
                     />
                   ))}
               </TableBody>
