@@ -2,6 +2,7 @@ package com.furnifinders.backend.Controller;
 
 import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.Entity.User;
+import com.furnifinders.backend.Entity.Enum.PostStatus;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
 import com.furnifinders.backend.dto.Request.SearchProductsRequest;
 import com.furnifinders.backend.dto.Request.UpdatePostStatusRequest;
@@ -107,11 +108,8 @@ public class AdminController {
 
     @PutMapping("/updateProductStatus")
     public ResponseEntity<Product> updateProductStatus(@RequestBody UpdatePostStatusRequest updatePostStatusRequest) {
-        Product product;
-
-
-        if(updatePostStatusRequest.getPostStatus().equals("APPROVED")) {
-            product = userService.updateApprovePostStatus(updatePostStatusRequest.getProduct_id());
+        if(updatePostStatusRequest.getPostStatus() == PostStatus.APPROVED.name()) {
+            return ResponseEntity.ok(userService.updateApprovePostStatus(updatePostStatusRequest.getProduct_id()));
         }
         else {
             return ResponseEntity.ok(userService.updateRejectPostStatus(updatePostStatusRequest.getProduct_id()));
