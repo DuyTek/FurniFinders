@@ -4,7 +4,6 @@ import React from 'react';
 import 'dayjs/locale/en-gb'
 import PropTypes from 'prop-types';
 import { useSnackbar } from 'notistack';
-import { useDispatch } from 'react-redux';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller, FormProvider } from "react-hook-form";
 
@@ -19,13 +18,11 @@ import {
 } from '@mui/material';
 
 import { account } from "../../../_mock/account";
-import { update } from '../../../reducer/authSlice';
 import { updateProfile } from "../../../service/user";
 import CustomTextField from "../../../components/CustomTextField";
 import { requiredField, validateEmail } from '../../../utils/validation';
 
 export default function UserInfoSection({ user }) {
-    const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const profileSchema = yup.object({
         user_first_name: requiredField('First name'),
@@ -53,7 +50,6 @@ export default function UserInfoSection({ user }) {
     const { handleSubmit, control } = methods;
     const onSubmit = (data) => {
         updateProfile(user.user_id, data).then((response) => {
-            dispatch(update(data))
             enqueueSnackbar(response.data, { variant: 'success' });
         }).catch((error) => {
             enqueueSnackbar(error.response.data, { variant: 'error' });
