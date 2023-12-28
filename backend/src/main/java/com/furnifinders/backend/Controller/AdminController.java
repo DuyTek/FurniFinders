@@ -1,6 +1,5 @@
 package com.furnifinders.backend.Controller;
 
-import com.furnifinders.backend.Entity.Enum.PostStatus;
 import com.furnifinders.backend.Entity.Product;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.dto.Request.PostProductRequest;
@@ -108,8 +107,11 @@ public class AdminController {
 
     @PutMapping("/updateProductStatus")
     public ResponseEntity<Product> updateProductStatus(@RequestBody UpdatePostStatusRequest updatePostStatusRequest) {
-        if(updatePostStatusRequest.getPostStatus() == PostStatus.APPROVED) {
-            return ResponseEntity.ok(userService.updateApprovePostStatus(updatePostStatusRequest.getProduct_id()));
+        Product product;
+
+
+        if(updatePostStatusRequest.getPostStatus().equals("APPROVED")) {
+            product = userService.updateApprovePostStatus(updatePostStatusRequest.getProduct_id());
         }
         else {
             return ResponseEntity.ok(userService.updateRejectPostStatus(updatePostStatusRequest.getProduct_id()));
@@ -128,4 +130,15 @@ public class AdminController {
         return ResponseEntity.ok(products);
     }
 
+    @GetMapping("/findAllUsers")
+    public ResponseEntity<List<User>> findAllUsers() {
+        List<User> users = userService.findAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @PutMapping("/verifyUser/{id}")
+    public ResponseEntity<User> verifyUser(@PathVariable Long id) {
+        userService.verifyUser(id);
+        return ResponseEntity.ok().build();
+    }
 }

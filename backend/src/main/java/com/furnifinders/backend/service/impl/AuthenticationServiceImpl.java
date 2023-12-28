@@ -2,6 +2,7 @@ package com.furnifinders.backend.service.impl;
 
 
 import com.furnifinders.backend.Entity.Enum.Role;
+import com.furnifinders.backend.Entity.Enum.UserVerify;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.Repository.UserRepository;
 import com.furnifinders.backend.dto.Response.JwtAuthenticationResponse;
@@ -44,7 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setUser_phone(signupRequest.getUser_phone());
         user.setUser_role(Role.USER);
         user.setUser_password(passwordEncoder.encode(signupRequest.getUser_password()));
-
+        user.setUser_verified(UserVerify.NO);
         User checkUser = userEntityService.findUserByEmail(signupRequest.getUser_email()).orElse(null);
         if (checkUser != null) {
             signUpResponse.setMessage("Given email is already registered");

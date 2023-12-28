@@ -15,6 +15,7 @@ CREATE TABLE if not exists user
     user_phone      varchar(255) NOT NULL,
     user_role       varchar(255) NOT NULL,
     user_address    varchar(255) NULL,
+    user_verified   varchar(255) NULL,
     user_dob DATE NULL,
     user_gender varchar(255) NULL, 
     PRIMARY KEY (user_id)

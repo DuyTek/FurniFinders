@@ -2,6 +2,7 @@ package com.furnifinders.backend.Entity;
 
 import com.furnifinders.backend.Entity.Enum.Gender;
 import com.furnifinders.backend.Entity.Enum.Role;
+import com.furnifinders.backend.Entity.Enum.UserVerify;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -39,6 +40,9 @@ public class User implements UserDetails {
     private String user_password;
 
     private String user_phone;
+
+    @Enumerated(EnumType.STRING)
+    private UserVerify user_verified;
 
     @Enumerated(EnumType.STRING)
     private Role user_role;

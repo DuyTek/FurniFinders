@@ -1,6 +1,8 @@
 package com.furnifinders.backend;
 
+import com.furnifinders.backend.Entity.Enum.Gender;
 import com.furnifinders.backend.Entity.Enum.Role;
+import com.furnifinders.backend.Entity.Enum.UserVerify;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.Repository.UserRepository;
 import com.furnifinders.backend.service.EntityService.UserEntityService;
@@ -11,6 +13,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.time.LocalDate;
 
 @SpringBootApplication
 public class BackendApplication implements CommandLineRunner {
@@ -40,6 +44,10 @@ public class BackendApplication implements CommandLineRunner {
             user.setUser_last_name("admin");
             user.setUser_phone("1234567890");
             user.setUser_role(Role.ADMIN);
+            user.setUser_verified(UserVerify.YES);
+            user.setUser_address("23 Nguyen Thi Minh Khai, District 1, Ho Chi Minh City");
+            user.setUser_gender(Gender.MALE);
+            user.setUser_dob(LocalDate.parse("1999-01-01"));
             user.setUser_password(new BCryptPasswordEncoder().encode("admin"));
             userRepository.save(user);
         }

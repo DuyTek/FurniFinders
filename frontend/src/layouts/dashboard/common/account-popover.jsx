@@ -34,7 +34,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
-  const { user_first_name, user_last_name, user_email } = useSelector((state) => state.auth);
+  const { user_first_name, user_last_name, user_email, user_role } = useSelector((state) => state.auth);
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
   const handleOpen = (event) => {
@@ -98,7 +98,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        {MENU_OPTIONS.map((option) => (
+        {MENU_OPTIONS.map((option) => user_role === 'USER' && (
           <MenuItem key={option.label} onClick={() => {
             handleClose();
             navigateTo(option.link);

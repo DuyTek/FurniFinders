@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 
+import { Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
@@ -10,23 +12,35 @@ import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import { Male, Female, HorizontalRule } from '@mui/icons-material';
 
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
+import { verifyUser } from '../../service/admin';
+import UserInfoSection from './profile/UserInfoSection';
+import CustomDialog from '../../components/CustomDialog';
 
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
+  id,
+  user,
   selected,
   name,
   avatarUrl,
   company,
-  role,
-  isVerified,
+  phone,
+  gender,
   status,
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  }
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -35,6 +49,19 @@ export default function UserTableRow({
   const handleCloseMenu = () => {
     setOpen(null);
   };
+
+  const handleVerifyUser = () => {
+    verifyUser(id).then((response) => {
+      if (response.status === 200) {
+        setOpenDialog(false);
+        enqueueSnackbar('User verified successfully', { variant: 'success' });
+        handleClick();
+      }
+    }).catch((error) => {
+      enqueueSnackbar(error.response.data, { variant: 'error' });
+    });
+  }
+
 
   return (
     <>
@@ -54,12 +81,16 @@ export default function UserTableRow({
 
         <TableCell>{company}</TableCell>
 
-        <TableCell>{role}</TableCell>
+        <TableCell>{phone}</TableCell>
 
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
+        <TableCell align="center">
+          {gender === 'FEMALE' && <Female />}
+          {gender === 'MALE' && <Male />}
+          {gender === 'OTHERS' && <HorizontalRule />}
+        </TableCell>
 
         <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
+          <Label color={status === 'YES' ? 'success' : 'error'}>{status}</Label>
         </TableCell>
 
         <TableCell align="right">
@@ -75,31 +106,56 @@ export default function UserTableRow({
         onClose={handleCloseMenu}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
+        slotProps={{
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={handleCloseMenu}>
+        <MenuItem onClick={() => setOpenEdit(true)}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+        <MenuItem onClick={handleOpenDialog} sx={{ color: status === 'YES' ? 'error.main' : 'success.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
+          {status === 'YES' ? 'Deactivate' : 'Activate'}
         </MenuItem>
+
+        <CustomDialog
+          open={openDialog}
+          handleClose={() => setOpenDialog(false)}
+          title='Veriy User'
+          content={status === 'YES' ? 'Are you sure you want to deactivate this user?' : 'Are you sure you want to activate this user?'}
+          action={<>
+            <Button onClick={() => setOpenDialog(false)} color="inherit">Cancel</Button>
+            <Button onClick={handleVerifyUser} color="primary">Confirm</Button>
+          </>}
+          maxWidth='xs'
+        />
+
+        <CustomDialog
+          open={openEdit}
+          handleClose={() => {
+            setOpenEdit(false);
+            handleClick();
+          }}
+          title='Edit User'
+          content={<UserInfoSection user={user} />}
+          maxWidth='xs'
+        />
       </Popover>
     </>
   );
 }
 
 UserTableRow.propTypes = {
+  id: PropTypes.any,
   avatarUrl: PropTypes.any,
   company: PropTypes.any,
   handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
+  gender: PropTypes.any,
   name: PropTypes.any,
-  role: PropTypes.any,
+  phone: PropTypes.any,
   selected: PropTypes.any,
   status: PropTypes.string,
+  user: PropTypes.object,
 };

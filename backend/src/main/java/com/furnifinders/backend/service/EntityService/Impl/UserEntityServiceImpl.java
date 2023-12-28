@@ -8,6 +8,7 @@ import com.furnifinders.backend.service.EntityService.UserEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,5 +44,17 @@ public class UserEntityServiceImpl implements UserEntityService {
     @Override
     public void editProfile(User user, EditProfileRequest editProfileRequest) {
         this.userDAO.editProfile(user, editProfileRequest);
+    }
+
+    @Override
+    public List<User> findAllUsers() {
+        return this.userDAO.findAllUsers();
+    }
+
+
+
+    @Override
+    public void verifyUser(Long id) {
+        this.userDAO.verifyUser(id);
     }
 }

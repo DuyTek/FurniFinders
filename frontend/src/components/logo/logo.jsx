@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 
 import { RouterLink } from '../../routes/components';
-import { USER_PRODUCTS } from '../../constants/router-link';
+import { HOMEPAGE } from '../../constants/router-link';
 import woodlogo from '../../../public/assets/wood-logo.svg';
 
 // ----------------------------------------------------------------------
@@ -26,7 +26,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   }
 
   return (
-    <Link component={RouterLink} href={USER_PRODUCTS} sx={{ display: 'contents' }}>
+    <Link component={RouterLink} href={HOMEPAGE} sx={{ display: 'contents' }}>
       {logo}
     </Link>
   );

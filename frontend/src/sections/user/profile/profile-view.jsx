@@ -19,7 +19,6 @@ import {
 import { account } from "../../../_mock/account";
 import { update } from '../../../reducer/authSlice';
 import { updateProfile } from "../../../service/user";
-import { USER_GENDERS } from '../../../constants/constants';
 import CustomTextField from "../../../components/CustomTextField";
 import { requiredField, validateEmail } from '../../../utils/validation';
 
@@ -33,9 +32,9 @@ export default function ProfileView() {
         user_last_name: requiredField('Last name'),
         user_email: validateEmail(),
         user_phone: yup.number().typeError('Phone must contain numbers only').required('Phone is required'),
-        user_address: yup.string().optional(),
-        user_dob: yup.date().optional(),
-        user_gender: yup.number().optional(),
+        user_address: yup.string().nullable(),
+        user_dob: yup.date().nullable(),
+        user_gender: yup.number().nullable(),
     });
 
     const methods = useForm({
@@ -51,7 +50,7 @@ export default function ProfileView() {
         mode: 'all',
         resolver: yupResolver(profileSchema),
     });
-    const { handleSubmit, control, formState: { isValid } } = methods;
+    const { handleSubmit, control } = methods;
     const onSubmit = (data) => {
         updateProfile(auth.user_id, data).then((response) => {
             dispatch(update(data))
@@ -105,14 +104,13 @@ export default function ProfileView() {
                                     <FormLabel id="demo-controlled-radio-buttons-group" sx={{ color: 'black', fontSize: 12 }}>Gender</FormLabel>
                                     <RadioGroup
                                         aria-labelledby="demo-controlled-radio-buttons-group"
-                                        name="user_gender"
-                                        value={USER_GENDERS.findIndex((item) => item === auth.user_gender)}
+                                        value={field.value}
                                         row
                                         {...field}
                                     >
-                                        <FormControlLabel value={1} control={<Radio />} label="Female" />
-                                        <FormControlLabel value={0} control={<Radio />} label="Male" />
-                                        <FormControlLabel value={2} control={<Radio />} label="Others" />
+                                        <FormControlLabel value='FEMALE' control={<Radio />} label="Female" />
+                                        <FormControlLabel value='MALE' control={<Radio />} label="Male" />
+                                        <FormControlLabel value='OTHERS' control={<Radio />} label="Others" />
                                     </RadioGroup>
                                     <Typography variant="caption" color="red">{error?.message}</Typography>
                                 </FormControl>
@@ -159,7 +157,6 @@ export default function ProfileView() {
                                     type="submit"
                                     variant="contained"
                                     color="primary"
-                                    disabled={!isValid}
                                 >
                                     Save
                                 </LoadingButton>
