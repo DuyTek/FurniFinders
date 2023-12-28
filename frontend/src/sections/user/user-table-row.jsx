@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { enqueueSnackbar } from 'notistack';
 
+import { Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
@@ -14,10 +16,13 @@ import { Male, Female, HorizontalRule } from '@mui/icons-material';
 
 import Label from '../../components/label';
 import Iconify from '../../components/iconify';
+import { verifyUser } from '../../service/admin';
+import CustomDialog from '../../components/CustomDialog';
 
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
+  id,
   selected,
   name,
   avatarUrl,
@@ -28,6 +33,11 @@ export default function UserTableRow({
   handleClick,
 }) {
   const [open, setOpen] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  }
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -36,6 +46,20 @@ export default function UserTableRow({
   const handleCloseMenu = () => {
     setOpen(null);
   };
+
+  const handleVerifyUser = () => {
+    verifyUser(id).then((response) => {
+      if (response.status === 200) {
+        setOpenDialog(false);
+        enqueueSnackbar('User verified successfully', { variant: 'success' });
+        handleClick();
+      }
+    }).catch((error) => {
+      enqueueSnackbar(error.response.data, { variant: 'error' });
+    });
+  }
+
+
   return (
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
@@ -63,7 +87,7 @@ export default function UserTableRow({
         </TableCell>
 
         <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
+          <Label color={status === 'YES' ? 'success' : 'error'}>{status}</Label>
         </TableCell>
 
         <TableCell align="right">
@@ -88,16 +112,29 @@ export default function UserTableRow({
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+        <MenuItem onClick={handleOpenDialog} sx={{ color: status === 'YES' ? 'error.main' : 'success.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
+          {status === 'YES' ? 'Deactivate' : 'Activate'}
         </MenuItem>
+
+        <CustomDialog
+          open={openDialog}
+          handleClose={() => setOpenDialog(false)}
+          title='Delete User'
+          content='Are you sure you want to delete this user?'
+          action={<>
+            <Button onClick={() => setOpenDialog(false)} color="inherit">Cancel</Button>
+            <Button onClick={handleVerifyUser} color="primary">Confirm</Button>
+          </>}
+          maxWidth='xs'
+        />
       </Popover>
     </>
   );
 }
 
 UserTableRow.propTypes = {
+  id: PropTypes.any,
   avatarUrl: PropTypes.any,
   company: PropTypes.any,
   handleClick: PropTypes.func,

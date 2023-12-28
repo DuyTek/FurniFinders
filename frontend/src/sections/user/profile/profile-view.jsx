@@ -33,9 +33,9 @@ export default function ProfileView() {
         user_last_name: requiredField('Last name'),
         user_email: validateEmail(),
         user_phone: yup.number().typeError('Phone must contain numbers only').required('Phone is required'),
-        user_address: yup.string().optional(),
-        user_dob: yup.date().optional(),
-        user_gender: yup.number().optional(),
+        user_address: yup.string().nullable(),
+        user_dob: yup.date().nullable(),
+        user_gender: yup.number().nullable(),
     });
 
     const methods = useForm({
