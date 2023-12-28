@@ -4,6 +4,8 @@ import com.furnifinders.backend.Entity.Enum.Role;
 import com.furnifinders.backend.Entity.User;
 import com.furnifinders.backend.Repository.UserRepository;
 import com.furnifinders.backend.service.EntityService.UserEntityService;
+import com.furnifinders.backend.service.FilesStorageService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +21,8 @@ public class BackendApplication implements CommandLineRunner {
     @Autowired
     private UserEntityService userEntityService;
 
+    @Resource
+    FilesStorageService storageService;
 
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
@@ -26,6 +30,7 @@ public class BackendApplication implements CommandLineRunner {
 
 
     public void run(String... args){
+        storageService.init();
         User adminAccount = userEntityService.findUserByRole(Role.ADMIN);
 
         if(null == adminAccount){

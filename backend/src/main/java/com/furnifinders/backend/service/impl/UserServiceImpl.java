@@ -88,12 +88,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Product addProductImage(Long id, String image) {
-        return productEntityService.addProductImage(id, image);
+        Product product = productEntityService.findProductById(id);
+        product.setProduct_image(image);
+        return productRepository.save(product);
     }
 
     @Override
     public Product updateRejectPostStatus(Long id) {
-        return productEntityService.updateRejectPostStatus(id);
+        Product product = findProductById(id);
+        product.setProduct_post_status(PostStatus.REJECTED);
+        return productRepository.save(product);
     }
 
     @Override
@@ -252,7 +256,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Product updateApprovePostStatus(Long id) {
-        return productEntityService.updateApprovePostStatus(id);
+        Product product = findProductById(id);
+        product.setProduct_post_status(PostStatus.APPROVED);
+        return productRepository.save(product);
     }
 
     public Product addProduct(PostProductRequest postProductRequest) {
