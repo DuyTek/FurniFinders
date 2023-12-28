@@ -7,6 +7,7 @@ import { USER_ROLES } from '../constants/constants';
 import AuthRoute from '../components/auth/AuthRoute';
 import PrivateRoute from '../components/auth/PrivateRoute';
 import ProfileView from '../sections/user/profile/profile-view';
+import ProductAdminView from '../sections/products/view/product-admin-view';
 import { HOMEPAGE, ADMIN_USERS, USER_PROFILE, USER_PRODUCTS, ADMIN_PRODUCTS } from '../constants/router-link';
 
 export const IndexPage = lazy(() => import('../pages/app'));
@@ -62,7 +63,7 @@ export default function Router() {
       ),
       children: [
         { path: ADMIN_USERS, element: <UserPage />, index: true },
-        { path: ADMIN_PRODUCTS, element: <ProductsPage /> }
+        { path: ADMIN_PRODUCTS, element: <ProductAdminView /> }
       ]
     },
     {

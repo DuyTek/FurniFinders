@@ -7,10 +7,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
 import ProductCard from '../product-card';
-import ProductSort from '../product-sort';
-import ProductFilters from '../product-filters';
 import Iconify from '../../../components/iconify';
-import ProductCartWidget from '../product-cart-widget';
 import { getAllApprovedProducts } from '../../../service/product';
 import Searchbar from '../../../layouts/dashboard/common/searchbar';
 import AddProductModal from '../../../components/modal/add-product-modal';
@@ -18,18 +15,10 @@ import AddProductModal from '../../../components/modal/add-product-modal';
 // ----------------------------------------------------------------------
 
 export default function ProductsView() {
-  const [openFilter, setOpenFilter] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [products, setProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
 
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
-
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
-  };
 
   useEffect(() => {
     getAllApprovedProducts().then((response) => {
@@ -63,23 +52,6 @@ export default function ProductsView() {
       </Stack>
 
       <Searchbar value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
-      <Stack
-        direction="row"
-        alignItems="center"
-        flexWrap="wrap-reverse"
-        justifyContent="flex-end"
-        sx={{ mb: 5 }}
-      >
-        <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-          <ProductFilters
-            openFilter={openFilter}
-            onOpenFilter={handleOpenFilter}
-            onCloseFilter={handleCloseFilter}
-          />
-
-          <ProductSort />
-        </Stack>
-      </Stack>
 
       <Grid container spacing={3}>
         {filteredProducts.map((product) => (
@@ -89,7 +61,6 @@ export default function ProductsView() {
         ))}
       </Grid>
 
-      <ProductCartWidget />
     </Container>
   );
 }

@@ -12,12 +12,6 @@ const icon = (name) => (
 
 const navConfig = [
   {
-    title: 'posts',
-    path: '/blog',
-    icon: icon('ic_blog'),
-    roles: [USER_ROLES.USER]
-  },
-  {
     title: 'product requests',
     path: ADMIN_PRODUCTS,
     icon: icon('ic_cart'),
