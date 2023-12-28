@@ -23,22 +23,11 @@ import AddUserDialog from '../../../components/AddUserDialog';
 
 export default function UserPage() {
   const [page, setPage] = useState(0);
-
-  const [order, setOrder] = useState('asc');
-
   const [selected, setSelected] = useState([]);
-
-  const [orderBy, setOrderBy] = useState('name');
-
   const [userList, setUserList] = useState([]);
   const [openAddUserDialog, setOpenAddUserDialog] = useState(false);
-  const handleSort = (event, id) => {
-    const isAsc = orderBy === id && order === 'asc';
-    if (id !== '') {
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(id);
-    }
-  };
+  const [changed, setChanged] = useState(false);
+
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -96,8 +85,7 @@ export default function UserPage() {
     getUserList().then((response) => {
       handleSetUserList(response.data);
     })
-  }, [openAddUserDialog])
-
+  }, [openAddUserDialog, changed])
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -114,18 +102,15 @@ export default function UserPage() {
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>
               <UserTableHead
-                order={order}
-                orderBy={orderBy}
                 rowCount={userList.length}
                 numSelected={selected.length}
-                onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'name', label: 'Name' },
                   { id: 'email', label: 'Email' },
                   { id: 'phone', label: 'Phone' },
                   { id: 'gender', label: 'Gender', align: 'center' },
-                  { id: 'status', label: 'Status' },
+                  { id: 'verified', label: 'Verified' },
                   { id: '' },
                 ]}
               />
@@ -137,12 +122,16 @@ export default function UserPage() {
                     <UserTableRow
                       key={row.user_id}
                       name={combineName(row.user_first_name, row.user_last_name)}
+                      id={row.user_id}
                       phone={`0${row.user_phone}`}
-                      status={row.status}
+                      status={row.user_verified}
                       company={row.user_email}
                       gender={row.user_gender}
                       selected={selected.indexOf(row.name) !== -1}
-                      handleClick={(event) => handleClick(event, row.name)}
+                      handleClick={(event) => {
+                        handleClick(event, row.user_email);
+                        setChanged(!changed);
+                      }}
                     />
                   ))}
               </TableBody>
