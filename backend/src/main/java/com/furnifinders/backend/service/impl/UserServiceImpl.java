@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Product updateRejectPostStatus(Long id) {
         Product product = findProductById(id);
-        product.setProduct_post_status(PostStatus.REJECTED);
+        product.setProduct_post_status(PostStatus.REJECTED.name());
         return productRepository.save(product);
     }
 
@@ -292,7 +292,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Product updateApprovePostStatus(Long id) {
         Product product = findProductById(id);
-        product.setProduct_post_status(PostStatus.APPROVED);
+        product.setProduct_post_status(PostStatus.APPROVED.name());
         return productRepository.save(product);
     }
 
