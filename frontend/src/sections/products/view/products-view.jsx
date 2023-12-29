@@ -18,7 +18,11 @@ export default function ProductsView() {
   const [searchValue, setSearchValue] = useState('');
   const [products, setProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [changed, setChanged] = useState(false);
 
+  const handleChanges = (event) => {
+    setChanged(!changed);
+  }
 
   useEffect(() => {
     getAllApprovedProducts().then((response) => {
@@ -28,10 +32,11 @@ export default function ProductsView() {
       }));
       setProducts(productsWithImages);
     });
-  }, []);
+  }, [changed]);
 
   const filteredProducts = products.filter((product) =>
     product.product_name.toLowerCase().includes(searchValue.toLowerCase())
+    && product.product_status === 'AVAILABLE'
   );
 
   return (
@@ -56,7 +61,7 @@ export default function ProductsView() {
       <Grid container spacing={3}>
         {filteredProducts.map((product) => (
           <Grid key={product.product_id} xs={12} sm={6} md={3}>
-            <ProductCard product={product} />
+            <ProductCard product={product} handleCallback={handleChanges} />
           </Grid>
         ))}
       </Grid>

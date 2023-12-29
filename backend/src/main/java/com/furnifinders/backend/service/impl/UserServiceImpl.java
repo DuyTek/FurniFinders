@@ -320,4 +320,13 @@ public class UserServiceImpl implements UserService {
         productUserLink.setUserType(UserType.SELLER);
         productUserLinkRepository.save(productUserLink);
     }
+
+    @Transactional
+    @Override
+    public Product buy(Long id) {
+        Product product = productEntityService.findProductById(id);
+        product.setProduct_status(ProductStatus.SOLD.toString());
+        productRepository.save(product);
+        return product;
+    }
 }
