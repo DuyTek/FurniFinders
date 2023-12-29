@@ -1,8 +1,8 @@
 import * as yup from 'yup'
 import dayjs from 'dayjs';
-import React from "react";
 import 'dayjs/locale/en-gb'
 import { useSnackbar } from 'notistack';
+import React, { useEffect } from "react";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSelector, useDispatch } from "react-redux";
 import { useForm, Controller, FormProvider } from "react-hook-form";
@@ -19,6 +19,8 @@ import {
 import { account } from "../../../_mock/account";
 import { update } from '../../../reducer/authSlice';
 import { updateProfile } from "../../../service/user";
+import ProductCard from "../../products/product-card";
+import { getAllProducts } from '../../../service/product';
 import CustomTextField from "../../../components/CustomTextField";
 import { requiredField, validateEmail } from '../../../utils/validation';
 
@@ -26,6 +28,7 @@ export default function ProfileView() {
     const auth = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
+    const [products, setProducts] = React.useState([]);
 
     const profileSchema = yup.object({
         user_first_name: requiredField('First name'),
@@ -34,7 +37,7 @@ export default function ProfileView() {
         user_phone: yup.number().typeError('Phone must contain numbers only').required('Phone is required'),
         user_address: yup.string().nullable(),
         user_dob: yup.date().nullable(),
-        user_gender: yup.number().nullable(),
+        user_gender: yup.string().nullable(),
     });
 
     const methods = useForm({
@@ -43,9 +46,9 @@ export default function ProfileView() {
             user_last_name: auth.user_last_name,
             user_email: auth.user_email,
             user_phone: auth.user_phone,
-            user_gender: auth.user_gender,
-            user_address: auth.user_address,
-            user_dob: auth.user_dob,
+            user_gender: auth.user_gender || '',
+            user_address: auth.user_address || '',
+            user_dob: auth.user_dob || '',
         },
         mode: 'all',
         resolver: yupResolver(profileSchema),
@@ -55,10 +58,21 @@ export default function ProfileView() {
         updateProfile(auth.user_id, data).then((response) => {
             dispatch(update(data))
             enqueueSnackbar(response.data, { variant: 'success' });
+            window.location.reload();
         }).catch((error) => {
             enqueueSnackbar(error.response.data, { variant: 'error' });
         });
     }
+
+    useEffect(() => {
+        getAllProducts().then((response) => {
+            const productsWithImages = response.data.map((product, index) => ({
+                ...product,
+                image: `/assets/images/products/${index + 1}.jpeg`,
+            }));
+            setProducts(productsWithImages.filter((product) => product.product_status === 'SOLD'));
+        });
+    })
 
     const renderForm = () => (
         <Grid container>
@@ -185,6 +199,18 @@ export default function ProfileView() {
                 justifyContent: 'space-evenly',
             }}>
                 {renderForm()}
+            </Card>
+            <Typography variant="h4" mt={3} mb={3}>
+                Bought products
+            </Typography>
+            <Card sx={{ p: 3 }}>
+                <Grid container>
+                    {products.map((product) => (
+                        <Grid key={product.product_id} sm={3} md={3}>
+                            <ProductCard product={product} />
+                        </Grid>
+                    ))}
+                </Grid>
             </Card>
         </Container>
     )

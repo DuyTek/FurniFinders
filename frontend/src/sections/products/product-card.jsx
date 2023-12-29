@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { enqueueSnackbar } from 'notistack';
 
 import Box from '@mui/material/Box';
@@ -10,6 +11,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 import Label from '../../components/label';
+import { buyProduct } from '../../service/user';
 import { fCurrency } from '../../utils/format-number';
 import CustomDialog from '../../components/CustomDialog';
 import { updateProductStatus } from '../../service/admin';
@@ -18,6 +20,7 @@ import { sliderMarks } from '../../components/modal/add-product-modal';
 
 export default function ShopProductCard({ product, handleCallback }) {
   const [openDialog, setOpenDialog] = React.useState(false);
+  const auth = useSelector((state) => state.auth);
   const renderStatus = (
     <Label
       variant="filled"
@@ -67,28 +70,39 @@ export default function ShopProductCard({ product, handleCallback }) {
     <Stack direction="row" alignItems="center" justifyContent="space-between">
       {renderPrice}
     </Stack>
-    <Typography>
-      Posted by { }
-    </Typography>
 
   </>)
 
-  const handleRejectRequest = () => {
-    updateProductStatus(product.product_id, 'REJECTED').then((response) => {
-      if (response.status === 200) {
-        setOpenDialog(false);
-        enqueueSnackbar('Product rejected', { variant: 'warning' })
-        handleCallback();
-      }
-    });
+  const handleClickSecondary = () => {
+    if (auth.user_role === 'ADMIN') {
+      updateProductStatus(product.product_id, 'REJECTED').then((response) => {
+        if (response.status === 200) {
+          setOpenDialog(false);
+          enqueueSnackbar('Product rejected', { variant: 'warning' })
+          handleCallback();
+        }
+      });
+    }
+    setOpenDialog(false);
   }
 
-  const handleApproveRequest = () => {
-    updateProductStatus(product.product_id, 'APPROVED').then((response) => {
+  const handleClickPrimary = () => {
+    if (auth.user_role === 'USER') {
+      buyProduct(product.product_id).then((response) => {
+        if (response.status === 200) {
+          setOpenDialog(false);
+          enqueueSnackbar('Product bought', { variant: 'success' })
+          handleCallback();
+        }
+      })
       setOpenDialog(false);
-      enqueueSnackbar('Product approved', { variant: 'success' });
-      handleCallback();
-    });
+    } else {
+      updateProductStatus(product.product_id, 'APPROVED').then((response) => {
+        setOpenDialog(false);
+        enqueueSnackbar('Product approved', { variant: 'success' });
+        handleCallback();
+      });
+    }
   }
 
   const handleCloseDialog = () => {
@@ -116,10 +130,10 @@ export default function ShopProductCard({ product, handleCallback }) {
           title='Product Details'
           content={productDialogContent}
           handleClose={handleCloseDialog}
-          action={<>
-            <Button color='error' variant='outlined' onClick={handleRejectRequest}>Reject</Button>
-            <Button variant='contained' onClick={handleApproveRequest}>Approve</Button>
-          </>
+          action={product.product_status !== 'SOLD' && (<>
+            <Button color='error' variant='outlined' onClick={handleClickSecondary}>{auth.user_role === 'USER' ? 'Cancel' : 'Reject'}</Button>
+            <Button variant='contained' onClick={handleClickPrimary}>{auth.user_role === 'USER' ? 'Buy' : 'Approve'}</Button>
+          </>)
           }
           maxWidth='xs'
         />

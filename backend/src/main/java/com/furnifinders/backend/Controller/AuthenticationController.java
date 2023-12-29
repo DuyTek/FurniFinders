@@ -26,7 +26,15 @@ public class AuthenticationController {
 
     @PostMapping("/signUp")
     public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpRequest signuprequest) {
-        return ResponseEntity.ok(authenticationService.signUp(signuprequest));
+        SignUpResponse signUpResponse = new SignUpResponse();
+        try {
+            authenticationService.signUp(signuprequest);
+            signUpResponse.setMessage("User registered successfully");
+            return ResponseEntity.ok().body(signUpResponse);
+        } catch (Exception e) {
+            signUpResponse.setMessage(e.getMessage());
+            return ResponseEntity.badRequest().body(signUpResponse);
+        }
     }
 
     @PostMapping("/signIn")

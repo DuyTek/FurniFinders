@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography';
 
 import ProductCard from '../product-card';
 import ProductFilters from '../product-filters';
-import ProductCartWidget from '../product-cart-widget';
 import { getAllProducts } from '../../../service/product';
 import Searchbar from '../../../layouts/dashboard/common/searchbar';
 import AddProductModal from '../../../components/modal/add-product-modal';
@@ -113,14 +112,13 @@ export default function ProductAdminView() {
             </Stack>
 
             <Grid container spacing={3}>
-                {filteredProducts.map((product) => (
+                {filteredProducts.map((product) => product.product_status !== 'SOLD' && (
                     <Grid key={product.product_id} xs={12} sm={6} md={3}>
                         <ProductCard product={product} handleCallback={handleCallback} />
                     </Grid>
                 ))}
             </Grid>
 
-            <ProductCartWidget />
         </Container>
     );
 }

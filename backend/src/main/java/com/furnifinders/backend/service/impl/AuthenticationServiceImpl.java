@@ -48,16 +48,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setUser_verified(UserVerify.NO);
         User checkUser = userEntityService.findUserByEmail(signupRequest.getUser_email()).orElse(null);
         if (checkUser != null) {
-            signUpResponse.setMessage("Given email is already registered");
-            return signUpResponse;
+            throw new IllegalArgumentException("Given email is already registered");
         }
 
         checkUser = userEntityService.findUserByPhone(signupRequest.getUser_phone()).orElse(null);
         if (checkUser != null) {
-            signUpResponse.setMessage("Given phone number is already registered");
-            return signUpResponse;
+            throw new IllegalArgumentException("Given phone number is already registered");
         }
-        signUpResponse.setMessage("User registered successfully");
         userRepository.save(user);
         return signUpResponse;
     }

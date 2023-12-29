@@ -48,4 +48,6 @@ public interface UserService {
     List<User> findAllUsers();
 
     void verifyUser(Long id);
+
+    Product buy(Long id);
 }

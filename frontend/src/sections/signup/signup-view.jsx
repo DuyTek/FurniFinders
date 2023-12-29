@@ -65,7 +65,7 @@ export default function SignUpView() {
                 enqueueSnackbar('Sign up successfully', { variant: 'success' });
             }
         }).catch((error) => {
-            throw new Error(error);
+            enqueueSnackbar(error.response.data, { variant: 'error' });
         }).finally(() => dispatch(authEnd()));
     };
 
