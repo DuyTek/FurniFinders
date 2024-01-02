@@ -1,3 +1,6 @@
+import { useSelector } from 'react-redux';
+import { enqueueSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 
 import { Button } from '@mui/material';
@@ -8,6 +11,7 @@ import Typography from '@mui/material/Typography';
 
 import ProductCard from '../product-card';
 import Iconify from '../../../components/iconify';
+import { LOGIN } from '../../../constants/router-link';
 import { getAllApprovedProducts } from '../../../service/product';
 import Searchbar from '../../../layouts/dashboard/common/searchbar';
 import AddProductModal from '../../../components/modal/add-product-modal';
@@ -15,6 +19,8 @@ import AddProductModal from '../../../components/modal/add-product-modal';
 // ----------------------------------------------------------------------
 
 export default function ProductsView() {
+  const auth = useSelector((state) => state.auth);
+  const navigateTo = useNavigate();
   const [searchValue, setSearchValue] = useState('');
   const [products, setProducts] = useState([]);
   const [openModal, setOpenModal] = useState(false);
@@ -39,6 +45,15 @@ export default function ProductsView() {
     && product.product_status === 'AVAILABLE'
   );
 
+  const handleValidateAuthenticationOnClick = () => {
+    if (!auth.isAuthenticated) {
+      enqueueSnackbar('You must login to sell products', { variant: 'secondary' });
+      navigateTo(LOGIN)
+    } else {
+      setOpenModal(true);
+    }
+  }
+
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -49,7 +64,7 @@ export default function ProductsView() {
           variant="contained"
           color="inherit"
           startIcon={<Iconify icon="eva:plus-fill" />}
-          onClick={() => setOpenModal(true)}
+          onClick={handleValidateAuthenticationOnClick}
         >
           Sell something
         </Button>

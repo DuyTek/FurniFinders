@@ -73,6 +73,14 @@ export default function ShopProductCard({ product, handleCallback }) {
 
   </>)
 
+  const handleValidateAuthenticationOnCard = () => {
+    if (!auth.isAuthenticated) {
+      setOpenDialog(false);
+      return;
+    }
+    setOpenDialog(true);
+  }
+
   const handleClickSecondary = () => {
     if (auth.user_role === 'ADMIN') {
       updateProductStatus(product.product_id, 'REJECTED').then((response) => {
@@ -109,7 +117,7 @@ export default function ShopProductCard({ product, handleCallback }) {
     setOpenDialog(false);
   }
   return (
-    <Card onClick={() => setOpenDialog(true)}>
+    <Card onClick={handleValidateAuthenticationOnCard}>
       <Box sx={{ pt: '100%', position: 'relative' }}>
         {product.product_status && renderStatus}
 

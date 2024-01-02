@@ -48,7 +48,7 @@ public class BackendApplication implements CommandLineRunner {
             user.setUser_address("23 Nguyen Thi Minh Khai, District 1, Ho Chi Minh City");
             user.setUser_gender(Gender.MALE);
             user.setUser_dob(LocalDate.parse("1999-01-01"));
-            user.setUser_password(new BCryptPasswordEncoder().encode("admin"));
+            user.setUser_password(new BCryptPasswordEncoder().encode("P@ssw0rd1234"));
             userRepository.save(user);
         }
 
