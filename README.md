@@ -8,4 +8,5 @@
 
 ## How to start Docker for database
 - Opening the terminal and type: 
-```docker compose -p furnifinder up -d```
+
+`docker compose -p furnifinder up -d`
